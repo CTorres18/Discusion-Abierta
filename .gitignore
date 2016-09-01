@@ -9,3 +9,4 @@ static/bower_components
 
 .coverage
 coverage/
+.venv
