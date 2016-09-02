@@ -1,89 +1,113 @@
-# -*- coding: utf-8 -*-
 from django.db import models
-from django.contrib.auth.models import User
+from django.utils.encoding import python_2_unicode_compatible
 
+class ConfiguracionEncuentro(models.Model):
+    organizador = models.CharField(max_length = 128)
+    descripcion = models.CharField(max_length = 1024)
 
-class Region(models.Model):
-    nombre = models.CharField(max_length=128)
-    iso_3166_2 = models.CharField(max_length=5)
-
-    def __unicode__(self):
-        return '{0:d} - {1:s}'.format(self.pk, self.nombre)
-
-    class Meta:
-        ordering = ['pk']
-
-
-class Provincia(models.Model):
-    nombre = models.CharField(max_length=128)
-    region = models.ForeignKey(Region)
-
-    def __unicode__(self):
-        return '{0:s} - {1:s}'.format(self.region.nombre, self.nombre)
-
-
-class Comuna(models.Model):
-    nombre = models.CharField(max_length=128)
-    provincia = models.ForeignKey(Provincia)
-
-    def __unicode__(self):
-        return '{0:s} - {1:s} - {2:s}'.format(
-            self.provincia.region.nombre,
-            self.provincia.nombre,
-            self.nombre
-        )
-
-
-class GrupoItems(models.Model):
-    nombre = models.CharField(max_length=128)
-    descripcion = models.TextField(blank=True, null=True)
-    orden = models.IntegerField()
-
+    @python_2_unicode_compatible
     def __str__(self):
-        return self.nombre.encode('utf-8')
+        return 'Organizador: {0 : s} \nDescripcion: {1 : s}'.\
+                    format(self.organizador, self.descripcion)
 
-    def to_dict(self):
-        return {
-            'pk': self.pk,
-            'nombre': self.nombre,
-            'descripcion': self.descripcion,
-            'items': [i.to_dict() for i in self.item_set.all().order_by('orden')]
-        }
+class Lugar(models.Model):
+    configuracion_encuentro = models.ForeignKey('ConfiguracionEncuentro',  \
+                                                on_delete = models.CASCADE)
+    lugar = models.CharField(max_length = 128)
 
-
-class Item(models.Model):
-    grupo_items = models.ForeignKey(GrupoItems)
-    nombre = models.CharField(max_length=256)
-    orden = models.IntegerField()
-
+    @python_2_unicode_compatible
     def __str__(self):
-        return self.nombre.encode('utf-8')
+        return 'Configuracion Encuentro: {0 : d} \nLugar: {1 : s}'.\
+                    format(self.configuracion_encuentro, self.lugar)
 
-    def to_dict(self):
-        return {
-            'pk': self.pk,
-            'nombre': self.nombre,
-        }
+class Tema(models.Model):
+    configuracion_encuentro = models.ForeignKey('ConfiguracionEncuentro',  \
+                                                on_delete = models.CASCADE)
+    tema = models.CharField(max_length = 128)
+    contexto = models.CharField(max_length = 1474560)
 
-
-class Acta(models.Model):
-    fecha = models.DateTimeField()
-    comuna = models.ForeignKey(Comuna)
-
-    participantes = models.ManyToManyField(User, related_name='participantes')
-    memoria_historica = models.TextField(blank=True, null=True)
+    @python_2_unicode_compatible
+    def __str__(self):
+        return 'Configuracion Encuentro: {0 : d} \nTema: {1 : s}'.\
+                    format(self.configuracion_encuentro, self.tema)
 
 
-class ActaRespuestaItem(models.Model):
-    CATEGORIA_OPCIONES = (
-        ('Acuerdo', 1),
-        ('Acuerdo parcial', 0),
-        ('Desacuerdo', -1),
-    )
-    acta = models.ForeignKey(Acta)
-    item = models.ForeignKey(Item)
-    categoria = models.IntegerField(choices=CATEGORIA_OPCIONES)
-    fundamento = models.TextField(blank=True, null=True)
+class TipoEncuentro(models.Model):
+    configuracion_encuentro = models.ForeignKey('ConfiguracionEncuentro', \
+                                                on_delete = models.CASCADE)
+    tipo = models.CharField(max_length = 128)
 
-    class Meta:
-        unique_together = ('acta', 'item')
+    @python_2_unicode_compatible
+    def __str__(self):
+        return 'Configuracion Encuentro: {0 : d} \nTipo Encuentro: {1 : s}'.\
+                    format(self.configuracion_encuentro, self.tipo)
+
+
+class Origen(models.Model):
+    configuracion_encuentro = models.ForeignKey('ConfiguracionEncuentro', \
+                                                on_delete = models.CASCADE)
+    origen = models.CharField(max_length = 128)
+
+    @python_2_unicode_compatible
+    def __str__(self):
+        return 'Configuracion Encuentro: {0 : d} \nOrigen: {1 : s}'.\
+                    format(self.configuracion_encuentro, self.origen)
+
+
+class Ocupacion(models.Model):
+    configuracion_encuentro = models.ForeignKey('ConfiguracionEncuentro', \
+                                                on_delete = models.CASCADE)
+    ocupacion = models.CharField(max_length = 128)
+
+    @python_2_unicode_compatible
+    def __str__(self):
+        return 'Configuracion Encuentro: {0 : d} \nOcupación: {1 : s}'.\
+                    format(self.configuracion_encuentro, self.ocupacion)
+
+class ItemTema(models.Model):
+    tema_id = models.ForeignKey('Tema', on_delete = models.CASCADE)
+    tipo = models.IntegerField()
+    pregunta = models.CharField(max_length = 1024)
+
+    @python_2_unicode_compatible
+    def __str__(self):
+        return 'Tema {0 : d} \nTipo: {1 : d} \nPregunta: {2 : s}'.\
+                    format(self.tema_id, self.tipo, self.pregunta)
+
+
+class Encuentro(models.Model):
+    tipo_encuentro = models.ForeignKey('TipoEncuentro', on_delete = models.CASCADE)
+    lugar = models.ForeignKey('Lugar', on_delete = models.CASCADE)
+    fecha = models.DateField()
+    rut_encargado = models.CharField(max_length = 11)
+
+    @python_2_unicode_compatible
+    def __str__(self):
+        return 'Tipo Encuentro: {0 : d} \nLugar: {1 : d} \n Encargado: {2 : s}'.\
+                    format(self.tipo_encuentro, self.lugar, self.rut_encargado)
+
+class Respuesta(models.Model):
+    item_tema = models.ForeignKey('ItemTema', on_delete = models.CASCADE)
+    encuentro = models.ForeignKey('Encuentro', on_delete = models.CASCADE)
+    respuesta = models.CharField(1024)
+
+    @python_2_unicode_compatible
+    def __str__(self):
+        return 'Item Tema: {0 : d} \nEncuentro: {1 : d} \nRespuesta: {2 : s}'.\
+                    format(self.item_tema, self.encuentro, self.respuesta[:125] + "...")
+
+
+class Participante(models.Model):
+    rut = models.CharField(max_length = 11)
+    nombre = models.CharField(max_length = 128)
+    apellido = models.CharField(max_length = 128)
+    correo = models.EmaiField(max_length = 128)
+    numero_de_carnet = models.CharField(max_length = 128)
+
+    @python_2_unicode_compatible
+    def __str__(self):
+        return 'Rut: {0 : s} \nNombre: {1 : s} \nApellido: {2 : s}'.\
+                    format(self.rut, self.nombre, self.apellido)
+
+
+
