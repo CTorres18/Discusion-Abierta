@@ -32,7 +32,7 @@ class Lugar(models.Model):
     def to_dict(self):
         return {
             'pk': self.pk,
-            'lugar': self.lugar
+            'nombre': self.lugar
         }
 
 
@@ -50,7 +50,8 @@ class Tema(models.Model):
     def to_dict(self):
         return {
             'pk': self.pk,
-            'tema': self.tema,
+            'titulo': self.tema,
+            'contextualizacion': self.contexto,
             'items': [i.to_dict() for i in self.itemtema_set.all()]
         }
 
@@ -66,7 +67,7 @@ class TipoEncuentro(models.Model):
     def to_dict(self):
         return {
             'pk': self.pk,
-            'tipo': self.tipo
+            'nombre': self.tipo
         }
 
 
@@ -81,7 +82,7 @@ class Origen(models.Model):
     def to_dict(self):
         return {
             'pk': self.pk,
-            'origen': self.origen
+            'nombre': self.origen
         }
 
 
@@ -93,7 +94,7 @@ class Ocupacion(models.Model):
     def to_dict(self):
         return {
             'pk': self.pk,
-            'ocupacion': self.ocupacion
+            'nombre': self.ocupacion
         }
 
     def __str__(self):

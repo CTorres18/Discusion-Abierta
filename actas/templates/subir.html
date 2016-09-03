@@ -21,14 +21,14 @@
             <div layout-xs="column" layout-gt-xs="row">
               <md-input-container flex>
                 <label>Campus</label>
-                <md-select ng-model="acta.geo.region" required>
-                  <md-option ng-repeat="region in campus" ng-value="region.name">{$ region.name $}</md-option>
+                <md-select ng-model="acta.lugar" required>
+                  <md-option ng-repeat="lugar in acta.lugares" ng-value="lugar.nombre">{$ lugar.nombre $}</md-option>
                 </md-select>
               </md-input-container>
               <md-input-container flex>
                 <label>Tipo de encuentro</label>
-                <md-select ng-model="acta.geo.provincia" required>
-                  <md-option ng-repeat="provincia in tipoEncuentro" ng-value="provincia.name">{$ provincia.name $}</md-option>
+                <md-select ng-model="acta.tipo" required>
+                  <md-option ng-repeat="tipo in acta.tipos" ng-value="tipo.nombre">{$ tipo.nombre $}</md-option>
                 </md-select>
               </md-input-container>
               <div layout="row">
@@ -95,14 +95,14 @@
                 </md-input-container>
                   <md-input-container flex>
                       <label>Estamento</label>
-                      <md-select ng-model="participante.estamento" required>
-                          <md-option ng-repeat="estamento in estamentos" >{$ estamento.name $}</md-option>
+                      <md-select ng-model="participante.ocupacion" required>
+                          <md-option ng-repeat="ocupacion in acta.ocupaciones" >{$ ocupacion.nombre $}</md-option>
                       </md-select>
                   </md-input-container>
                   <md-input-container flex>
                       <label>Organismo</label>
-                      <md-select ng-model="participante.organismo" required>
-                          <md-option ng-repeat="organismo in organismos" >{$ organismo.name $}</md-option>
+                      <md-select ng-model="participante.origen" required>
+                          <md-option ng-repeat="origen in acta.origenes" >{$ origen.nombre $}</md-option>
                       </md-select>
                   </md-input-container>
 
@@ -129,15 +129,15 @@
                 <input ng-model="participante.email" required />
               </md-input-container>
                 <md-input-container flex>
-                    <label>Estamento</label>
-                    <md-select ng-model="participante.estamento" required>
-                        <md-option ng-repeat="estamento in estamentos" ng-value="estamento.name">{$ estamento.name $}</md-option>
-                    </md-select>
-                </md-input-container>
-                <md-input-container flex>
+                      <label>Estamento</label>
+                      <md-select ng-model="participante.ocupacion" required>
+                          <md-option ng-repeat="ocupacion in acta.ocupaciones" >{$ ocupacion.nombre $}</md-option>
+                      </md-select>
+                  </md-input-container>
+                  <md-input-container flex>
                       <label>Organismo</label>
-                      <md-select ng-model="participante.organismo" required>
-                          <md-option ng-repeat="organismo in organismos" >{$ organismo.name $}</md-option>
+                      <md-select ng-model="participante.origeno" required>
+                          <md-option ng-repeat="origen in acta.origenes" >{$ origen.nombre $}</md-option>
                       </md-select>
                   </md-input-container>
 
@@ -154,12 +154,11 @@
         </md-tab>
         <md-tab label="5. Temas">
           <md-content layout-gt-sm="column">
-            <div  class="md-accordion" ng-repeat="itemGroup in acta.itemsGroups" style="background-color: #ccc;">
+            <div  class="md-accordion" ng-repeat="tema in acta.temas" style="background-color: #ccc;">
               <md-toolbar class="grupoitems_encabezado" ng-init="data.expanded = false" ng-click="data.expanded = !data.expanded">
                 <div class="md-toolbar-tools">
                   <div>
-                    <div class="nombre">{$ itemGroup.nombre $}</div>
-                    <div class="descripcion" ng-show="itemGroup.descripcion"></div>
+                    <div class="nombre">{$ tema.titulo $}</div>
                   </div>
                     <span flex=""></span>
                     <span ng-class="{expandCollapse:true, active:data.expanded}"></span>
@@ -180,7 +179,7 @@
                 </md-toolbar>
                 <div ng-class="{dataContent:true, activeContent:contextualizacion.expanded}">
                     
-                    <md-content flex layout-padding ng-bind-html="contextualizacion.data | html "></md-content>
+                    <md-content flex layout-padding ng-bind-html="tema.contextualizacion | html "></md-content>
                     
 
                 </div>
@@ -191,9 +190,9 @@
                 <div class="impar centrar_texto" flex="25">RESPUESTA</div>
                 <div class="par" flex>FUNDAMENTO</div>
               </div>
-              <div class="item" ng-repeat="item in itemGroup.items" layout="row">
+              <div class="item" ng-repeat="item in tema.items" layout="row">
                 <div class="container_nombre" flex=25>
-                  <textarea class="nombre" ng-model="item.nombre" readonly></textarea>
+                  <textarea class="nombre" ng-model="item.pregunta" readonly></textarea>
                 </div>
                 <md-radio-group class="categoria" layout="column" ng-model="item.categoria" flex="25">
                   <md-radio-button value="2" class="impar">Todos estamos de acuerdo</md-radio-button>
@@ -203,7 +202,7 @@
                   <md-radio-button value="-2" class="impar">Todos estamos en desacuerdo</md-radio-button>
                 </md-radio-group>
                 <div class="container_fundamento" flex>
-                  <textarea class="fundamento" ng-model="item.fundamento"></textarea>
+                      <textarea class="fundamento" ng-model="item.respuesta"></textarea>
                 </div>
               </div>
               <div class="grupoitems_item_encabezado" layout="row">
@@ -212,10 +211,10 @@
               </div>
               <div class="item" layout="row">
                 <div class="container_nombre" flex=25>
-                  <textarea class="nombre" ng-model="propuestas[$index].propuesta" readonly></textarea>
+                  <textarea class="nombre" ng-model="item.pregunta_propuesta" readonly></textarea>
                 </div>
                 <div class="container_fundamento" flex>
-                  <textarea class="fundamento" ng-model="item.fundamento"></textarea>
+                  <textarea class="fundamento" ng-model="item.propuesta"></textarea>
                 </div>
               </div>
             </div>

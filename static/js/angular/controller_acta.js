@@ -100,7 +100,7 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
     );
   };
 
-  var filtrarProvincias = function () {
+ /* var filtrarProvincias = function () {
     $scope.provinciasFiltradas = $scope.provincias.filter(function (provincia) {
       if ($scope.acta.geo.region === undefined) {
         return false;
@@ -142,15 +142,17 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
       localStorageService.set(LOCALSTORAGE_ACTA_KEY, $scope.acta);
     }, true);
   };
-
+*/
   var cargarDatos = function () {
     if (localStorageService.get(LOCALSTORAGE_ACTA_KEY) !== null) {
       $scope.acta = localStorageService.get(LOCALSTORAGE_ACTA_KEY);
     } else {
+
       $http({
         method: 'GET',
-        url: '/actas/base'
+        url: '/actas/base/20'
       }).then(function (response) {
+         console.log(response.data);
         $scope.acta = response.data;
       });
       console.log($scope.acta)
@@ -288,13 +290,13 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
 {"name":'Campus Sur'},
 {"name":'Casa Central'},
 {"name": 'Otros'}]
-  cargarWatchersGeo();
+  //cargarWatchersGeo();
 
   $scope.to_trusted = function(html_code) {
     return $sce.trustAsHtml(html_code);
 }
 
-
+/*
   $http({
     method: 'GET',
     url: '/static/json/regiones.json'
@@ -318,7 +320,7 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
     filtrarComunas();
   });
 
-  cargarWatchersActa();
+  cargarWatchersActa();*/
   cargarDatos();
 });
 
