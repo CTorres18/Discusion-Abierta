@@ -9,7 +9,7 @@ from django.utils import timezone
 from pyquery import PyQuery as pq
 import requests
 
-#from .models import Comuna, Acta, Item, ActaRespuestaItem
+# from .models import Comuna, Acta, Item, ActaRespuestaItem
 
 
 REGEX_RUT = re.compile(r'([0-9]+)\-([0-9K])', re.IGNORECASE)
@@ -62,10 +62,12 @@ def verificar_cedula(rut_con_dv, serie):
     if type(rut_con_dv) not in [str, unicode] \
             or len(rut_con_dv) == 0 \
             or not verificar_rut(rut_con_dv):
-        result.append('RUT inválido ({0})'.format(rut_con_dv) if rut_con_dv is not None and len(rut_con_dv) > 0 else 'RUT inválido')
+        result.append('RUT inválido ({0})'.format(rut_con_dv) if rut_con_dv is not None and len(
+            rut_con_dv) > 0 else 'RUT inválido')
 
     if type(serie) not in [str, unicode] or len(serie) == 0:
-        result.append('Número de serie inválido para el RUT {0:s}'.format(rut_con_dv) if rut_con_dv is not None and len(rut_con_dv) > 0 else 'Número de serie inválido')
+        result.append('Número de serie inválido para el RUT {0:s}'.format(rut_con_dv) if rut_con_dv is not None and len(
+            rut_con_dv) > 0 else 'Número de serie inválido')
 
     if len(result) > 0:
         return result
@@ -131,8 +133,42 @@ def validar_datos_geograficos(acta):
     return errores
 
 
+def validar_origenes(acta):
+    errores = []
+    return errores
+
+
+def validar_lugar(acta):
+    errores = []
+    return errores
+
+
+def validar_ocupaciones(acta):
+    errores = []
+    return errores
+
+
+def validar_temas(acta):
+    errores = []
+    for tema in acta.temas:
+        #validar variables temas
+        errores +=validar_items(tema.items)
+    return errores
+
+
+def validar_items(temas):
+    errores = []
+    return errores
+
+
+def validar_tipo_encuentro(acta):
+    errores = []
+    return errores
+
+
 def validar_participantes(acta):
     errores = []
+    obtener_config()
 
     # participantes = acta.get('participantes', [])
     #
@@ -266,7 +302,6 @@ def guardar_acta(datos_acta):
     #         )
     #         acta_item.save()
 
-
 def validar_acta_json(request):
     if request.method != 'POST':
         return (None, 'Request inválido.',)
@@ -277,9 +312,9 @@ def validar_acta_json(request):
         acta = json.loads(acta)
     except ValueError:
         return (None, 'Acta inválida.',)
-
-    for func_val in [validar_datos_geograficos, validar_participantes, validar_items]:
-        errores = func_val(acta)
+    validation_functions=[validar_origenes, validar_lugar, validar_ocupaciones,validar_temas,validar_tipo_encuentro]
+    for function in validation_functions:
+        errores = function(acta)
         if len(errores) > 0:
             return (acta, errores,)
 
@@ -288,8 +323,11 @@ def validar_acta_json(request):
 
 def obtener_config():
     config = {
-        'participantes_min': 4,
-        'participantes_max': 10,
+        'participantes_min': 10,
+        'participantes_max': 50,
+        'encuentro': 20,
+
+
     }
 
     if hasattr(settings, 'DISCUSION_ABIERTA') and type(settings.DISCUSION_ABIERTA) == dict:
