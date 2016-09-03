@@ -66,8 +66,8 @@ class Ocupacion(models.Model):
 
 class ItemTema(models.Model):
     tema_id = models.ForeignKey('Tema', on_delete = models.CASCADE)
-    tipo = models.IntegerField()
     pregunta = models.CharField(max_length = 1024)
+    pregunta_propuesta =models.CharField(max_length = 1024)
 
     @python_2_unicode_compatible
     def __str__(self):
@@ -87,9 +87,18 @@ class Encuentro(models.Model):
                     format(self.tipo_encuentro, self.lugar, self.rut_encargado)
 
 class Respuesta(models.Model):
+
+    CATEGORIA_OPCIONES = (
+        ('Acuerdo', 1),
+        ('Acuerdo parcial', 0),
+        ('Desacuerdo', -1),
+    )
     item_tema = models.ForeignKey('ItemTema', on_delete = models.CASCADE)
     encuentro = models.ForeignKey('Encuentro', on_delete = models.CASCADE)
+    categoria = models.IntegerField(choices=CATEGORIA_OPCIONES)
     respuesta = models.CharField(1024)
+    propuesta = models.CharField(1024)
+
 
     @python_2_unicode_compatible
     def __str__(self):
