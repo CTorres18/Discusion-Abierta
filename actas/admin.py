@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 from django.contrib import admin
 
-from .models import Item, GrupoItems
+from .models import Tema, ItemTema
 
 
-class GrupoItemsAdmin(admin.ModelAdmin):
+class TemaAdmin(admin.ModelAdmin):
     pass
 
 
@@ -12,5 +12,5 @@ class ItemAdmin(admin.ModelAdmin):
     pass
 
 
-admin.site.register(GrupoItems, GrupoItemsAdmin)
-admin.site.register(Item, ItemAdmin)
+admin.site.register(Tema,TemaAdmin)
+admin.site.register(ItemTema, ItemAdmin)

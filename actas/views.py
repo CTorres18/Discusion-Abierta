@@ -6,7 +6,7 @@ from django.views.decorators.csrf import ensure_csrf_cookie
 
 from .libs import validar_acta_json, validar_cedulas_participantes, guardar_acta, obtener_config
 
-from .models import GrupoItems
+from .models import Tema
 
 
 def index(request):
@@ -33,7 +33,7 @@ def acta_base(request):
         'participantes': [{} for _ in range(config['participantes_min'])]
     }
 
-    acta['itemsGroups'] = [g.to_dict() for g in GrupoItems.objects.all().order_by('orden')]
+    acta['itemsGroups'] = [g.to_dict() for g in Tema.objects.all().order_by('orden')]
 
     return JsonResponse(acta)
 
