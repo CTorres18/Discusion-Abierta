@@ -7,7 +7,7 @@ class ConfiguracionEncuentro(models.Model):
     descripcion = models.CharField(max_length=1024)
 
     def __str__(self):
-        return ('<ConfiguracionEncuentro: organizador: {0}, descripcion: {1}>'.format(self.organizador, self.descripcion)).encode('utf-8')
+        return (u'<ConfiguracionEncuentro: organizador: {0}, descripcion: {1}>'.format(self.organizador, self.descripcion)).encode('utf-8')
 
     def to_dict(self):
         return {
@@ -17,7 +17,7 @@ class ConfiguracionEncuentro(models.Model):
             'lugares': [i.to_dict() for i in self.lugar_set.all()],
             'origenes': [i.to_dict() for i in self.origen_set.all()],
             'ocupaciones': [i.to_dict() for i in self.ocupacion_set.all()],
-            'temas': [i.to_dict() for i in self.tema_set.all()]
+            'temas': [i.to_dict() for i in self.tema_set.all().order_by('orden')]
         }
 
 
@@ -27,7 +27,7 @@ class Lugar(models.Model):
     lugar = models.CharField(max_length=128)
 
     def __str__(self):
-        return ('<Lugar: configuracion_encuentro: {0}, lugar: {1}>'.format(self.configuracion_encuentro, self.lugar)).encode('utf-8')
+        return (u'<Lugar: configuracion_encuentro: {0}, lugar: {1}>'.format(self.configuracion_encuentro, self.lugar)).encode('utf-8')
 
     def to_dict(self):
         return {
@@ -41,9 +41,10 @@ class Tema(models.Model):
                                                 on_delete=models.CASCADE)
     tema = models.CharField(max_length=128)
     contexto = models.TextField(blank=True, null=True)
+    orden = models.IntegerField()
 
     def __str__(self):
-        return ('<Tema: encuentro: {0}, tema: {1}, contexto: {2}>'.format(self.configuracion_encuentro, self.tema,
+        return (u'<Tema: encuentro: {0}, tema: {1}, contexto: {2}>'.format(self.configuracion_encuentro, self.tema,
                                                                          self.contexto)).encode('utf-8')
 
     def to_dict(self):
@@ -60,7 +61,7 @@ class TipoEncuentro(models.Model):
     tipo = models.CharField(max_length=128)
 
     def __str__(self):
-        return ('Configuracion Encuentro: {0},Tipo Encuentro: {1}'.format(self.configuracion_encuentro, self.tipo)).encode('utf-8')
+        return (u'Configuracion Encuentro: {0},Tipo Encuentro: {1}'.format(self.configuracion_encuentro, self.tipo)).encode('utf-8')
 
     def to_dict(self):
         return {
@@ -75,7 +76,7 @@ class Origen(models.Model):
     origen = models.CharField(max_length=128)
 
     def __str__(self):
-        return ('Configuracion Encuentro: {0} \nOrigen: {1}'.format(self.configuracion_encuentro, self.origen)).encode('utf-8')
+        return (u'Configuracion Encuentro: {0} \nOrigen: {1}'.format(self.configuracion_encuentro, self.origen)).encode('utf-8')
 
     def to_dict(self):
         return {
@@ -96,7 +97,7 @@ class Ocupacion(models.Model):
         }
 
     def __str__(self):
-        return ('Configuracion Encuentro: {0} \nOcupacion: {1}'.format(self.configuracion_encuentro,
+        return (u'Configuracion Encuentro: {0} \nOcupacion: {1}'.format(self.configuracion_encuentro,
                                                                               self.ocupacion)).encode('utf-8')
 
 
@@ -106,7 +107,7 @@ class ItemTema(models.Model):
     pregunta_propuesta = models.TextField(blank=True, null=True)
 
     def __str__(self):
-        return ('<ItemTema: tema {0}>'.format(self.tema_id, self.pregunta, self.pregunta_propuesta)).encode('utf-8')
+        return (u'<ItemTema: tema {0}>'.format(self.tema_id, self.pregunta, self.pregunta_propuesta)).encode('utf-8')
 
     def to_dict(self):
         return {
@@ -124,15 +125,17 @@ class Encuentro(models.Model):
     rut_encargado = models.CharField(max_length=11)
 
     def __str__(self):
-        return ('Tipo Encuentro: {0} \nLugar: {1} \n Encargado: {2}'.format(self.tipo_encuentro, self.lugar,
+        return (u'Tipo Encuentro: {0} \nLugar: {1} \n Encargado: {2}'.format(self.tipo_encuentro, self.lugar,
                                                                                        self.rut_encargado)).encode('utf-8')
 
 
 class Respuesta(models.Model):
     CATEGORIA_OPCIONES = (
-        ('Acuerdo', 1),
-        ('Acuerdo parcial', 0),
-        ('Desacuerdo', -1),
+        {u'de_acuerdo',2},
+        {u'mayoria_de_acuerdo',1},
+        {u'desacuerdo',0},
+        {u'mayoria_desacuerdo',-1},
+        {u'desacuerdo',-2},
     )
     item_tema = models.ForeignKey('ItemTema', on_delete=models.CASCADE)
     encuentro = models.ForeignKey('Encuentro', on_delete=models.CASCADE)
@@ -141,7 +144,7 @@ class Respuesta(models.Model):
     propuesta = models.TextField(blank=True, null=True)
 
     def __str__(self):
-        return ('Item Tema: {0} \nEncuentro: {1} \nRespuesta: {2}'.format(self.item_tema, self.encuentro,
+        return (u'Item Tema: {0} \nEncuentro: {1} \nRespuesta: {2}'.format(self.item_tema, self.encuentro,
                                                                                      self.respuesta[:125] + "...")).encode('utf-8')
 
 
@@ -153,4 +156,4 @@ class Participante(models.Model):
     numero_de_carnet = models.CharField(max_length=128)
 
     def __str__(self):
-        return ('Rut: {0} \nNombre: {1} \nApellido: {2}'.format(self.rut, self.nombre, self.apellido)).encode('utf-8')
+        return (u'Rut: {0} \nNombre: {1} \nApellido: {2}'.format(self.rut, self.nombre, self.apellido)).encode('utf-8')
