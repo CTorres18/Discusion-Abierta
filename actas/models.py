@@ -41,7 +41,7 @@ class Tema(models.Model):
                                                 on_delete=models.CASCADE)
     tema = models.CharField(max_length=128)
     contexto = models.TextField(blank=True, null=True)
-    orden = models.IntegerField()
+    orden = models.IntegerField(default=1)
 
     def __str__(self):
         return (u'<Tema: encuentro: {0}, tema: {1}, contexto: {2}>'.format(self.configuracion_encuentro, self.tema,
