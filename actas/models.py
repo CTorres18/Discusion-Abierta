@@ -7,7 +7,9 @@ class ConfiguracionEncuentro(models.Model):
     descripcion = models.CharField(max_length=1024)
 
     def __str__(self):
-        return (u'<ConfiguracionEncuentro: organizador: {0}, descripcion: {1}>'.format(self.organizador, self.descripcion)).encode('utf-8')
+        return (u'<ConfiguracionEncuentro: organizador: {0}, descripcion: {1}>'.format(self.organizador,
+                                                                                       self.descripcion)).encode(
+            'utf-8')
 
     def to_dict(self):
         return {
@@ -27,7 +29,10 @@ class Lugar(models.Model):
     lugar = models.CharField(max_length=128)
 
     def __str__(self):
-        return (u'<Lugar: configuracion_encuentro: {0}, lugar: {1}>'.format(self.configuracion_encuentro, self.lugar)).encode('utf-8')
+        return (
+            u'<Lugar: configuracion_encuentro: {0}, lugar: {1}>'.format(self.configuracion_encuentro,
+                                                                        self.lugar)).encode(
+            'utf-8')
 
     def to_dict(self):
         return {
@@ -45,7 +50,7 @@ class Tema(models.Model):
 
     def __str__(self):
         return (u'<Tema: encuentro: {0}, tema: {1}, contexto: {2}>'.format(self.configuracion_encuentro, self.tema,
-                                                                         self.contexto)).encode('utf-8')
+                                                                           self.contexto)).encode('utf-8')
 
     def to_dict(self):
         return {
@@ -62,7 +67,9 @@ class TipoEncuentro(models.Model):
     tipo = models.CharField(max_length=128)
 
     def __str__(self):
-        return (u'Configuracion Encuentro: {0},Tipo Encuentro: {1}'.format(self.configuracion_encuentro, self.tipo)).encode('utf-8')
+        return (
+            u'Configuracion Encuentro: {0},Tipo Encuentro: {1}'.format(self.configuracion_encuentro, self.tipo)).encode(
+            'utf-8')
 
     def to_dict(self):
         return {
@@ -77,7 +84,8 @@ class Origen(models.Model):
     origen = models.CharField(max_length=128)
 
     def __str__(self):
-        return (u'Configuracion Encuentro: {0} \nOrigen: {1}'.format(self.configuracion_encuentro, self.origen)).encode('utf-8')
+        return (u'Configuracion Encuentro: {0} \nOrigen: {1}'.format(self.configuracion_encuentro, self.origen)).encode(
+            'utf-8')
 
     def to_dict(self):
         return {
@@ -99,7 +107,7 @@ class Ocupacion(models.Model):
 
     def __str__(self):
         return (u'Configuracion Encuentro: {0} \nOcupacion: {1}'.format(self.configuracion_encuentro,
-                                                                              self.ocupacion)).encode('utf-8')
+                                                                        self.ocupacion)).encode('utf-8')
 
 
 class ItemTema(models.Model):
@@ -119,24 +127,36 @@ class ItemTema(models.Model):
 
 
 class Encuentro(models.Model):
-    tipo_encuentro = models.ForeignKey('TipoEncuentro', on_delete=models.CASCADE)
-    lugar = models.ForeignKey('Lugar', on_delete=models.CASCADE)
+    configuracion_encuentro = models.ForeignKey('ConfiguracionEncuentro')
+    tipo_encuentro = models.ForeignKey('TipoEncuentro')
+    lugar = models.ForeignKey('Lugar')
     fecha_inicio = models.DateField()
     fecha_termino = models.DateField()
-    rut_encargado = models.CharField(max_length=11)
+    encargado = models.ForeignKey('Participante')
 
     def __str__(self):
         return (u'Tipo Encuentro: {0} \nLugar: {1} \n Encargado: {2}'.format(self.tipo_encuentro, self.lugar,
-                                                                                       self.rut_encargado)).encode('utf-8')
+                                                                             self.rut_encargado))
+
+    def to_dict(self):
+        return {
+            'pk': self.pk,
+            'tipo_encuentro': self.encuentro.nombre,
+            'lugar': self.lugar.nombre,
+            'fecha_inicio': self.fecha_inicio,
+            'fecha_termino': self.fecha_termino,
+            'encargado_id': self.encargado.pk,
+            'participantes':  [i.to_dict() for i in self.participante_set.all()]
+        }
 
 
 class Respuesta(models.Model):
     CATEGORIA_OPCIONES = (
-        {u'de_acuerdo',2},
-        {u'mayoria_de_acuerdo',1},
-        {u'desacuerdo',0},
-        {u'mayoria_desacuerdo',-1},
-        {u'desacuerdo',-2},
+        {u'de_acuerdo', 2},
+        {u'mayoria_de_acuerdo', 1},
+        {u'desacuerdo', 0},
+        {u'mayoria_desacuerdo', -1},
+        {u'desacuerdo', -2},
     )
     item_tema = models.ForeignKey('ItemTema', on_delete=models.CASCADE)
     encuentro = models.ForeignKey('Encuentro', on_delete=models.CASCADE)
@@ -146,7 +166,8 @@ class Respuesta(models.Model):
 
     def __str__(self):
         return (u'Item Tema: {0} \nEncuentro: {1} \nRespuesta: {2}'.format(self.item_tema, self.encuentro,
-                                                                                     self.respuesta[:125] + "...")).encode('utf-8')
+                                                                           self.respuesta[:125] + "...")).encode(
+            'utf-8')
 
 
 class Participante(models.Model):
@@ -158,3 +179,23 @@ class Participante(models.Model):
 
     def __str__(self):
         return (u'Rut: {0} \nNombre: {1} \nApellido: {2}'.format(self.rut, self.nombre, self.apellido)).encode('utf-8')
+
+
+class Participa(models.Model):
+    participante = models.ForeignKey('Participante')
+    encuentro = models.ForeignKey('Encuentro')
+    ocupacion = models.ForeignKey('Ocupacion')
+    origen = models.ForeignKey('Origen')
+
+    def __str__(self):
+        return u'Participante id: {0} \nEncuentro id: {1} \nOcupacion id: {2}'.format(self.participante.primary_key,
+                                                                                      self.encuentro.pk,
+                                                                                      self.ocupacion.pk)
+
+    def to_dict(self):
+        return {
+            'pk': self.pk,
+            'encuentro_id': self.encuentro.pk,
+            'ocupacion': self.ocupacion.nombre,
+            'origen': self.origen.nombre,
+        }
