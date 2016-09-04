@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.contrib import admin
 
-from .models import Tema, ItemTema,Ocupacion,Origen,ConfiguracionEncuentro,Lugar,TipoEncuentro
+from .models import Tema, ItemTema,Ocupacion,Origen,ConfiguracionEncuentro,Lugar,TipoEncuentro,Encuentro
 
 
 class TemaAdmin(admin.ModelAdmin):
@@ -26,6 +26,9 @@ class OcupacionAdmin(admin.ModelAdmin):
 class TipoEncuentroAdmin(admin.ModelAdmin):
     pass
 
+class EncuentroAdmin(admin.ModelAdmin):
+    pass
+
 
 class ConfiguracionEncuentroAdmin(admin.ModelAdmin):
     pass
@@ -36,6 +39,5 @@ admin.site.register(Ocupacion, OcupacionAdmin)
 admin.site.register(Origen, ItemTemaAdmin)
 admin.site.register(Lugar, ItemTemaAdmin)
 admin.site.register(TipoEncuentro, ItemTemaAdmin)
+admin.site.register(Encuentro, EncuentroAdmin)
 admin.site.register(ItemTema, ItemTemaAdmin)
-
-

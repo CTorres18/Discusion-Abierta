@@ -241,11 +241,11 @@ def validar_participantes(acta):
         return errores
 
     # Verificar que los participantes no hayan enviado un acta antes
-    participantes_en_db = User.objects.prefetch_related('participantes').filter(username__in=list(ruts))
+    participantes_en_db = Participante.objects.filter(rut__in=list(ruts))
 
     if len(participantes_en_db) > 0:
         for participante in participantes_en_db:
-            errores.append('El RUT {0:s} ya participó del proceso.'.format(participante.username))
+            errores.append('El RUT {0:s} ya participó del proceso.'.format(participante.rut))
 
     errores += verificar_cedula(participante_organizador['rut'], participante_organizador['serie_cedula'])
     return errores
@@ -378,9 +378,10 @@ def guardar_acta(datos_acta):
         if lugar['nombre'] == datos_acta['lugar']:
             lugar_pk = lugar['pk']
 
-    encuentro = Encuentro(#fecha_inicio=datos_acta['fecha_inicio'], fecha_termino=datos_acta['fecha_termino'],
+    encuentro = Encuentro(fecha_inicio='2016-01-01', fecha_termino='2016-01-01',
                           tipo_encuentro_id=tipo_pk, lugar_id=lugar_pk, encargado_id=encargado.pk,
                           configuracion_encuentro_id=datos_acta['pk'])
+                          
     encuentro.save()
     # acta = Acta(
     #     comuna=Comuna.objects.get(pk=datos_acta['geo']['comuna']),
