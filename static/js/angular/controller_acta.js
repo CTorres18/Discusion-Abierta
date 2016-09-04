@@ -291,7 +291,7 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
 {"name":'Campus Sur'},
 {"name":'Casa Central'},
 {"name": 'Otros'}]
-  cargarWatchersGeo();
+  //cargarWatchersGeo();
 
   $scope.to_trusted = function(html_code) {
     return $sce.trustAsHtml(html_code);
@@ -320,8 +320,8 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
     $scope.comunas = response.data;
     filtrarComunas();
   });
-
-  cargarWatchersActa();*/
+*/
+  cargarWatchersActa();
   cargarDatos();
 });
 
