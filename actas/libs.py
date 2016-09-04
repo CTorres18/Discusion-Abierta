@@ -354,15 +354,40 @@ def validar_cedulas_participantes(acta):
 # return errores
 
 
-def insertar_participantes(participantes,datos_acta):
-    print participantes
-
+def insertar_participantes(participantes, datos_acta):
+    configuracion_encuentro=ConfiguracionEncuentro.objects.get(pk=datos_acta['pk'])
 
     for participante in participantes:
+
+        #origen valido
+        origen = Origen.objects.filter(configuracion_encuentro=configuracion_encuentro, origen=participante['origen'])
+        origen_pk = -1
+        if origen.exists():
+            origen_pk = origen[0].pk
+        else:
+            return ['Origen inválido.']
+
+        #ocupacion valido
+        ocupacion = Ocupacion.objects.filter(configuracion_encuentro=configuracion_encuentro, ocupacion=participante['ocupacion'])
+        ocupacion_pk = -1
+        if ocupacion.exists():
+            ocupacion_pk = ocupacion[0].pk
+        else:
+            return ['Ocupación inválido.']
+
+        #serie sedula para el organizador
+        serie_cedula = ''
+        if 'serie_cedula' in participante:
+            serie_cedula = participante['serie_cedula']
+
+        #guardar participante
         p_db = Participante(rut=participante['rut'], nombre=participante['nombre'], apellido=participante['apellido'],
-                            correo=participante['email'])
+                            correo=participante['email'], numero_de_carnet=serie_cedula)
         p_db.save()
-        participa_encuentro= Participa(encuentro_id= datos_acta['pk'],participante_id=p_db.pk,ocupacion_id=datos_acta['origenes'][0]['pk'],origen_id=datos_acta['origenes'][0]['pk'])
+        participa_encuentro= Participa(encuentro_id= datos_acta['pk'],
+                                        participante_id=p_db.pk,
+                                        ocupacion_id=ocupacion_pk,
+                                        origen_id=origen_pk)
         participa_encuentro.save()
 
 
@@ -371,7 +396,10 @@ def guardar_acta(datos_acta):
     encargado = Participante(rut=p_encargado['rut'], nombre=p_encargado['nombre'], apellido=p_encargado['apellido'],
                              correo=p_encargado['email'], numero_de_carnet=p_encargado['serie_cedula'])
     encargado.save()
-    insertar_participantes(datos_acta['participantes'],datos_acta)
+    participantes = datos_acta['participantes']
+    participantes.append(datos_acta['participante_organizador'])
+    print participantes
+    insertar_participantes(participantes, datos_acta)
 
 
     # obtener el pk del tipo
@@ -386,7 +414,7 @@ def guardar_acta(datos_acta):
         if lugar['nombre'] == datos_acta['lugar']:
             lugar_pk = lugar['pk']
 
-
+    #guardar encuentro
     encuentro = Encuentro(  fecha_inicio='1990-01-01', fecha_termino='1990-01-01',
                             tipo_encuentro_id=tipo_pk, lugar_id=lugar_pk, encargado_id=encargado.pk,
                             configuracion_encuentro_id=datos_acta['pk'])
