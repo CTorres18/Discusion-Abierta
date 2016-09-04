@@ -4,6 +4,7 @@ from django.db import transaction
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.views.decorators.csrf import ensure_csrf_cookie
+from actas.stream_datas import get_respuestas
 
 from .libs import validar_acta_json, validar_cedulas_participantes, guardar_acta, obtener_config, get_participantes
 
@@ -68,3 +69,7 @@ def subir_confirmar(request):
 
 def bajar_participantes(request):
     return get_participantes(request)
+
+def bajar_propuestas(request):
+    get_respuestas(request)
+
