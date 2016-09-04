@@ -4,7 +4,7 @@ from itertools import cycle
 import re
 
 from django.conf import settings
-from models import Tema, ItemTema
+from models import Tema, ItemTema, Encuentro, Participante
 from django.contrib.auth.models import User
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
@@ -184,7 +184,7 @@ def validar_participantes(acta):
     participantes = acta.get('participantes', [])
     config = obtener_config()
 
-    #tienen que existir la cantidad de participantes aceptada
+    # tienen que existir la cantidad de participantes aceptada
     if participante_organizador == {}:
         errores.append('Error en el formato del participante organizador.')
 
@@ -205,7 +205,7 @@ def validar_participantes(acta):
     ruts_participantes = [p['rut'] for p in participantes]
     ruts_participantes.append(participante_organizador['rut'])
 
-    #validar emailstry:
+    # validar emailstry:
     try:
         validate_email(participante_organizador['email'])
         for participante in participantes:
@@ -228,10 +228,10 @@ def validar_participantes(acta):
 
 
     # Nombres diferentes
-    #nombres = set(
+    # nombres = set(
     #    (p['nombre'].lower(), p['apellido'].lower(), ) for p in participantes
-    #).update((participante_organizador['nombre'].lower(), participante_organizador['apellido'].lower(), ))
-    #if not (config['participantes_min'] <= len(nombres) <= config['participantes_max']):
+    # ).update((participante_organizador['nombre'].lower(), participante_organizador['apellido'].lower(), ))
+    # if not (config['participantes_min'] <= len(nombres) <= config['participantes_max']):
     #    return ['Existen nombres repetidos.']
 
     # Verificar que los participantes no hayan enviado un acta antes
@@ -312,40 +312,56 @@ def validar_cedulas_participantes(acta):
 
 
 # def validar_items(acta):
-    # errores = []
+# errores = []
 
-    # items_por_responder = map(lambda i: i.pk, Item.objects.all())
-    #
-    # for group in acta['itemsGroups']:
-    #     for i, item in enumerate(group['items']):
-    #         acta_item = Item.objects.filter(pk=item.get('pk'))
-    #
-    #         if len(acta_item) != 1 or acta_item[0].nombre != item.get('nombre'):
-    #             errores.append(
-    #                 'Existen errores de validación en ítem {0:d}.'.format(
-    #                     item['pk']
-    #                 )
-    #             )
-    #             return errores
-    #
-    #         if item.get('categoria') not in ['-1', '0', '1']:
-    #             errores.append(
-    #                 'No se ha seleccionado la categoría del ítem {0:d}.'.format(
-    #                     item['pk']
-    #                 )
-    #             )
-    #             return errores
-    #
-    #         items_por_responder.remove(int(item['pk']))
-    #
-    # if len(items_por_responder) > 0:
-    #     errores.append('No se han respondido todos los items del acta.')
+# items_por_responder = map(lambda i: i.pk, Item.objects.all())
+#
+# for group in acta['itemsGroups']:
+#     for i, item in enumerate(group['items']):
+#         acta_item = Item.objects.filter(pk=item.get('pk'))
+#
+#         if len(acta_item) != 1 or acta_item[0].nombre != item.get('nombre'):
+#             errores.append(
+#                 'Existen errores de validación en ítem {0:d}.'.format(
+#                     item['pk']
+#                 )
+#             )
+#             return errores
+#
+#         if item.get('categoria') not in ['-1', '0', '1']:
+#             errores.append(
+#                 'No se ha seleccionado la categoría del ítem {0:d}.'.format(
+#                     item['pk']
+#                 )
+#             )
+#             return errores
+#
+#         items_por_responder.remove(int(item['pk']))
+#
+# if len(items_por_responder) > 0:
+#     errores.append('No se han respondido todos los items del acta.')
 
-    # return errores
+# return errores
+
+
+def insertar_participantes(participantes):
+    for participante in participantes:
+        p_db = Participante(rut=participante.rut, nombre=participante.nombre, apellido=participante.apellido,
+                            correo=participante.email)
+        p_db.save()
 
 
 def guardar_acta(datos_acta):
-    print "holi"
+
+    p_encargado = datos_acta.participante_encargado
+    encargado = Participante(rut=p_encargado.rut, nombre=p_encargado.nombre, apellido=p_encargado.apellido,
+                             correo=p_encargado.email, numero_de_carnet=p_encargado.serie_cedula)
+    encargado.save()
+    insertar_participantes(datos_acta.participantes)
+    encuentro = Encuentro(fecha_inicio=datos_acta.fecha_inicio, fecha_termino=datos_acta.fecha_termino,
+                          tipo_encuentro=datos_acta.tipo, lugar=datos_acta.lugar, encargado_id=encargado.pk,
+                          configuracion_encuentro_id=datos_acta.pk)
+    encuentro.save()
     # acta = Acta(
     #     comuna=Comuna.objects.get(pk=datos_acta['geo']['comuna']),
     #     memoria_historica=datos_acta.get('memoria'),
@@ -370,6 +386,7 @@ def guardar_acta(datos_acta):
     #         )
     #         acta_item.save()
 
+
 def enviar_email_a_participantes(acta):
     subject = "Participación en Discusión Abierta UChile"
     message = "Estimade: El contenido del acta es: bleh bleh bleh"
@@ -379,6 +396,7 @@ def enviar_email_a_participantes(acta):
         recipient_list.extend(str(recipient.mail))
     mensaje_html = None
     send_mail(subject, message, from_email, recipient_list, fail_silently=False, html_message=mensaje_html)
+
 
 def validar_acta_json(request):
     if request.method != 'POST':
@@ -390,7 +408,8 @@ def validar_acta_json(request):
         acta = json.loads(acta)
     except ValueError:
         return (None, 'Acta inválida.',)
-    validation_functions=[validar_origenes, validar_lugar, validar_ocupaciones,validar_temas,validar_tipo_encuentro, validar_participantes]
+    validation_functions = [validar_origenes, validar_lugar, validar_ocupaciones, validar_temas, validar_tipo_encuentro,
+                            validar_participantes]
     for function in validation_functions:
         errores = function(acta)
 
@@ -405,7 +424,6 @@ def obtener_config():
         'participantes_min': 3,
         'participantes_max': 50,
         'encuentro': 20,
-
 
     }
 

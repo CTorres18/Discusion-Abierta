@@ -127,6 +127,7 @@ class ItemTema(models.Model):
 
 
 class Encuentro(models.Model):
+    configuracion_encuentro = models.ForeignKey('ConfiguracionEncuentro')
     tipo_encuentro = models.ForeignKey('TipoEncuentro')
     lugar = models.ForeignKey('Lugar')
     fecha_inicio = models.DateField()
