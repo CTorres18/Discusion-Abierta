@@ -21,6 +21,9 @@ def get_participantes_stream(request):
     # rows that can be handled by a single sheet in most spreadsheet
     # applications.
     participan = Participa.objects.all()
+    print participan
+    for p in participan:
+        print p
     rows = ([str(participa.ocupacion.ocupacion),str(participa.origen.origen)] for participa in participan)
     pseudo_buffer = Echo()
     writer = csv.writer(pseudo_buffer)

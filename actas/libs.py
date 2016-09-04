@@ -4,7 +4,7 @@ from itertools import cycle
 import re
 
 from django.conf import settings
-from models import Tema, ItemTema, Origen, Ocupacion, Encuentro, Participante, ConfiguracionEncuentro, Lugar
+from models import Tema, ItemTema, Origen, Ocupacion, Encuentro, Participante, ConfiguracionEncuentro, Lugar, Participa
 from django.contrib.auth.models import User
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
@@ -354,12 +354,16 @@ def validar_cedulas_participantes(acta):
 # return errores
 
 
-def insertar_participantes(participantes):
+def insertar_participantes(participantes,datos_acta):
     print participantes
+
+
     for participante in participantes:
         p_db = Participante(rut=participante['rut'], nombre=participante['nombre'], apellido=participante['apellido'],
                             correo=participante['email'])
         p_db.save()
+        participa_encuentro= Participa(encuentro_id= datos_acta['pk'],participante_id=p_db.pk,ocupacion_id=datos_acta['origenes'][0]['pk'],origen_id=datos_acta['origenes'][0]['pk'])
+        participa_encuentro.save()
 
 
 def guardar_acta(datos_acta):
@@ -367,7 +371,8 @@ def guardar_acta(datos_acta):
     encargado = Participante(rut=p_encargado['rut'], nombre=p_encargado['nombre'], apellido=p_encargado['apellido'],
                              correo=p_encargado['email'], numero_de_carnet=p_encargado['serie_cedula'])
     encargado.save()
-    insertar_participantes(datos_acta['participantes'])
+    insertar_participantes(datos_acta['participantes'],datos_acta)
+
 
     # obtener el pk del tipo
     tipo_pk = -1
@@ -382,7 +387,7 @@ def guardar_acta(datos_acta):
             lugar_pk = lugar['pk']
 
 
-    encuentro = Encuentro(  # fecha_inicio=datos_acta['fecha_inicio'], fecha_termino=datos_acta['fecha_termino'],
+    encuentro = Encuentro(  fecha_inicio='1990-01-01', fecha_termino='1990-01-01',
                             tipo_encuentro_id=tipo_pk, lugar_id=lugar_pk, encargado_id=encargado.pk,
                             configuracion_encuentro_id=datos_acta['pk'])
 

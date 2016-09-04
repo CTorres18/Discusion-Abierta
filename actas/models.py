@@ -188,9 +188,7 @@ class Participa(models.Model):
     origen = models.ForeignKey('Origen')
 
     def __str__(self):
-        return u'Participante id: {0} \nEncuentro id: {1} \nOcupacion id: {2}'.format(self.participante.primary_key,
-                                                                                      self.encuentro.pk,
-                                                                                      self.ocupacion.pk)
+        return 'fuck'
 
     def to_dict(self):
         return {
