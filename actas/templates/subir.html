@@ -75,34 +75,34 @@
               <div layout-xs="column" layout-gt-xs="row">
                 <md-input-container flex>
                   <label>Nombre</label>
-                  <input ng-model="participante.nombre" required />
+                  <input ng-model="acta.participante_organizador.nombre" required />
                 </md-input-container>
                 <md-input-container flex>
                   <label>Apellido</label>
-                  <input ng-model="participante.apellido" required />
+                  <input ng-model="acta.participante_organizador.apellido" required />
                 </md-input-container>
                 <md-input-container flex>
                   <label>RUT</label>
-                  <input ng-model="participante.rut" required />
+                  <input ng-model="acta.participante_organizador.rut" required />
                 </md-input-container>
                 <md-input-container flex>
                   <label>Email</label>
-                  <input ng-model="participante.email" required />
+                  <input ng-model="acta.participante_organizador.email" required />
                 </md-input-container>
                 <md-input-container flex>
                   <label>Numero de cedula</label>
-                  <input ng-model="participante.serie_cedula" required />
+                  <input ng-model="acta.participante_organizador.serie_cedula" required />
                 </md-input-container>
                   <md-input-container flex>
                       <label>Estamento</label>
-                      <md-select ng-model="participante.ocupacion" required>
-                          <md-option ng-repeat="ocupacion in acta.ocupaciones" >{$ ocupacion.nombre $}</md-option>
+                      <md-select ng-model="acta.participante_organizador.ocupacion" required>
+                          <md-option ng-repeat="ocupacion in acta.ocupaciones" ng-value="ocupacion.nombre">{$ ocupacion.nombre $}</md-option>
                       </md-select>
                   </md-input-container>
                   <md-input-container flex>
                       <label>Organismo</label>
-                      <md-select ng-model="participante.origen" required>
-                          <md-option ng-repeat="origen in acta.origenes" >{$ origen.nombre $}</md-option>
+                      <md-select ng-model="acta.participante.origen" required>
+                          <md-option ng-repeat="origen in acta.origenes" ng-value="origen.nombre">{$ origen.nombre $}</md-option>
                       </md-select>
                   </md-input-container>
 
@@ -110,7 +110,7 @@
             </md-content>
             <div layout-xs="column" layout-gt-xs="row" ng-repeat="participante in acta.participantes">
               <md-input-container class="centrar_texto" flex flex-sm-xs=5>
-                <div style="color: #ccc; margin-top: 8px;">{$ ($index + 2) $}.</div>
+                <div style="color: #ccc; margin-top: 8px;">{$ ($index + 1) $}.</div>
               </md-input-container>
               <md-input-container flex>
                 <label>Nombre</label>
@@ -128,16 +128,16 @@
                 <label>Email</label>
                 <input ng-model="participante.email" required />
               </md-input-container>
-                <md-input-container flex>
+                 <md-input-container flex>
                       <label>Estamento</label>
                       <md-select ng-model="participante.ocupacion" required>
-                          <md-option ng-repeat="ocupacion in acta.ocupaciones" >{$ ocupacion.nombre $}</md-option>
+                          <md-option ng-repeat="ocupacion in acta.ocupaciones" ng-value="ocupacion.nombre">{$ ocupacion.nombre $}</md-option>
                       </md-select>
                   </md-input-container>
                   <md-input-container flex>
                       <label>Organismo</label>
-                      <md-select ng-model="participante.origeno" required>
-                          <md-option ng-repeat="origen in acta.origenes" >{$ origen.nombre $}</md-option>
+                      <md-select ng-model="participante.origen" required>
+                          <md-option ng-repeat="origen in acta.origenes" ng-value="origen.nombre">{$ origen.nombre $}</md-option>
                       </md-select>
                   </md-input-container>
 

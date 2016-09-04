@@ -84,6 +84,7 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
   };
   $scope.validarActa = function (ev) {
     $scope.noValidar = true;
+      console.log($scope.acta)
 
     $http({
       method: 'POST',
@@ -136,13 +137,13 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
       filtrarComunas();
     });
   };
-
+*/
   var cargarWatchersActa = function () {
     $scope.$watch('acta', function () {
       localStorageService.set(LOCALSTORAGE_ACTA_KEY, $scope.acta);
     }, true);
   };
-*/
+
   var cargarDatos = function () {
     if (localStorageService.get(LOCALSTORAGE_ACTA_KEY) !== null) {
       $scope.acta = localStorageService.get(LOCALSTORAGE_ACTA_KEY);
@@ -290,7 +291,7 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
 {"name":'Campus Sur'},
 {"name":'Casa Central'},
 {"name": 'Otros'}]
-  //cargarWatchersGeo();
+  cargarWatchersGeo();
 
   $scope.to_trusted = function(html_code) {
     return $sce.trustAsHtml(html_code);
