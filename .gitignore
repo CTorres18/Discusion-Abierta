@@ -6,6 +6,7 @@
 
 discusion_abierta/settings.py
 static/bower_components
+node_modules
 
 .coverage
 coverage/
