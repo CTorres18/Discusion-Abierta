@@ -4,7 +4,7 @@ from itertools import cycle
 import re
 
 from django.conf import settings
-from models import Tema, ItemTema, Origen, Ocupacion, Encuentro, Participante
+from models import Tema, ItemTema, Origen, Ocupacion, Encuentro, Participante, ConfiguracionEncuentro, Lugar
 from django.contrib.auth.models import User
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
@@ -151,6 +151,9 @@ def validar_origenes(acta):
 
 def validar_lugar(acta):
     errores = []
+    configuracion_encuentro=ConfiguracionEncuentro.objects.get(pk=acta['pk'])
+    if not Lugar.objects.filter(configuracion_encuentro=configuracion_encuentro, lugar=acta['lugar']).exists():
+        errores.append('Lugar Inválido.')
     return errores
 
 
@@ -180,7 +183,7 @@ def validar_items(items):
     errores = []
     for item in items:
         if 'categoria' in item:
-            if not ItemTema.objects.filter(pk=tema['pk']).exists():
+            if not ItemTema.objects.filter(pk=item['pk']).exists():
                 errores.append('Error en la verificación del tema.')
                 break
     return errores
@@ -242,11 +245,11 @@ def validar_participantes(acta):
         return errores
 
     # Verificar que los participantes no hayan enviado un acta antes
-    participantes_en_db = User.objects.prefetch_related('participantes').filter(username__in=list(ruts))
+    participantes_en_db = Participante.objects.filter(rut__in=list(ruts))
 
     if len(participantes_en_db) > 0:
         for participante in participantes_en_db:
-            errores.append('El RUT {0:s} ya participó del proceso.'.format(participante.username))
+            errores.append('El RUT {0:s} ya participó del proceso.'.format(participante.rut))
 
     errores += verificar_cedula(participante_organizador['rut'], participante_organizador['serie_cedula'])
     return errores
@@ -378,9 +381,11 @@ def guardar_acta(datos_acta):
         if lugar['nombre'] == datos_acta['lugar']:
             lugar_pk = lugar['pk']
 
+
     encuentro = Encuentro(  # fecha_inicio=datos_acta['fecha_inicio'], fecha_termino=datos_acta['fecha_termino'],
                             tipo_encuentro_id=tipo_pk, lugar_id=lugar_pk, encargado_id=encargado.pk,
                             configuracion_encuentro_id=datos_acta['pk'])
+
     encuentro.save()
     # acta = Acta(
     #     comuna=Comuna.objects.get(pk=datos_acta['geo']['comuna']),
