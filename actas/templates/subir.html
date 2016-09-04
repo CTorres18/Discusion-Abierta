@@ -190,7 +190,8 @@
                 <div class="impar centrar_texto" flex="25">RESPUESTA</div>
                 <div class="par" flex>FUNDAMENTO</div>
               </div>
-              <div class="item" ng-repeat="item in tema.items" layout="row">
+                    <div ng-repeat="item in tema.items">
+              <div class="item" layout="row" >
                 <div class="container_nombre" flex=25>
                   <textarea class="nombre" ng-model="item.pregunta" readonly></textarea>
                 </div>
@@ -216,7 +217,7 @@
                 <div class="container_fundamento" flex>
                   <textarea class="fundamento" ng-model="item.propuesta"></textarea>
                 </div>
-              </div>
+              </div></div>
             </div>
                 </div>
 
