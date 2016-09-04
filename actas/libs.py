@@ -277,7 +277,7 @@ def validar_items(acta):
 
 
 def guardar_acta(datos_acta):
-    print "holi"
+    print "holi hiho 1313"
     # acta = Acta(
     #     comuna=Comuna.objects.get(pk=datos_acta['geo']['comuna']),
     #     memoria_historica=datos_acta.get('memoria'),
