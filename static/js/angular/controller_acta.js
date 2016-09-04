@@ -5,6 +5,19 @@ var LOCALSTORAGE_ACTA_KEY = 'acta';
 var app =angular.module('DiscusionAbiertaApp');
 app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageService) {
 
+    $scope.selectedTab = 0;
+
+    $scope.nextTab = function() {
+        if ($scope.selectedTab === 4) {
+            $scope.selectedTab = 0;
+        }
+        else {
+            $scope.selectedTab++;
+        }
+
+    }
+
+
   $scope.agregarParticipante = function () {
     if ($scope.acta.participantes.length < $scope.acta.max_participantes) {
       $scope.acta.participantes.push({nombre: '', apellido: ''});
@@ -84,6 +97,7 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
   };
   $scope.validarActa = function (ev) {
     $scope.noValidar = true;
+      console.log($scope.acta)
 
     $http({
       method: 'POST',
@@ -136,13 +150,13 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
       filtrarComunas();
     });
   };
-
+*/
   var cargarWatchersActa = function () {
     $scope.$watch('acta', function () {
       localStorageService.set(LOCALSTORAGE_ACTA_KEY, $scope.acta);
     }, true);
   };
-*/
+
   var cargarDatos = function () {
     if (localStorageService.get(LOCALSTORAGE_ACTA_KEY) !== null) {
       $scope.acta = localStorageService.get(LOCALSTORAGE_ACTA_KEY);
@@ -319,8 +333,8 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
     $scope.comunas = response.data;
     filtrarComunas();
   });
-
-  cargarWatchersActa();*/
+*/
+  cargarWatchersActa();
   cargarDatos();
 });
 

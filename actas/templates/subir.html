@@ -9,10 +9,12 @@
 <div layout="column" layout-align="center" ng-controller="ActaCtrl" ng-cloak>
   <div layout="column" class="md-inline-form">
     <md-content>
-      <md-tabs md-dynamic-height md-border-bottom>
+      <md-tabs md-dynamic-height md-border-bottom md-selected="selectedTab">
       <md-tab label="1. Presentacion">
+          <md-button class="md-raised md-primary" aria-label="Subir propuesta" ng-click="nextTab()">Siguiente</md-button>
       </md-tab>
       <md-tab label="2. Instructivo">
+          <md-button class="md-raised md-primary" aria-label="Subir propuesta" ng-click="nextTab()">Siguiente</md-button>
       </md-tab>
       <md-tab label="3. Sobre el encuentro">
           <md-content class="md-padding">
@@ -36,8 +38,8 @@
 
 
                 </md-input-container>
-                <md-datepicker id="myDatePicker" ng-model="ts" md-placeholder="Inicio"></md-datepicker>
-                <md-datepicker ng-model="fin" md-placeholder="Fin"></md-datepicker>
+                <md-datepicker  ng-model="acta.fechaInicio"" ng-model="ts" md-placeholder="Inicio"></md-datepicker>
+                <md-datepicker ng-model="acta.fin" md-placeholder="Fin"></md-datepicker>
 
               </div>
 
@@ -57,7 +59,7 @@
             </div>
             <div layout="column" class="md-inline-form" style="padding: 50px;">
               <md-content class="centrar_texto">
-                <md-button class="md-raised md-primary" aria-label="Sigu" ng-click="limpiarActa($event)">Siguiente</md-button>
+                <md-button class="md-raised md-primary" aria-label="Siguiente" ng-click="nextTab()">Limpiar</md-button>
               </md-content>
             </div>
           </md-content>
@@ -75,34 +77,34 @@
               <div layout-xs="column" layout-gt-xs="row">
                 <md-input-container flex>
                   <label>Nombre</label>
-                  <input ng-model="participante.nombre" required />
+                  <input ng-model="acta.participante_organizador.nombre" required />
                 </md-input-container>
                 <md-input-container flex>
                   <label>Apellido</label>
-                  <input ng-model="participante.apellido" required />
+                  <input ng-model="acta.participante_organizador.apellido" required />
                 </md-input-container>
                 <md-input-container flex>
                   <label>RUT</label>
-                  <input ng-model="participante.rut" required />
+                  <input ng-model="acta.participante_organizador.rut" required />
                 </md-input-container>
                 <md-input-container flex>
                   <label>Email</label>
-                  <input ng-model="participante.email" required />
+                  <input ng-model="acta.participante_organizador.email" required />
                 </md-input-container>
                 <md-input-container flex>
                   <label>Numero de cedula</label>
-                  <input ng-model="participante.serie_cedula" required />
+                  <input ng-model="acta.participante_organizador.serie_cedula" required />
                 </md-input-container>
                   <md-input-container flex>
                       <label>Estamento</label>
-                      <md-select ng-model="participante.ocupacion" required>
-                          <md-option ng-repeat="ocupacion in acta.ocupaciones" >{$ ocupacion.nombre $}</md-option>
+                      <md-select ng-model="acta.participante_organizador.ocupacion" required>
+                          <md-option ng-repeat="ocupacion in acta.ocupaciones" ng-value="ocupacion.nombre">{$ ocupacion.nombre $}</md-option>
                       </md-select>
                   </md-input-container>
                   <md-input-container flex>
                       <label>Organismo</label>
-                      <md-select ng-model="participante.origen" required>
-                          <md-option ng-repeat="origen in acta.origenes" >{$ origen.nombre $}</md-option>
+                      <md-select ng-model="acta.participante_organizador.origen" required>
+                          <md-option ng-repeat="origen in acta.origenes" ng-value="origen.nombre">{$ origen.nombre $}</md-option>
                       </md-select>
                   </md-input-container>
 
@@ -110,7 +112,7 @@
             </md-content>
             <div layout-xs="column" layout-gt-xs="row" ng-repeat="participante in acta.participantes">
               <md-input-container class="centrar_texto" flex flex-sm-xs=5>
-                <div style="color: #ccc; margin-top: 8px;">{$ ($index + 2) $}.</div>
+                <div style="color: #ccc; margin-top: 8px;">{$ ($index + 1) $}.</div>
               </md-input-container>
               <md-input-container flex>
                 <label>Nombre</label>
@@ -128,16 +130,16 @@
                 <label>Email</label>
                 <input ng-model="participante.email" required />
               </md-input-container>
-                <md-input-container flex>
+                 <md-input-container flex>
                       <label>Estamento</label>
                       <md-select ng-model="participante.ocupacion" required>
-                          <md-option ng-repeat="ocupacion in acta.ocupaciones" >{$ ocupacion.nombre $}</md-option>
+                          <md-option ng-repeat="ocupacion in acta.ocupaciones" ng-value="ocupacion.nombre">{$ ocupacion.nombre $}</md-option>
                       </md-select>
                   </md-input-container>
                   <md-input-container flex>
                       <label>Organismo</label>
-                      <md-select ng-model="participante.origeno" required>
-                          <md-option ng-repeat="origen in acta.origenes" >{$ origen.nombre $}</md-option>
+                      <md-select ng-model="participante.origen" required>
+                          <md-option ng-repeat="origen in acta.origenes" ng-value="origen.nombre">{$ origen.nombre $}</md-option>
                       </md-select>
                   </md-input-container>
 
@@ -147,7 +149,7 @@
             </div>
             <div layout="column" class="md-inline-form" style="padding: 50px;">
               <md-content class="centrar_texto">
-                <md-button class="md-raised md-primary" aria-label="Subir propuesta" ng-click="mdTabsCtrl.nextPage()">Siguiente</md-button>
+                <md-button class="md-raised md-primary" aria-label="Subir propuesta" ng-click="nextTab()">Siguiente</md-button>
               </md-content>
             </div>
           </md-content>
