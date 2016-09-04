@@ -302,6 +302,16 @@ def guardar_acta(datos_acta):
     #         )
     #         acta_item.save()
 
+def enviar_email_a_participantes(acta):
+    subject = "Participación en Discusión Abierta UChile"
+    message = "Estimade: El contenido del acta es: bleh bleh bleh"
+    from_email = "no-responder@discusionabierta.cl"
+    recipient_list = []
+    for recipient in acta.participantes:
+        recipient_list.extend(str(recipient.mail))
+    mensaje_html = None
+    send_mail(subject, message, from_email, recipient_list, fail_silently=False, html_message=mensaje_html)
+
 def validar_acta_json(request):
     if request.method != 'POST':
         return (None, 'Request inválido.',)
