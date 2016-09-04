@@ -239,7 +239,7 @@ def validar_participantes(acta):
 
     if len(errores) > 0:
         return errores
-        
+
     # Verificar que los participantes no hayan enviado un acta antes
     participantes_en_db = User.objects.prefetch_related('participantes').filter(username__in=list(ruts))
 
@@ -351,22 +351,36 @@ def validar_cedulas_participantes(acta):
 
 
 def insertar_participantes(participantes):
+    print participantes
     for participante in participantes:
-        p_db = Participante(rut=participante.rut, nombre=participante.nombre, apellido=participante.apellido,
-                            correo=participante.email)
+        p_db = Participante(rut=participante['rut'], nombre=participante['nombre'], apellido=participante['apellido'],
+                            correo=participante['email'])
         p_db.save()
 
 
 def guardar_acta(datos_acta):
 
-    p_encargado = datos_acta.participante_encargado
-    encargado = Participante(rut=p_encargado.rut, nombre=p_encargado.nombre, apellido=p_encargado.apellido,
-                             correo=p_encargado.email, numero_de_carnet=p_encargado.serie_cedula)
+    p_encargado = datos_acta['participante_organizador']
+    encargado = Participante(rut=p_encargado['rut'], nombre=p_encargado['nombre'], apellido=p_encargado['apellido'],
+                             correo=p_encargado['email'], numero_de_carnet=p_encargado['serie_cedula'])
     encargado.save()
-    insertar_participantes(datos_acta.participantes)
-    encuentro = Encuentro(fecha_inicio=datos_acta.fecha_inicio, fecha_termino=datos_acta.fecha_termino,
-                          tipo_encuentro=datos_acta.tipo, lugar=datos_acta.lugar, encargado_id=encargado.pk,
-                          configuracion_encuentro_id=datos_acta.pk)
+    insertar_participantes(datos_acta['participantes'])
+
+    #obtener el pk del tipo
+    tipo_pk = -1
+    for tipo in datos_acta['tipos']:
+        if tipo['nombre'] == datos_acta['tipo']:
+            tipo_pk = tipo['pk']
+
+    #obtener el pk del lugar
+    lugar_pk = -1
+    for lugar in datos_acta['lugares']:
+        if lugar['nombre'] == datos_acta['lugar']:
+            lugar_pk = lugar['pk']
+
+    encuentro = Encuentro(#fecha_inicio=datos_acta['fecha_inicio'], fecha_termino=datos_acta['fecha_termino'],
+                          tipo_encuentro_id=tipo_pk, lugar_id=lugar_pk, encargado_id=encargado.pk,
+                          configuracion_encuentro_id=datos_acta['pk'])
     encuentro.save()
     # acta = Acta(
     #     comuna=Comuna.objects.get(pk=datos_acta['geo']['comuna']),
