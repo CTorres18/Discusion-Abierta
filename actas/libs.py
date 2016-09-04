@@ -4,6 +4,7 @@ from itertools import cycle
 import re
 
 from django.conf import settings
+from models import Tema, ItemTema
 from django.contrib.auth.models import User
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
@@ -153,13 +154,20 @@ def validar_ocupaciones(acta):
 def validar_temas(acta):
     errores = []
     for tema in acta['temas']:
-        #validar variables temas
-        errores +=validar_items(tema['items'])
+        if not Tema.objects.filter(pk=tema['pk']).exists():
+            errores.append('Error en la verificación del tema.')
+            return errores
+        errores += validar_items(tema['items'])
     return errores
 
 
-def validar_items(temas):
+def validar_items(items):
     errores = []
+    for item in items:
+        if 'categoria' in item:
+            if not ItemTema.objects.filter(pk=tema['pk']).exists():
+                errores.append('Error en la verificación del tema.')
+                break
     return errores
 
 
@@ -174,7 +182,6 @@ def validar_participantes(acta):
 
     participante_organizador = acta.get('participante_organizador', {})
     participantes = acta.get('participantes', [])
-    print participante_organizador
     config = obtener_config()
 
     #tienen que existir la cantidad de participantes aceptada
@@ -304,8 +311,8 @@ def validar_cedulas_participantes(acta):
     return errores
 
 
-def validar_items(acta):
-    errores = []
+# def validar_items(acta):
+    # errores = []
 
     # items_por_responder = map(lambda i: i.pk, Item.objects.all())
     #
@@ -334,7 +341,7 @@ def validar_items(acta):
     # if len(items_por_responder) > 0:
     #     errores.append('No se han respondido todos los items del acta.')
 
-    return errores
+    # return errores
 
 
 def guardar_acta(datos_acta):
@@ -386,7 +393,7 @@ def validar_acta_json(request):
     validation_functions=[validar_origenes, validar_lugar, validar_ocupaciones,validar_temas,validar_tipo_encuentro, validar_participantes]
     for function in validation_functions:
         errores = function(acta)
-        print errores
+
         if len(errores) > 0:
             return (acta, errores,)
 
