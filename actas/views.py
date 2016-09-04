@@ -5,7 +5,7 @@ from django.http import JsonResponse
 from django.shortcuts import render
 from django.views.decorators.csrf import ensure_csrf_cookie
 
-from .libs import validar_acta_json, validar_cedulas_participantes, guardar_acta, obtener_config
+from .libs import validar_acta_json, validar_cedulas_participantes, guardar_acta, obtener_config, get_participantes
 
 from .models import ConfiguracionEncuentro
 
@@ -65,3 +65,6 @@ def subir_confirmar(request):
         return JsonResponse({'status': 'success', 'mensajes': ['El acta ha sido ingresada exitosamente.']})
 
     return JsonResponse({'status': 'error', 'mensajes': errores}, status=400)
+
+def bajar_participantes(request):
+    return get_participantes(request)

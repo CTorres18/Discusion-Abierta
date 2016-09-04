@@ -11,6 +11,7 @@ from django.core.exceptions import ValidationError
 from django.utils import timezone
 from pyquery import PyQuery as pq
 import requests
+from stream_datas import get_participantes_stream
 
 # from .models import Comuna, Acta, Item, ActaRespuestaItem
 
@@ -359,28 +360,27 @@ def insertar_participantes(participantes):
 
 
 def guardar_acta(datos_acta):
-
     p_encargado = datos_acta['participante_organizador']
     encargado = Participante(rut=p_encargado['rut'], nombre=p_encargado['nombre'], apellido=p_encargado['apellido'],
                              correo=p_encargado['email'], numero_de_carnet=p_encargado['serie_cedula'])
     encargado.save()
     insertar_participantes(datos_acta['participantes'])
 
-    #obtener el pk del tipo
+    # obtener el pk del tipo
     tipo_pk = -1
     for tipo in datos_acta['tipos']:
         if tipo['nombre'] == datos_acta['tipo']:
             tipo_pk = tipo['pk']
 
-    #obtener el pk del lugar
+    # obtener el pk del lugar
     lugar_pk = -1
     for lugar in datos_acta['lugares']:
         if lugar['nombre'] == datos_acta['lugar']:
             lugar_pk = lugar['pk']
 
-    encuentro = Encuentro(#fecha_inicio=datos_acta['fecha_inicio'], fecha_termino=datos_acta['fecha_termino'],
-                          tipo_encuentro_id=tipo_pk, lugar_id=lugar_pk, encargado_id=encargado.pk,
-                          configuracion_encuentro_id=datos_acta['pk'])
+    encuentro = Encuentro(  # fecha_inicio=datos_acta['fecha_inicio'], fecha_termino=datos_acta['fecha_termino'],
+                            tipo_encuentro_id=tipo_pk, lugar_id=lugar_pk, encargado_id=encargado.pk,
+                            configuracion_encuentro_id=datos_acta['pk'])
     encuentro.save()
     # acta = Acta(
     #     comuna=Comuna.objects.get(pk=datos_acta['geo']['comuna']),
@@ -437,6 +437,10 @@ def validar_acta_json(request):
             return (acta, errores,)
 
     return (acta, [],)
+
+
+def get_participantes(request):
+    return get_participantes_stream(request)
 
 
 def obtener_config():
