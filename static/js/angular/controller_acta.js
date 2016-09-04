@@ -5,6 +5,19 @@ var LOCALSTORAGE_ACTA_KEY = 'acta';
 var app =angular.module('DiscusionAbiertaApp');
 app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageService) {
 
+    $scope.selectedTab = 0;
+
+    $scope.nextTab = function() {
+        if ($scope.selectedTab === 4) {
+            $scope.selectedTab = 0;
+        }
+        else {
+            $scope.selectedTab++;
+        }
+
+    }
+
+
   $scope.agregarParticipante = function () {
     if ($scope.acta.participantes.length < $scope.acta.max_participantes) {
       $scope.acta.participantes.push({nombre: '', apellido: ''});
