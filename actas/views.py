@@ -71,5 +71,4 @@ def bajar_participantes(request):
     return get_participantes(request)
 
 def bajar_propuestas(request):
-    get_respuestas(request)
-
+    return get_respuestas(request)

@@ -31,7 +31,7 @@ def get_participantes_stream(request):
 
 
 def get_respuestas(request):
-    respuestas = Respuesta.objects.all().order('tema_id')
+    respuestas = Respuesta.objects.all().order_by('item_tema_id')
     rows = ([str(respuesta.item_tema.pregunta), str(respuesta.categoria), str(respuesta.fundamento),
              str(respuesta.item_tema.pregunta_propuesta), str(respuesta.propuesta)] for respuesta in respuestas)
     pseudo_buffer = Echo()
