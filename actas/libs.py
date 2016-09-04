@@ -4,7 +4,7 @@ from itertools import cycle
 import re
 
 from django.conf import settings
-from models import Tema, ItemTema, Origen, Ocupacion, Encuentro, Participante
+from models import Tema, ItemTema, Origen, Ocupacion, Encuentro, Participante, ConfiguracionEncuentro, Lugar
 from django.contrib.auth.models import User
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
@@ -150,6 +150,9 @@ def validar_origenes(acta):
 
 def validar_lugar(acta):
     errores = []
+    configuracion_encuentro=ConfiguracionEncuentro.objects.get(pk=acta['pk'])
+    if not Lugar.objects.filter(configuracion_encuentro=configuracion_encuentro, lugar=acta['lugar']).exists():
+        errores.append('Lugar Inválido.')
     return errores
 
 
@@ -381,7 +384,7 @@ def guardar_acta(datos_acta):
     encuentro = Encuentro(fecha_inicio='2016-01-01', fecha_termino='2016-01-01',
                           tipo_encuentro_id=tipo_pk, lugar_id=lugar_pk, encargado_id=encargado.pk,
                           configuracion_encuentro_id=datos_acta['pk'])
-                          
+
     encuentro.save()
     # acta = Acta(
     #     comuna=Comuna.objects.get(pk=datos_acta['geo']['comuna']),
