@@ -14,7 +14,6 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
         else {
             $scope.selectedTab++;
         }
-
     }
 
 

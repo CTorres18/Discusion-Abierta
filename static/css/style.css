@@ -187,9 +187,7 @@ html, body {
     }
     .wrap {
       position: relative;
-      max-width: 1000px;
       margin: 0 auto;
-      padding: 50px 20px;
     }
     section {
       padding: 50px 0 30px 0;
@@ -225,8 +223,8 @@ height:100%;
 
 body
 {
-background:#222;
-color:#222;
+background:#FFF;
+color:#FFF;
 font-weight:200;
 font: 13px/1.5 Lato, "Century Gothic", "Trebuchet MS", Helvetica, sans-serif;
 -webkit-font-smoothing:antialiased;
@@ -272,6 +270,25 @@ a,a:hover,a:focus,a:active
 border:0;
 outline:0;
 text-decoration:none;
+}
+.ribbons{
+  z-index: 1;
+  position: fixed;
+  top: 0;
+  right: 1px ;
+}
+.ribbons .left{
+  right: 11vw ;
+}
+.ribbons .right{
+  right: 1vw;
+}
+.button_down{
+  position: fixed;
+  bottom:3vw;
+  left: calc(45%);
+  width: 10vw;
+  height: 2vw;
 }
 
 
@@ -390,19 +407,32 @@ box-sizing:border-box;
 /*Header*/
 
 
-header
+.header
 {
-width:100%;
 position:relative;
 overflow:hidden;
-z-index:0;
-background:url('../svg/Fondo1.png') no-repeat 50%;
-height:auto;
-background-color:#FFF !important;
-min-height:500px;
-background-size:cover;
+background:url('../svg/fondo1.svg') no-repeat;
+background-size: contain;
+min-height:56vw;
+background-color: #FFF;
 }
-header>.container
+.header2
+{
+position:relative;
+overflow:hidden;
+background:url('../svg/fondo2.svg') no-repeat;
+background-size: contain;
+min-height:56vw;
+}
+.header3
+{
+position:relative;
+overflow:hidden;
+background:url('../svg/fondo3.svg') no-repeat;
+background-size: contain;
+min-height:56vw;
+}
+.header>.container
 {
 height:100%;
 position: relative;
@@ -452,9 +482,14 @@ display: inline-block;
 padding-right: 8px;
 float: left;
 }
+.pestanas
+{
+color:#fff;
+min-height:300px;
+height:auto;
+}
 .titles
 {
-
 color:#fff;
 min-height:300px;
 height:auto;
@@ -518,8 +553,6 @@ border: none;
 background-size:200px 41px;
 }
 
-
-
 .buttons button:hover {
 -webkit-transform: translate3d(0,-8px,0);
 -moz-transform: translate3d(0,-8px,0);
@@ -528,23 +561,6 @@ background-size:200px 41px;
 transform: translate3d(0,-8px,0);
 }
 
-
-
-
-
-
-
-
-
-.form-submit.googleplus {
-background-image: url('../img/btn-googleplus.png');
-}
-.form-submit.facebook {
-background-image: url('../img/btn-facebook.png');
-}
-.form-submit.email {
-background-image: url('../img/btn-email.png');
-}
 .logos
 {
 width:100%;

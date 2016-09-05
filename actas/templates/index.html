@@ -6,63 +6,21 @@
 
 {% block body %}
 <div class="wrap" ng-controller="ScrollPageCtrl">
-  <nav>
-    <ul>
-      <li><a href="http://localhost:8000/actas/subir/">Subir Propuesta</a></li>
-    </ul>
-  </nav>
-  <header><!-- HEADER STARTS HERE-->
-	<div class="container titles yomer-text-center">
-	<div class="subhead">
-	 <!--
-	 <p>Contrary to popular belief, Lorem Ipsum is not simply random text. . Sign up, it's <b>free</b>!</p> 
-	 <div class="buttons">
-	<form method="POST" action="#">
-        <button class="form-submit facebook" type="submit" title="Continue with Facebook"></button>
-		
-    </form>
-	<form method="POST" action="#">
-        <button class="form-submit facebook" type="submit" title="Continue with Facebook"></button>
-		
-    </form>                 
-	<form method="GET" action="#">
-        <button class="form-submit email" type="submit" title="Continue with Email"></button>
-    </form>
-    -->
-	</div> 
+	<div class="header">
+		<div id="Section1" class="ribbons" >
+			<img class="ribbons left" src="{% static '/svg/etiqueta_azul1.svg' %}" style="width: 9vw;">
+    		<a href="./subir/"><img class="ribbons right" src="{% static '/svg/etiqueta_azul1.svg' %}" style="width: 9vw;"></a>
+    	</div>
+		<div class="button_down">
+		<img src="{% static 'svg/Primera_pagina/flecha_abajo.svg' %}" ng-click="toSection2(this)";>
+		</div>
 	</div>
+	<div id="Section2" class="header2" ng-click="toSection3(this)">
+		<div class="button_down">
+		<img src="{% static 'svg/Primera_pagina/flecha_abajo.svg' %}">
+		</div>
 	</div>
-	<div class=" logos">
-	<!--<img src="{% static 'svg/Primera_pagina/barra_colores.png' %}"></div>
-	 <a class="godown animate" href="#first">Down</a>
-	-->
-	</header>
-  <!--
-  <h1>ScrollPage</h1>
-  <section id="section-1">
-    <h2>Section 1</h2>
-    <p>Bacon ipsum dolor sit amet sausage tail capicola ground round hamburger ham hock. Short ribs pig andouille meatball, pastrami tri-tip fatback ham hock shank kielbasa swine. Rump pancetta jerky kielbasa doner beef ribs tongue hamburger strip steak drumstick andouille shoulder shank flank. Swine drumstick meatball pig beef sausage strip steak.</p>
-
-    <img src="http://i.imgur.com/xEA1X1P.jpg" alt="" />
-    <button ng-click="toSection3()">To section 3</button>
-  </section>
-
-  <section name="section-2">
-    <h2>Section 2</h2>
-    <p>Bacon strip steak ground round, tongue pastrami short ribs pork chop venison turducken sausage sirloin. Flank chicken pork chop capicola turkey turducken cow pork loin biltong meatball drumstick pancetta filet mignon ground round fatback. Ham hock jerky short ribs brisket. Meatloaf shoulder pork chop capicola, sirloin swine pig pork. Jerky ribeye hamburger pork loin sirloin kevin bresaola boudin chuck flank. Ham hock pork belly chicken jerky rump bresaola.</p>
-    <img src="http://i.imgur.com/0v65jTd.jpg" alt=""/>
-  </section>
-
-  <section id="section-3">
-    <h2>Section 3</h2>
-    <img src="http://i.imgur.com/SshsIyQ.jpg" alt="" />
-
-    <p>Shoulder cow tenderloin chuck, pork chop jerky doner leberkas. Chuck sausage hamburger, kevin beef pork chop pork shoulder ground round ball tip turducken flank. Bresaola tri-tip meatloaf, salami venison tail pig shank shankle jowl sausage brisket cow biltong turducken. Swine turducken hamburger ball tip short loin prosciutto kevin jowl tri-tip. Doner meatloaf pork brisket.</p>
-  </section>
-  
-  <footer>
-    <button ng-click="toTheTop()">Take me back!</button>
-  </footer>
-  -->
+	<div id="Section3" class="header3">
+	</div>
 </div>
 {% endblock %}
