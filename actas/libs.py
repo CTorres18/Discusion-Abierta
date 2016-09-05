@@ -4,7 +4,8 @@ from itertools import cycle
 import re
 
 from django.conf import settings
-from models import Tema, ItemTema, Origen, Ocupacion, Encuentro, Participante, ConfiguracionEncuentro, Lugar, Participa
+from models import Tema, ItemTema, Origen, Ocupacion, Encuentro, Participante, ConfiguracionEncuentro, Lugar, Participa, \
+    Respuesta
 from django.contrib.auth.models import User
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
@@ -391,6 +392,12 @@ def insertar_participantes(participantes, datos_acta,encuentro):
         participa_encuentro.save()
 
 
+def insertar_respuestas(tema,encuentro):
+    for item in tema['items']:
+        respuesta = Respuesta(item_tema_id =item['pk'],encuentro_id=encuentro.pk,categoria=item['categoria'],fundamento=item['respuesta'],propuesta = item['propuesta'])
+        respuesta.save()
+
+
 def guardar_acta(datos_acta):
     p_encargado = datos_acta['participante_organizador']
     encargado = Participante(rut=p_encargado['rut'], nombre=p_encargado['nombre'], apellido=p_encargado['apellido'],
@@ -421,6 +428,9 @@ def guardar_acta(datos_acta):
     participantes.append(datos_acta['participante_organizador'])
     print participantes
     insertar_participantes(participantes, datos_acta,encuentro)
+    for tema in datos_acta['temas']:
+
+        insertar_respuestas(tema,encuentro)
     # acta = Acta(
     #     comuna=Comuna.objects.get(pk=datos_acta['geo']['comuna']),
     #     memoria_historica=datos_acta.get('memoria'),

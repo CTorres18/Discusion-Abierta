@@ -158,8 +158,8 @@ class Respuesta(models.Model):
         {u'mayoria_desacuerdo', -1},
         {u'desacuerdo', -2},
     )
-    item_tema = models.ForeignKey('ItemTema', on_delete=models.CASCADE)
-    encuentro = models.ForeignKey('Encuentro', on_delete=models.CASCADE)
+    item_tema = models.ForeignKey('ItemTema')
+    encuentro = models.ForeignKey('Encuentro')
     categoria = models.IntegerField(choices=CATEGORIA_OPCIONES)
     fundamento = models.TextField(blank=True, null=True)
     propuesta = models.TextField(blank=True, null=True)
