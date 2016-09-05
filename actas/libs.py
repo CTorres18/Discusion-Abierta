@@ -354,7 +354,7 @@ def validar_cedulas_participantes(acta):
 # return errores
 
 
-def insertar_participantes(participantes, datos_acta):
+def insertar_participantes(participantes, datos_acta,encuentro):
     configuracion_encuentro=ConfiguracionEncuentro.objects.get(pk=datos_acta['pk'])
 
     for participante in participantes:
@@ -384,7 +384,7 @@ def insertar_participantes(participantes, datos_acta):
         p_db = Participante(rut=participante['rut'], nombre=participante['nombre'], apellido=participante['apellido'],
                             correo=participante['email'], numero_de_carnet=serie_cedula)
         p_db.save()
-        participa_encuentro= Participa(encuentro_id= datos_acta['pk'],
+        participa_encuentro= Participa(encuentro_id= encuentro.pk,
                                         participante_id=p_db.pk,
                                         ocupacion_id=ocupacion_pk,
                                         origen_id=origen_pk)
@@ -396,10 +396,7 @@ def guardar_acta(datos_acta):
     encargado = Participante(rut=p_encargado['rut'], nombre=p_encargado['nombre'], apellido=p_encargado['apellido'],
                              correo=p_encargado['email'], numero_de_carnet=p_encargado['serie_cedula'])
     encargado.save()
-    participantes = datos_acta['participantes']
-    participantes.append(datos_acta['participante_organizador'])
-    print participantes
-    insertar_participantes(participantes, datos_acta)
+
 
 
     # obtener el pk del tipo
@@ -420,6 +417,10 @@ def guardar_acta(datos_acta):
                             configuracion_encuentro_id=datos_acta['pk'])
 
     encuentro.save()
+    participantes = datos_acta['participantes']
+    participantes.append(datos_acta['participante_organizador'])
+    print participantes
+    insertar_participantes(participantes, datos_acta,encuentro)
     # acta = Acta(
     #     comuna=Comuna.objects.get(pk=datos_acta['geo']['comuna']),
     #     memoria_historica=datos_acta.get('memoria'),
