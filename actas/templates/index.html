@@ -5,19 +5,19 @@
 {% endblock %}
 
 {% block body %}
-<div class="wrap" ng-controller="ScrollPageCtrl">
-	<div class="header">
+<div id="index_wrap" class="wrap" ng-controller='ScrollPageCtrl'>
+	<div id="header" class="header">
 		<div id="Section1" class="ribbons" >
 			<img class="ribbons left" src="{% static '/svg/etiqueta_azul1.svg' %}" style="width: 9vw;">
-    		<a href="./subir/"><img class="ribbons right" src="{% static '/svg/etiqueta_azul1.svg' %}" style="width: 9vw;"></a>
-    	</div>
-		<div class="button_down">
-		<img src="{% static 'svg/Primera_pagina/flecha_abajo.svg' %}" ng-click="toSection2(this)";>
+  		<a href="./subir/"><img class="ribbons right" src="{% static '/svg/etiqueta_azul1.svg' %}" style="width: 9vw;"></a>
+  	</div>
+		<div id='flecha1' class="button_down" ng-class="{flechain:in1}">
+			<img src="{% static 'svg/Primera_pagina/flecha_abajo.svg' %}" ng-click="toSection2(this);">
 		</div>
 	</div>
 	<div id="Section2" class="header2" ng-click="toSection3(this)">
-		<div class="button_down">
-		<img src="{% static 'svg/Primera_pagina/flecha_abajo.svg' %}">
+		<div id='flecha2' class="button_down" ng-class="{flechain:in2}">
+			<img src="{% static 'svg/Primera_pagina/flecha_abajo.svg' %}">
 		</div>
 	</div>
 	<div id="Section3" class="header3">
