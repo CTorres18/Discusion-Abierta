@@ -4,13 +4,15 @@ from itertools import cycle
 import re
 
 from django.conf import settings
-from models import Tema, ItemTema
+from models import Tema, ItemTema, Origen, Ocupacion, Encuentro, Participante, ConfiguracionEncuentro, Lugar, Participa, \
+    Respuesta
 from django.contrib.auth.models import User
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
 from django.utils import timezone
 from pyquery import PyQuery as pq
 import requests
+from stream_datas import get_participantes_stream
 
 # from .models import Comuna, Acta, Item, ActaRespuestaItem
 
@@ -138,16 +140,33 @@ def validar_datos_geograficos(acta):
 
 def validar_origenes(acta):
     errores = []
+    acta['participante_organizador']
+    origenes = set([p['origen'] for p in acta['participantes']])
+    origenes.update([acta['participante_organizador']['origen']])
+    for origen in origenes:
+        if not Origen.objects.filter(origen=origen).exists():
+            errores.append('Existen orígenes inválidos.')
+            return errores
     return errores
 
 
 def validar_lugar(acta):
     errores = []
+    configuracion_encuentro=ConfiguracionEncuentro.objects.get(pk=acta['pk'])
+    if not Lugar.objects.filter(configuracion_encuentro=configuracion_encuentro, lugar=acta['lugar']).exists():
+        errores.append('Lugar Inválido.')
     return errores
 
 
 def validar_ocupaciones(acta):
     errores = []
+    acta['participante_organizador']
+    ocupaciones = set([p['ocupacion'] for p in acta['participantes']])
+    ocupaciones.update([acta['participante_organizador']['ocupacion']])
+    for ocupacion in ocupaciones:
+        if not Ocupacion.objects.filter(ocupacion=ocupacion).exists():
+            errores.append('Existen ocupaciones inválidos.')
+            return errores
     return errores
 
 
@@ -165,7 +184,7 @@ def validar_items(items):
     errores = []
     for item in items:
         if 'categoria' in item:
-            if not ItemTema.objects.filter(pk=tema['pk']).exists():
+            if not ItemTema.objects.filter(pk=item['pk']).exists():
                 errores.append('Error en la verificación del tema.')
                 break
     return errores
@@ -184,7 +203,7 @@ def validar_participantes(acta):
     participantes = acta.get('participantes', [])
     config = obtener_config()
 
-    #tienen que existir la cantidad de participantes aceptada
+    # tienen que existir la cantidad de participantes aceptada
     if participante_organizador == {}:
         errores.append('Error en el formato del participante organizador.')
 
@@ -205,7 +224,7 @@ def validar_participantes(acta):
     ruts_participantes = [p['rut'] for p in participantes]
     ruts_participantes.append(participante_organizador['rut'])
 
-    #validar emailstry:
+    # validar emailstry:
     try:
         validate_email(participante_organizador['email'])
         for participante in participantes:
@@ -226,20 +245,12 @@ def validar_participantes(acta):
     if len(errores) > 0:
         return errores
 
-
-    # Nombres diferentes
-    #nombres = set(
-    #    (p['nombre'].lower(), p['apellido'].lower(), ) for p in participantes
-    #).update((participante_organizador['nombre'].lower(), participante_organizador['apellido'].lower(), ))
-    #if not (config['participantes_min'] <= len(nombres) <= config['participantes_max']):
-    #    return ['Existen nombres repetidos.']
-
     # Verificar que los participantes no hayan enviado un acta antes
-    participantes_en_db = User.objects.prefetch_related('participantes').filter(username__in=list(ruts))
+    participantes_en_db = Participante.objects.filter(rut__in=list(ruts))
 
     if len(participantes_en_db) > 0:
         for participante in participantes_en_db:
-            errores.append('El RUT {0:s} ya participó del proceso.'.format(participante.username))
+            errores.append('El RUT {0:s} ya participó del proceso.'.format(participante.rut))
 
     errores += verificar_cedula(participante_organizador['rut'], participante_organizador['serie_cedula'])
     return errores
@@ -312,40 +323,114 @@ def validar_cedulas_participantes(acta):
 
 
 # def validar_items(acta):
-    # errores = []
+# errores = []
 
-    # items_por_responder = map(lambda i: i.pk, Item.objects.all())
-    #
-    # for group in acta['itemsGroups']:
-    #     for i, item in enumerate(group['items']):
-    #         acta_item = Item.objects.filter(pk=item.get('pk'))
-    #
-    #         if len(acta_item) != 1 or acta_item[0].nombre != item.get('nombre'):
-    #             errores.append(
-    #                 'Existen errores de validación en ítem {0:d}.'.format(
-    #                     item['pk']
-    #                 )
-    #             )
-    #             return errores
-    #
-    #         if item.get('categoria') not in ['-1', '0', '1']:
-    #             errores.append(
-    #                 'No se ha seleccionado la categoría del ítem {0:d}.'.format(
-    #                     item['pk']
-    #                 )
-    #             )
-    #             return errores
-    #
-    #         items_por_responder.remove(int(item['pk']))
-    #
-    # if len(items_por_responder) > 0:
-    #     errores.append('No se han respondido todos los items del acta.')
+# items_por_responder = map(lambda i: i.pk, Item.objects.all())
+#
+# for group in acta['itemsGroups']:
+#     for i, item in enumerate(group['items']):
+#         acta_item = Item.objects.filter(pk=item.get('pk'))
+#
+#         if len(acta_item) != 1 or acta_item[0].nombre != item.get('nombre'):
+#             errores.append(
+#                 'Existen errores de validación en ítem {0:d}.'.format(
+#                     item['pk']
+#                 )
+#             )
+#             return errores
+#
+#         if item.get('categoria') not in ['-1', '0', '1']:
+#             errores.append(
+#                 'No se ha seleccionado la categoría del ítem {0:d}.'.format(
+#                     item['pk']
+#                 )
+#             )
+#             return errores
+#
+#         items_por_responder.remove(int(item['pk']))
+#
+# if len(items_por_responder) > 0:
+#     errores.append('No se han respondido todos los items del acta.')
 
-    # return errores
+# return errores
+
+
+def insertar_participantes(participantes, datos_acta,encuentro):
+    configuracion_encuentro=ConfiguracionEncuentro.objects.get(pk=datos_acta['pk'])
+
+    for participante in participantes:
+
+        #origen valido
+        origen = Origen.objects.filter(configuracion_encuentro=configuracion_encuentro, origen=participante['origen'])
+        origen_pk = -1
+        if origen.exists():
+            origen_pk = origen[0].pk
+        else:
+            return ['Origen inválido.']
+
+        #ocupacion valido
+        ocupacion = Ocupacion.objects.filter(configuracion_encuentro=configuracion_encuentro, ocupacion=participante['ocupacion'])
+        ocupacion_pk = -1
+        if ocupacion.exists():
+            ocupacion_pk = ocupacion[0].pk
+        else:
+            return ['Ocupación inválido.']
+
+        #serie sedula para el organizador
+        serie_cedula = ''
+        if 'serie_cedula' in participante:
+            serie_cedula = participante['serie_cedula']
+
+        #guardar participante
+        p_db = Participante(rut=participante['rut'], nombre=participante['nombre'], apellido=participante['apellido'],
+                            correo=participante['email'], numero_de_carnet=serie_cedula)
+        p_db.save()
+        participa_encuentro= Participa(encuentro_id= encuentro.pk,
+                                        participante_id=p_db.pk,
+                                        ocupacion_id=ocupacion_pk,
+                                        origen_id=origen_pk)
+        participa_encuentro.save()
+
+
+def insertar_respuestas(tema,encuentro):
+    for item in tema['items']:
+        respuesta = Respuesta(item_tema_id =item['pk'],encuentro_id=encuentro.pk,categoria=item['categoria'],fundamento=item['respuesta'],propuesta = item['propuesta'])
+        respuesta.save()
 
 
 def guardar_acta(datos_acta):
-    print "holi"
+    p_encargado = datos_acta['participante_organizador']
+    encargado = Participante(rut=p_encargado['rut'], nombre=p_encargado['nombre'], apellido=p_encargado['apellido'],
+                             correo=p_encargado['email'], numero_de_carnet=p_encargado['serie_cedula'])
+    encargado.save()
+
+
+
+    # obtener el pk del tipo
+    tipo_pk = -1
+    for tipo in datos_acta['tipos']:
+        if tipo['nombre'] == datos_acta['tipo']:
+            tipo_pk = tipo['pk']
+
+    # obtener el pk del lugar
+    lugar_pk = -1
+    for lugar in datos_acta['lugares']:
+        if lugar['nombre'] == datos_acta['lugar']:
+            lugar_pk = lugar['pk']
+
+    #guardar encuentro
+    encuentro = Encuentro(  fecha_inicio='1990-01-01', fecha_termino='1990-01-01',
+                            tipo_encuentro_id=tipo_pk, lugar_id=lugar_pk, encargado_id=encargado.pk,
+                            configuracion_encuentro_id=datos_acta['pk'])
+
+    encuentro.save()
+    participantes = datos_acta['participantes']
+    participantes.append(datos_acta['participante_organizador'])
+    print participantes
+    insertar_participantes(participantes, datos_acta,encuentro)
+    for tema in datos_acta['temas']:
+
+        insertar_respuestas(tema,encuentro)
     # acta = Acta(
     #     comuna=Comuna.objects.get(pk=datos_acta['geo']['comuna']),
     #     memoria_historica=datos_acta.get('memoria'),
@@ -370,6 +455,7 @@ def guardar_acta(datos_acta):
     #         )
     #         acta_item.save()
 
+
 def enviar_email_a_participantes(acta):
     subject = "Participación en Discusión Abierta UChile"
     message = "Estimade: El contenido del acta es: bleh bleh bleh"
@@ -379,6 +465,7 @@ def enviar_email_a_participantes(acta):
         recipient_list.extend(str(recipient.mail))
     mensaje_html = None
     send_mail(subject, message, from_email, recipient_list, fail_silently=False, html_message=mensaje_html)
+
 
 def validar_acta_json(request):
     if request.method != 'POST':
@@ -390,7 +477,8 @@ def validar_acta_json(request):
         acta = json.loads(acta)
     except ValueError:
         return (None, 'Acta inválida.',)
-    validation_functions=[validar_origenes, validar_lugar, validar_ocupaciones,validar_temas,validar_tipo_encuentro, validar_participantes]
+    validation_functions = [validar_origenes, validar_lugar, validar_ocupaciones, validar_temas, validar_tipo_encuentro,
+                            validar_participantes]
     for function in validation_functions:
         errores = function(acta)
 
@@ -400,12 +488,15 @@ def validar_acta_json(request):
     return (acta, [],)
 
 
+def get_participantes(request):
+    return get_participantes_stream(request)
+
+
 def obtener_config():
     config = {
         'participantes_min': 3,
         'participantes_max': 50,
         'encuentro': 20,
-
 
     }
 
