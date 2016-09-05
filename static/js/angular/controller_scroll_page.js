@@ -1,6 +1,6 @@
 'use strict';
 
-var app = angular.module('jiojoijiojoi', []);
+var app = angular.module('DiscusionAbiertaApp', []);
 
 app.controller('ScrollPageCtrl', function($scope, $document, $anchorScroll){
   var section2 = angular.element(document.getElementById('Section2'));

@@ -6,33 +6,23 @@
 {% endblock %}
 
 {% block body %}
-  <md-toolbar>
-    <div class="md-toolbar-tools">
-      <h2 class="title">
-        <span>Discusión Abierta</span>
-      </h2>
-      <span flex></span>
-      <md-button href="/">Inicio</md-button>
-      <md-button href="/actas">Propuestas</md-button>
-      <div>
-        <md-button class="md-raised" aria-label="Subir acta" href="/actas/subir">Subir propuesta</md-button>
-      </div>
+  <div>
+    <div class="headerSubir">
+        <img class="ribbons left" src="{% static '/svg/etiqueta_azul2.svg' %}" style="width: 9vw; right:11vw;">
+        <a href="/subir/">
+          <img class="ribbons right" src="{% static '/svg/etiqueta_azul1.svg' %}" style="width: 9vw;right:1vw;">
+        </a>
+        <a href="../">
+          <img class="ribbons right" src="{% static '/svg/etiqueta_azul1.svg' %}" style="width: 9vw;left:1vw;">
+        </a>
     </div>
-  </md-toolbar>
+  </div>
 <div layout="column" layout-align="center" ng-controller="ActaCtrl" ng-cloak>
   <div layout="column" class="md-inline-form">
     <md-content>
-      <md-tabs md-dynamic-height md-border-bottom md-selected="selectedTab">
-      <md-tab label="1. Presentacion">
-          <md-button class="md-raised md-primary" aria-label="Subir propuesta" ng-click="nextTab()">Siguiente</md-button>
-          <md-button class="md-raised md-primary" aria-label="Subir propuesta" ng-click="limpiarActa($event)">¡¡¡¡Limpiar!!![Solo desarrollo]</md-button>
-
-      </md-tab>
-      <md-tab label="2. Instructivo">
-          <md-button class="md-raised md-primary" aria-label="Subir propuesta" ng-click="nextTab()">Siguiente</md-button>
-      </md-tab>
-      <md-tab label="3. Sobre el encuentro">
-          <md-content class="md-padding">
+      <md-tabs md-dynamic-height md-border-bottom md-selected="selectedTab" style="background-color: #e4eefe;">
+      <md-tab label="1. Sobre el encuentro">
+          <md-content class="md-padding" style="background-color: #e4eefe;">
             <h2 class="md-display-2">Información del encuentro</h2>
             <h3>Datos geográficos</h3>
             <div layout-xs="column" layout-gt-xs="row">
@@ -73,14 +63,14 @@
             -->
             </div>
             <div layout="column" class="md-inline-form" style="padding: 50px;">
-              <md-content class="centrar_texto">
-                <md-button class="md-raised md-primary" aria-label="Siguiente" ng-click="nextTab()">Limpiar</md-button>
+              <md-content class="centrar_texto" style="background-color: #e4eefe;">
+                <md-button class="md-raised md-primary" aria-label="Siguiente" ng-click="nextTab()">Siguiente</md-button>
+                <md-button class="md-raised md-primary" aria-label="Subir propuesta" ng-click="limpiarActa($event)">¡¡¡¡Limpiar!!![Solo desarrollo]</md-button>
               </md-content>
             </div>
           </md-content>
         </md-tab>
-        <md-tab label="4. Participantes">
-
+        <md-tab label="2. Participantes">
           <md-content class="md-padding">
             <h2 class="md-display-2">
               <span>Información de los {$ acta.participantes.length+1 $} participantes</span>
@@ -169,7 +159,7 @@
             </div>
           </md-content>
         </md-tab>
-        <md-tab label="5. Temas">
+        <md-tab label="3. Temas">
           <md-content layout-gt-sm="column">
             <div  class="md-accordion" ng-repeat="tema in acta.temas" style="background-color: #ccc;">
               <md-toolbar class="grupoitems_encabezado" ng-init="data.expanded = false" ng-click="data.expanded = !data.expanded">
