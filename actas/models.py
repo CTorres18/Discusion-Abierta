@@ -111,7 +111,7 @@ class Ocupacion(models.Model):
 
 
 class ItemTema(models.Model):
-    tema = models.ForeignKey('Tema', on_delete=models.CASCADE)
+    tema = models.ForeignKey('Tema')
     pregunta = models.TextField(blank=True, null=True)
     pregunta_propuesta = models.TextField(blank=True, null=True)
 
