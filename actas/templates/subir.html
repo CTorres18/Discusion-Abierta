@@ -33,9 +33,9 @@
             </li>
             <li ng-class="{active: panel.isSelected(2)}">
               <a href ng-click="panel.selectTab(2)">
-                <img ng-hide="panel.isSelected(2)" src="{% static '/svg/segunda_pagina/etiqueta2_vacia.svg' %}" class="horizontal-menu-image">
+                <img ng-hide="panel.isSelected(2)" src="{% static '/svg/segunda_pagina/etiqueta2_vacia.svg' %}" class="horizontal-menu-image middle">
 
-                <img ng-show="panel.isSelected(2)" src="{% static '/svg/segunda_pagina/etiqueta2_llena.svg' %}" class="horizontal-menu-image">
+                <img ng-show="panel.isSelected(2)" src="{% static '/svg/segunda_pagina/etiqueta2_llena.svg' %}" class="horizontal-menu-image middle">
               </a>
             </li>
             <li ng-class="{active: panel.isSelected(3)}">
@@ -48,7 +48,113 @@
           </ul>
 
           <div class="panel" ng-show="panel.isSelected(1)">
-            <h4> Contenido 1 </h4>
+            <div class="md-padding" style="background-color: #e4eefe;display: inline;">
+              <h3>Datos geográficos</h3>
+              <div layout-xs="column" layout-gt-xs="row">
+                <md-input-container flex style="width:30vw">
+                  <label>Campus</label>
+                  <md-select ng-model="acta.lugar" required>
+                    <md-option ng-repeat="lugar in acta.lugares" ng-value="lugar.nombre">{$ lugar.nombre $}</md-option>
+                  </md-select>
+                </md-input-container>
+                <md-input-container flex style="width:30vw">
+                  <label>Tipo de encuentro</label>
+                  <md-select ng-model="acta.tipo" required>
+                    <md-option ng-repeat="tipo in acta.tipos" ng-value="tipo.nombre">{$ tipo.nombre $}</md-option>
+                  </md-select>
+                </md-input-container>
+                <div layout="row" style="width:30vw">
+                  <md-input-container class="datepicker-align">
+                  </md-input-container>
+                  <md-datepicker  ng-model="acta.fechaInicio"" ng-model="ts" md-placeholder="Inicio"></md-datepicker>
+                  <md-datepicker ng-model="acta.fin" md-placeholder="Fin"></md-datepicker>
+              </div>
+            </div>
+            <div class="md-padding" style="background-color: #e4eefe;display: inline;">
+              <div class="md-padding">
+                <h3>
+                  <span>Información de los {$ acta.participantes.length+1 $} participantes</span>
+                <md-button class="md-fab md-mini" aria-label="Agregar participante" ng-click="agregarParticipante()">+</md-button>
+                </h3>
+                <div layout-xs="column" layout-gt-xs="row">
+                  <md-input-container flex>
+                    <label>Nombre Encargado</label>
+                    <input ng-model="acta.participante_organizador.nombre" required />
+                  </md-input-container>
+                  <md-input-container flex>
+                    <label>Apellido</label>
+                    <input ng-model="acta.participante_organizador.apellido" required />
+                  </md-input-container>
+                  <md-input-container flex>
+                    <label>RUT</label>
+                    <input ng-model="acta.participante_organizador.rut" required />
+                  </md-input-container>
+                  <md-input-container flex>
+                    <label>Email</label>
+                    <input ng-model="acta.participante_organizador.email" required />
+                  </md-input-container>
+                  <md-input-container flex>
+                    <label>Numero de cedula</label>
+                    <input ng-model="acta.participante_organizador.serie_cedula" required />
+                  </md-input-container>
+                    <md-input-container flex>
+                        <label>Estamento</label>
+                        <md-select ng-model="acta.participante_organizador.ocupacion" required>
+                            <md-option ng-repeat="ocupacion in acta.ocupaciones" ng-value="ocupacion.nombre">{$ ocupacion.nombre $}</md-option>
+                        </md-select>
+                    </md-input-container>
+                    <md-input-container flex>
+                        <label>Organismo</label>
+                        <md-select ng-model="acta.participante_organizador.origen" required>
+                            <md-option ng-repeat="origen in acta.origenes" ng-value="origen.nombre">{$ origen.nombre $}</md-option>
+                        </md-select>
+                    </md-input-container>
+
+                </div>
+              </div>
+              <div layout-xs="column" layout-gt-xs="row" ng-repeat="participante in acta.participantes">
+                <md-input-container class="centrar_texto" flex flex-sm-xs=5>
+                  <div style="color: #ccc; margin-top: 8px;">{$ ($index + 1) $}.</div>
+                </md-input-container>
+                <md-input-container flex>
+                  <label>Nombre</label>
+                  <input ng-model="participante.nombre" required />
+                </md-input-container>
+                <md-input-container flex>
+                  <label>Apellido</label>
+                  <input ng-model="participante.apellido" required />
+                </md-input-container>
+                <md-input-container flex>
+                  <label>RUT</label>
+                  <input ng-model="participante.rut" required />
+                </md-input-container>
+                <md-input-container flex>
+                  <label>Email</label>
+                  <input ng-model="participante.email" required />
+                </md-input-container>
+                   <md-input-container flex>
+                        <label>Estamento</label>
+                        <md-select ng-model="participante.ocupacion" required>
+                            <md-option ng-repeat="ocupacion in acta.ocupaciones" ng-value="ocupacion.nombre">{$ ocupacion.nombre $}</md-option>
+                        </md-select>
+                    </md-input-container>
+                    <md-input-container flex>
+                        <label>Organismo</label>
+                        <md-select ng-model="participante.origen" required>
+                            <md-option ng-repeat="origen in acta.origenes" ng-value="origen.nombre">{$ origen.nombre $}</md-option>
+                        </md-select>
+                    </md-input-container>
+
+                <md-input-container class="centrar_texto" flex flex-sm-xs=10>
+                  <md-button class="md-fab md-mini" aria-label="Quitar participante" ng-click="quitarParticipante($index)">-</md-button>
+                </md-input-container>
+              </div>
+              <div layout="column" class="md-inline-form" style="padding: 50px;">
+                <md-content class="centrar_texto">
+                  <md-button class="md-raised md-primary" aria-label="Subir propuesta" ng-click="panel.selectTab(2)">Siguiente</md-button>
+                </md-content>
+              </div>
+            </div>
           </div>
           <div class="panel" ng-show="panel.isSelected(2)">
             <h4> Contenido 2 </h4>
