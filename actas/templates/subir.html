@@ -9,13 +9,13 @@
 
 {% block body %}
   <div>
-    <div class="headerSubir">
-        <img class="ribbons left" src="{% static '/svg/etiqueta_azul2.svg' %}" style="width: 9vw; right:11vw;">
-        <a href="/subir/">
-          <img class="ribbons right" src="{% static '/svg/etiqueta_azul1.svg' %}" style="width: 9vw;right:1vw;">
+    <div class="headerSubir " ng-controller="ActaCtrl">
+        <img class="ribbons left" src="{% static '/svg/etiqueta_azul2.svg' %}" style="width: 9vw; right:11vw;" ng-click="showInfo($event)">
+        <a ng-click="showInfo($event)">
+          <img class="ribbons right" src="{% static '/svg/etiqueta_azul1.svg' %}" style="width: 9vw;right:1vw; ">
         </a>
         <a href="../">
-          <img class="ribbons right" src="{% static '/svg/etiqueta_azul1.svg' %}" style="width: 9vw;left:1vw;">
+          <img class="ribbons right" src="{% static '/svg/etiqueta_azul1.svg' %}" style="width: 9vw;left:1vw;" ng-click="showInfo($event)">
         </a>
     </div>
   </div>
