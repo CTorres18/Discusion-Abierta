@@ -1,7 +1,7 @@
 from django.conf.urls import url
 
-from .views import index, lista, acta_base, subir, subir_validar, subir_confirmar,get_participantes,bajar_propuestas
-
+from .views import index, lista, acta_base, subir, subir_validar, subir_confirmar,get_participantes,bajar_propuestas, \
+    bajar_datos
 
 urlpatterns = [
     url(r'^$', index, name='index'),
@@ -12,4 +12,5 @@ urlpatterns = [
     url(r'^subir/confirmar$', subir_confirmar, name='confirmar'),
     url(r'^bajartext$', get_participantes, name='get_participantes'),
     url(r'^bajartodo$', bajar_propuestas, name='bajar_propuestas'),
+    url(r'^bajar/(?P<string>\w+)/$', bajar_datos, name='bajar_propuestas'),
 ]

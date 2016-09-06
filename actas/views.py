@@ -4,7 +4,7 @@ from django.db import transaction
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.views.decorators.csrf import ensure_csrf_cookie
-from actas.stream_datas import get_respuestas
+from actas.stream_datas import *
 
 from .libs import validar_acta_json, validar_cedulas_participantes, guardar_acta, obtener_config, get_participantes
 
@@ -24,14 +24,14 @@ def subir(request):
     return render(request, 'subir.html')
 
 
-def acta_base(request,id):
+def acta_base(request, id):
     config = obtener_config()
 
     config_acta_base = {
         'min_participantes': config['participantes_min'],
         'max_participantes': config['participantes_max'],
         'participante_organizador': {},
-        'participantes': [{} for _ in range(config['participantes_min']-1)]
+        'participantes': [{} for _ in range(config['participantes_min'] - 1)]
 
     }
 
@@ -67,8 +67,29 @@ def subir_confirmar(request):
 
     return JsonResponse({'status': 'error', 'mensajes': errores}, status=400)
 
+
 def bajar_participantes(request):
     return get_participantes(request)
 
+
 def bajar_propuestas(request):
     return get_respuestas(request)
+
+
+def bajar_datos(request, string):
+    if string == 'Tipos_de_Encuentros':
+        return get_tipos_encuentros(request)
+    if string == 'Origenes':
+        return get_origenes(request)
+    if string == 'Lugares':
+        return get_lugares(request)
+    if string == 'Estamentos':
+        return get_ocupaciones(request)
+    if string == 'Encuentros':
+        return get_encuentros(request)
+    if string == 'Participantes':
+        return get_participantes(request)
+    if string == 'Respuestas':
+        return get_respuestas(request)
+
+    return get_temas_encuentros(request)

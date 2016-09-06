@@ -247,10 +247,14 @@ def validar_participantes(acta):
 
     # Verificar que los participantes no hayan enviado un acta antes
     participantes_en_db = Participante.objects.filter(rut__in=list(ruts))
-
     if len(participantes_en_db) > 0:
-        for participante in participantes_en_db:
-            errores.append('El RUT {0:s} ya participó del proceso.'.format(participante.rut))
+        participantes_ids = set([p.pk for p in participantes_en_db])
+        participa_participantes = Participa.objects.filter(participante_id__in=list(participantes_ids))
+        for participa in participa_participantes:
+
+
+            if participa.encuentro.tipo_encuentro.tipo == acta['tipo']:
+                errores.append('El RUT {0:s} ya participó de este tipo de encuentro.'.format(participantes_en_db.filter(pk=participa.participante_id).first().rut))
 
     errores += verificar_cedula(participante_organizador['rut'], participante_organizador['serie_cedula'])
     return errores

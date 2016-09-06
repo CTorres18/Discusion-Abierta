@@ -5,6 +5,8 @@ var LOCALSTORAGE_ACTA_KEY = 'acta';
 var app =angular.module('DiscusionAbiertaApp');
 app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageService) {
 
+    $scope.datito=''
+
     $scope.selectedTab = 0;
 
     $scope.nextTab = function() {
@@ -64,7 +66,6 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
     });
   };
     $scope.showInfo = function(ev) {
-        console.log("test")
     $mdDialog.show({
       controller: DialogController,
       templateUrl: '/static/html/angular/get_actas_view.html',
@@ -74,9 +75,9 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
       fullscreen: $scope.customFullscreen // Only for -xs, -sm breakpoints.
     })
     .then(function(answer) {
-      $scope.status = 'You said the information was "' + answer + '".';
+            console.log(answer)
+            window.location.href = 'http://localhost:8000/actas/bajar/'+ answer
     }, function() {
-      $scope.status = 'You cancelled the dialog.';
     });
   };
 
@@ -334,8 +335,8 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
 {"name":'Casa Central'},
 {"name": 'Otros'}]
   //cargarWatchersGeo();
-    $scope.options_get = [{"name": "Origenes"},{"name": "Lugares"},{"name": "Encuentros"},{"name": "Estamentos"},{"name": "Respuestas"},{"name": "Temas"},{"name": "Participantes"},{"name": "Tipo de Encuentros"}]
-    $scope.data_send_option={}
+    $scope.options_get = [{"name": "Origenes"},{"name": "Lugares"},{"name": "Encuentros"},{"name": "Estamentos"},{"name": "Respuestas"},{"name": "Temas"},{"name": "Participantes"},{"name": "Tipos_de_Encuentros"}]
+    $scope.datito=''
     $scope.to_trusted = function(html_code) {
     return $sce.trustAsHtml(html_code);
 }
