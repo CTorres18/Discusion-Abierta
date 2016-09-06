@@ -113,6 +113,29 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
     );
   };
 
+
+  $scope.bajarActa = function (ev) {
+    console.log($scope.acta)
+
+    var docDefinition = {
+      content: 'propuesta funciona :D'
+    };
+    pdfMake.createPdf(docDefinition).download('propuesta.pdf')
+    /*$http({
+      method: 'POST',
+      url: '/actas/bajarpropuestadocx',
+      data: $scope.acta
+    }).then(
+      function (response) {
+        document.location = 'data:application/vnd.openxmlformats-officedocument.wordprocessingml.document,' +encodeURIComponent(response);
+        console.log(response);
+      },
+      function (response) {
+        console.log('FALLEEE');
+        console.log(response);
+      }
+    );*/
+  };
  /* var filtrarProvincias = function () {
     $scope.provinciasFiltradas = $scope.provincias.filter(function (provincia) {
       if ($scope.acta.geo.region === undefined) {
@@ -337,8 +360,8 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
   cargarDatos();
 });
 
-app.filter('html', ['$sce', function ($sce) { 
+app.filter('html', ['$sce', function ($sce) {
     return function (text) {
         return $sce.trustAsHtml(text);
-    };    
+    };
 }])

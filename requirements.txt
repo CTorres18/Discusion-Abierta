@@ -10,3 +10,4 @@ pyquery==1.2.13
 reportlab==3.3.0
 requests==2.11.1
 six==1.10.0
+docxtpl==0.2.3
