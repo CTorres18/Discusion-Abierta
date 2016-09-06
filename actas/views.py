@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 import json
 from django.db import transaction
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render
 from django.views.decorators.csrf import ensure_csrf_cookie
 from actas.stream_datas import *
 
-from .libs import validar_acta_json, validar_cedulas_participantes, guardar_acta, obtener_config, get_participantes
+from .libs import validar_acta_json, validar_cedulas_participantes, guardar_acta, obtener_config, get_participantes, generar_propuesta_docx
 
 from .models import ConfiguracionEncuentro
 
@@ -66,6 +66,28 @@ def subir_confirmar(request):
         return JsonResponse({'status': 'success', 'mensajes': ['El acta ha sido ingresada exitosamente.']})
 
     return JsonResponse({'status': 'error', 'mensajes': errores}, status=400)
+
+
+def bajar_propuesta_docx(request):
+    acta = request.body.decode('utf-8')
+
+    try:
+        acta = json.loads(acta)
+    except ValueError:
+        return (None, 'Acta inválida.',)
+
+    docx = generar_propuesta_docx(acta)
+
+    # descarga de documento
+    length = docx.tell()
+    docx.seek(0)
+    response = HttpResponse(
+        docx.getvalue(),
+        content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+    )
+    response['Content-Disposition'] = 'attachment; filename=propuesta.docx'
+    response['Content-Length'] = length
+    return response
 
 
 def bajar_participantes(request):
