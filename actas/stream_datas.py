@@ -52,6 +52,7 @@ def get_participantes_stream(request):
 #     return response
 
 
+
 def get_respuestas(request):
     resp_all = Respuesta.objects.all().order_by('encuentro_id')
     items_all = ItemTema.objects.all()
@@ -95,7 +96,7 @@ def get_lugares(request):
     lugar_all = Lugar.objects.all()
 
     def lugar_generator(lugares):
-        return ([lugar.pk, lugar.origen] for lugar in lugares)
+        return ([lugar.pk, lugar.lugar] for lugar in lugares)
 
     def column_name_generator():
         yield ("idLugar", "nombreLugar")
@@ -182,6 +183,26 @@ def get_ocupaciones(request):
         yield ("idOcupacion", "nombreOcupacion")
 
     rows = chain(column_name_generator(), ocupaciones_generator(ocupaciones_all))
+    pseudo_buffer = Echo()
+    writer = csv.writer(pseudo_buffer)
+    response = StreamingHttpResponse((writer.writerow(row) for row in rows),
+                                     content_type="text/csv")
+    response['Content-Disposition'] = 'attachment; filename="ocupacion.csv"'
+    return response
+
+
+def get_participantes(request):
+    participantes_all = Participa.objects.all()
+
+    def participantes_generator(participantes):
+        return (
+            [participa.encuentro_id, participa.participante_id, participa.ocupacion_id, participa.origen_id]
+            for participa in participantes)
+
+    def column_name_generator():
+        yield ("idEncuentro", "idParticipante", "idOcupacion", "idOrigen")
+
+    rows = chain(column_name_generator(), participantes_generator(participantes_all))
     pseudo_buffer = Echo()
     writer = csv.writer(pseudo_buffer)
     response = StreamingHttpResponse((writer.writerow(row) for row in rows),

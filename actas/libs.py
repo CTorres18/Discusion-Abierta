@@ -14,6 +14,9 @@ from pyquery import PyQuery as pq
 import requests
 from stream_datas import get_participantes_stream
 
+from cStringIO import StringIO
+from docxtpl import DocxTemplate
+
 # from .models import Comuna, Acta, Item, ActaRespuestaItem
 
 
@@ -152,6 +155,10 @@ def validar_origenes(acta):
 
 def validar_lugar(acta):
     errores = []
+    if not 'lugar' in acta:
+        errores.append('Lugar Inválido.')
+        return errores
+
     configuracion_encuentro=ConfiguracionEncuentro.objects.get(pk=acta['pk'])
     if not Lugar.objects.filter(configuracion_encuentro=configuracion_encuentro, lugar=acta['lugar']).exists():
         errores.append('Lugar Inválido.')
@@ -247,10 +254,14 @@ def validar_participantes(acta):
 
     # Verificar que los participantes no hayan enviado un acta antes
     participantes_en_db = Participante.objects.filter(rut__in=list(ruts))
-
     if len(participantes_en_db) > 0:
-        for participante in participantes_en_db:
-            errores.append('El RUT {0:s} ya participó del proceso.'.format(participante.rut))
+        participantes_ids = set([p.pk for p in participantes_en_db])
+        participa_participantes = Participa.objects.filter(participante_id__in=list(participantes_ids))
+        for participa in participa_participantes:
+
+
+            if participa.encuentro.tipo_encuentro.tipo == acta['tipo']:
+                errores.append('El RUT {0:s} ya participó de este tipo de encuentro.'.format(participantes_en_db.filter(pk=participa.participante_id).first().rut))
 
     errores += verificar_cedula(participante_organizador['rut'], participante_organizador['serie_cedula'])
     return errores
@@ -477,8 +488,7 @@ def validar_acta_json(request):
         acta = json.loads(acta)
     except ValueError:
         return (None, 'Acta inválida.',)
-    validation_functions = [validar_origenes, validar_lugar, validar_ocupaciones, validar_temas, validar_tipo_encuentro,
-                            validar_participantes]
+    validation_functions = [validar_participantes, validar_origenes, validar_lugar, validar_ocupaciones, validar_temas, validar_tipo_encuentro]
     for function in validation_functions:
         errores = function(acta)
 
@@ -517,3 +527,14 @@ def _crear_usuario(datos_usuario):
     usuario.last_name = datos_usuario['apellido']
     usuario.save()
     return usuario
+
+def generar_propuesta_docx(acta):
+    tpl = DocxTemplate('static/templates_docs/propuesta.docx')
+    context = {}
+    context['acta'] = acta
+    print context
+    tpl.render(context)
+    f = StringIO()
+    tpl.save(f)
+
+    return f

@@ -7,15 +7,15 @@
         </md-button>
       </div>
     </md-toolbar>
-
+    <h1>{$ datito $}</h1>
     <md-dialog-content>
-       <md-select ng-model="datos_send_option" required style="padding: 40px">
+       <md-select ng-model="datito" required style="padding: 40px">
                           <md-option ng-repeat="option in options_get" ng-value="option.name">{$ option.name $}</md-option>
        </md-select>
     </md-dialog-content>
 
     <md-dialog-actions layout="row">
-      <md-button ng-click="answer('not useful')">
+      <md-button ng-click="answer(datito)">
        Obtener
       </md-button>
         <span flex></span>
