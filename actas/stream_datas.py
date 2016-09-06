@@ -114,11 +114,12 @@ def get_encuentros(request):
 
     def encuentros_generator(encuentros):
         return (
-        [encuentro.pk, encuentro.tipo_encuentro_id, encuentro.lugar_id, encuentro.fecha_inicio, encuentro.fecha_termino]
-        for encuentro in encuentros)
+            [encuentro.pk, encuentro.tipo_encuentro_id, encuentro.lugar_id, encuentro.fecha_inicio,
+             encuentro.fecha_termino]
+            for encuentro in encuentros)
 
     def column_name_generator():
-        yield ("idEncuentro", "idTipoEncuentro","idLugar","fecha_inicio","fecha_termino")
+        yield ("idEncuentro", "idTipoEncuentro", "idLugar", "fecha_inicio", "fecha_termino")
 
     rows = chain(column_name_generator(), encuentros_generator(encuentros_all))
     pseudo_buffer = Echo()
@@ -134,8 +135,8 @@ def get_tipos_encuentros(request):
 
     def tipos_generator(tipos):
         return (
-        [tipo.pk, tipo.tipo]
-        for tipo in tipos)
+            [tipo.pk, tipo.tipo]
+            for tipo in tipos)
 
     def column_name_generator():
         yield ("idTipoEncuentro", "nombreTipo")
@@ -145,5 +146,45 @@ def get_tipos_encuentros(request):
     writer = csv.writer(pseudo_buffer)
     response = StreamingHttpResponse((writer.writerow(row) for row in rows),
                                      content_type="text/csv")
-    response['Content-Disposition'] = 'attachment; filename="encuentros.csv"'
+    response['Content-Disposition'] = 'attachment; filename="tipo_encuentros.csv"'
+    return response
+
+
+def get_temas_encuentros(request):
+    temas_all = Tema.objects.all()
+
+    def temas_generator(temas):
+        return (
+            [tema.pk, tema.tema, tema.contexto]
+            for tema in temas)
+
+    def column_name_generator():
+        yield ("idTipoEncuentro", "nombreTipo")
+
+    rows = chain(column_name_generator(), temas_generator(temas_all))
+    pseudo_buffer = Echo()
+    writer = csv.writer(pseudo_buffer)
+    response = StreamingHttpResponse((writer.writerow(row) for row in rows),
+                                     content_type="text/csv")
+    response['Content-Disposition'] = 'attachment; filename="temas.csv"'
+    return response
+
+
+def get_ocupaciones(request):
+    ocupaciones_all = Encuentro.objects.all()
+
+    def ocupaciones_generator(ocupaciones):
+        return (
+            [ocupacion.pk, ocupacion.ocupacion]
+            for ocupacion in ocupaciones)
+
+    def column_name_generator():
+        yield ("idOcupacion", "nombreOcupacion")
+
+    rows = chain(column_name_generator(), ocupaciones_generator(ocupaciones_all))
+    pseudo_buffer = Echo()
+    writer = csv.writer(pseudo_buffer)
+    response = StreamingHttpResponse((writer.writerow(row) for row in rows),
+                                     content_type="text/csv")
+    response['Content-Disposition'] = 'attachment; filename="ocupacion.csv"'
     return response
