@@ -63,7 +63,37 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
       }
     });
   };
+    $scope.showInfo = function(ev) {
+        console.log("test")
+    $mdDialog.show({
+      controller: DialogController,
+      templateUrl: '/static/html/angular/get_actas_view.html',
+      parent: angular.element(document.body),
+      targetEvent: ev,
+      clickOutsideToClose:true,
+      fullscreen: $scope.customFullscreen // Only for -xs, -sm breakpoints.
+    })
+    .then(function(answer) {
+      $scope.status = 'You said the information was "' + answer + '".';
+    }, function() {
+      $scope.status = 'You cancelled the dialog.';
+    });
+  };
 
+
+    function DialogController($scope, $mdDialog) {
+    $scope.hide = function() {
+      $mdDialog.hide();
+    };
+
+    $scope.cancel = function() {
+      $mdDialog.cancel();
+    };
+
+    $scope.answer = function(answer) {
+      $mdDialog.hide(answer);
+    };
+  }
   var confirmarActa = function (ev) {
     $mdDialog.show({
       controller: DialogDisclaimerCtrl,
@@ -327,8 +357,9 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
 {"name":'Casa Central'},
 {"name": 'Otros'}]
   //cargarWatchersGeo();
-
-  $scope.to_trusted = function(html_code) {
+    $scope.options_get = [{"name": "Origenes"},{"name": "Lugares"},{"name": "Encuentros"},{"name": "Estamentos"},{"name": "Respuestas"},{"name": "Temas"},{"name": "Participantes"},{"name": "Tipo de Encuentros"}]
+    $scope.data_send_option={}
+    $scope.to_trusted = function(html_code) {
     return $sce.trustAsHtml(html_code);
 }
 
