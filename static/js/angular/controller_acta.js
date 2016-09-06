@@ -24,7 +24,7 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
   };
 
   $scope.quitarParticipante = function (index) {
-    if ($scope.acta.participantes.length == $scope.acta.min_participantes) {
+    if ($scope.acta.participantes.length <= $scope.acta.min_participantes) {
       return;
     }
     $scope.acta.participantes.splice(index, 1);
