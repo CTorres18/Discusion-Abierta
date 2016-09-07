@@ -8,7 +8,7 @@ from django.views.decorators.csrf import ensure_csrf_cookie
 
 from actas.stream_datas import *
 
-from .libs import validar_acta_json, validar_cedulas_participantes, guardar_acta, obtener_config, get_participantes, \
+from .libs import validar_acta_json, validar_cedulas_participantes, guardar_acta, obtener_config, \
     generar_propuesta_docx
 
 
@@ -97,11 +97,6 @@ def bajar_propuesta_docx(request, uuid):
     response['Content-Length'] = length
     return response
 
-
-def bajar_participantes(request):
-    return get_participantes(request)
-
-
 def bajar_propuestas(request):
     return get_respuestas(request)
 
@@ -118,7 +113,7 @@ def bajar_datos(request, string):
     if string == 'Encuentros':
         return get_encuentros(request)
     if string == 'Participantes':
-        return get_participantes(request)
+        return get_participa(request)
     if string == 'Respuestas':
         return get_respuestas(request)
 

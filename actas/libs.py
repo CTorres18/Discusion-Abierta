@@ -12,7 +12,6 @@ from django.core.exceptions import ValidationError
 from django.utils import timezone
 from pyquery import PyQuery as pq
 import requests
-from stream_datas import get_participantes_stream
 import uuid
 
 from cStringIO import StringIO
@@ -504,8 +503,7 @@ def validar_acta_json(request):
     return (acta, [],)
 
 
-def get_participantes(request):
-    return get_participantes_stream(request)
+
 
 
 def obtener_config():

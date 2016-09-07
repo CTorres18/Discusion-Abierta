@@ -16,21 +16,6 @@ class Echo(object):
         return value
 
 
-def get_participantes_stream(request):
-    """A view that streams a large CSV file."""
-    # Generate a sequence of rows. The range is based on the maximum number of
-    # rows that can be handled by a single sheet in most spreadsheet
-    # applications.
-    participan = Participa.objects.all()
-    rows = ([participa.encuentro_id, participa.ocupacion_id, participa.origen_id] for participa in
-            participan)
-    pseudo_buffer = Echo()
-    writer = csv.writer(pseudo_buffer)
-    response = StreamingHttpResponse((writer.writerow(row) for row in rows),
-                                     content_type="text/csv")
-    response['Content-Disposition'] = 'attachment; filename="participantes.csv"'
-    return response
-
 
 # def get_respuestas(request):
 #     def generator1(respuestas):
@@ -191,7 +176,7 @@ def get_ocupaciones(request):
     return response
 
 
-def get_participantes(request):
+def get_participa(request):
     participantes_all = Participa.objects.all()
 
     def participantes_generator(participantes):
@@ -207,7 +192,7 @@ def get_participantes(request):
     writer = csv.writer(pseudo_buffer)
     response = StreamingHttpResponse((writer.writerow(row) for row in rows),
                                      content_type="text/csv")
-    response['Content-Disposition'] = 'attachment; filename="ocupacion.csv"'
+    response['Content-Disposition'] = 'attachment; filename="participantes.csv"'
     return response
 
 
