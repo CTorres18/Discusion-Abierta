@@ -209,3 +209,5 @@ def get_participantes(request):
                                      content_type="text/csv")
     response['Content-Disposition'] = 'attachment; filename="ocupacion.csv"'
     return response
+
+

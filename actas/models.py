@@ -1,5 +1,7 @@
 from django.db import models
+from django.utils.encoding import smart_text
 from django.utils.encoding import python_2_unicode_compatible
+import uuid
 
 
 class ConfiguracionEncuentro(models.Model):
@@ -7,8 +9,9 @@ class ConfiguracionEncuentro(models.Model):
     descripcion = models.CharField(max_length=1024)
 
     def __str__(self):
-        return (u'<ConfiguracionEncuentro: organizador: {0}, descripcion: {1}>'.format(self.organizador,
-                                                                                       self.descripcion)).encode(
+        return (u'<ConfiguracionEncuentro: organizador: {0}, descripcion: {1}, id{2}>'.format(self.organizador,
+                                                                                              self.descripcion,
+                                                                                              self.pk)).encode(
             'utf-8')
 
     def to_dict(self):
@@ -30,8 +33,8 @@ class Lugar(models.Model):
 
     def __str__(self):
         return (
-            u'<Lugar: configuracion_encuentro: {0}, lugar: {1}>'.format(self.configuracion_encuentro,
-                                                                        self.lugar)).encode(
+            (u'<Lugar: {0}, lugar: {1}>'.format(self.pk,
+                                                self.lugar))).encode(
             'utf-8')
 
     def to_dict(self):
@@ -49,8 +52,7 @@ class Tema(models.Model):
     orden = models.IntegerField(default=1)
 
     def __str__(self):
-        return (u'<Tema: encuentro: {0}, tema: {1}, contexto: {2}>'.format(self.configuracion_encuentro, self.tema,
-                                                                           self.contexto)).encode('utf-8')
+        return (u'Tema id: {0} \nNombre: {1}'.format(self.pk, self.tema)).encode('utf-8')
 
     def to_dict(self):
         return {
@@ -67,9 +69,7 @@ class TipoEncuentro(models.Model):
     tipo = models.CharField(max_length=128)
 
     def __str__(self):
-        return (
-            u'Configuracion Encuentro: {0},Tipo Encuentro: {1}'.format(self.configuracion_encuentro, self.tipo)).encode(
-            'utf-8')
+        return (u'Tipo Encuentro id: {0} \nNombre: {1}'.format(self.pk, self.tipo)).encode('utf-8')
 
     def to_dict(self):
         return {
@@ -84,7 +84,7 @@ class Origen(models.Model):
     origen = models.CharField(max_length=128)
 
     def __str__(self):
-        return (u'Configuracion Encuentro: {0} \nOrigen: {1}'.format(self.configuracion_encuentro, self.origen)).encode(
+        return (u'Origen: {0} \nOrigen: {1}'.format(self.pk, self.origen)).encode(
             'utf-8')
 
     def to_dict(self):
@@ -106,8 +106,8 @@ class Ocupacion(models.Model):
         }
 
     def __str__(self):
-        return (u'Configuracion Encuentro: {0} \nOcupacion: {1}'.format(self.configuracion_encuentro,
-                                                                        self.ocupacion)).encode('utf-8')
+        return (u'Ocupacion: {0} \nOcupacion: {1}'.format(self.pk,
+                                                          self.ocupacion)).encode('utf-8')
 
 
 class ItemTema(models.Model):
@@ -133,20 +133,32 @@ class Encuentro(models.Model):
     fecha_inicio = models.DateField()
     fecha_termino = models.DateField()
     encargado = models.ForeignKey('Participante')
+    hash_search = models.UUIDField(default=uuid.uuid1().hex)
 
     def __str__(self):
-        return (u'Tipo Encuentro: {0} \nLugar: {1} \n Encargado: {2}'.format(self.tipo_encuentro, self.lugar,
-                                                                             self.rut_encargado))
+        return str({
+            'pk': self.pk,
+            'tipo_encuentro': self.tipo_encuentro.tipo,
+            'lugar': self.lugar.lugar,
+            'fecha_inicio': self.fecha_inicio,
+            'hash': self.hash_search,
+            'fecha_termino': self.fecha_termino,
+            'encargado_id': self.encargado.pk,
+            'participantes': [i.to_dict() for i in self.participa_set.all()],
+            'respuestas': [i.to_dict() for i in self.respuesta_set.all()]
+        })
 
     def to_dict(self):
         return {
             'pk': self.pk,
-            'tipo_encuentro': self.encuentro.nombre,
-            'lugar': self.lugar.nombre,
+            'tipo_encuentro': self.tipo_encuentro.tipo,
+            'lugar': self.lugar.lugar,
             'fecha_inicio': self.fecha_inicio,
+            'hash': self.hash_search,
             'fecha_termino': self.fecha_termino,
             'encargado_id': self.encargado.pk,
-            'participantes':  [i.to_dict() for i in self.participante_set.all()]
+            'participantes': [i.to_dict() for i in self.participa_set.all()],
+            'respuestas': [i.to_dict() for i in self.respuesta_set.all()]
         }
 
 
@@ -165,9 +177,23 @@ class Respuesta(models.Model):
     propuesta = models.TextField(blank=True, null=True)
 
     def __str__(self):
-        return (u'Item Tema: {0} \nEncuentro: {1} \nRespuesta: {2}'.format(self.item_tema, self.encuentro,
-                                                                           self.respuesta[:125] + "...")).encode(
+        return (u'Item Tema: {0} \nEncuentro_id: {1} \nRespuesta: {2}'.format(self.item_tema, self.encuentro_id,
+                                                                           self.fundamento[:125] + "...")).encode(
             'utf-8')
+
+    def to_dict(self):
+        item = self.item_tema
+        tema = item.tema
+        return {
+            'pk': self.pk,
+            'encuentro_id': self.encuentro_id,
+            'tema': tema.tema,
+            'pregunta': item.pregunta,
+            'categoria': self.categoria,
+            'respuesta': self.fundamento,
+            'pregunta_propuesta': item.pregunta_propuesta,
+            'propuesta': self.propuesta
+        }
 
 
 class Participante(models.Model):
@@ -176,6 +202,13 @@ class Participante(models.Model):
     apellido = models.CharField(max_length=128)
     correo = models.EmailField(max_length=128)
     numero_de_carnet = models.CharField(max_length=128)
+
+    def to_dict(self):
+        return {
+            'nombre': self.nombre,
+            'apellido': self.apellido,
+            'correo': self.correo
+        }
 
     def __str__(self):
         return (u'Rut: {0} \nNombre: {1} \nApellido: {2}'.format(self.rut, self.nombre, self.apellido)).encode('utf-8')
@@ -194,6 +227,6 @@ class Participa(models.Model):
         return {
             'pk': self.pk,
             'encuentro_id': self.encuentro.pk,
-            'ocupacion': self.ocupacion.nombre,
-            'origen': self.origen.nombre,
+            'ocupacion': self.ocupacion.ocupacion,
+            'origen': self.origen.origen,
         }
