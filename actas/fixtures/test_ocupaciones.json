@@ -1,0 +1,18 @@
+[
+{
+    "model": "actas.ocupacion",
+    "pk": 1,
+    "fields": {
+        "configuracion_encuentro_id": 1,
+        "ocupacion": "Académico"
+    }
+},
+{
+    "model": "actas.ocupacion",
+    "pk": 2,
+    "fields": {
+        "configuracion_encuentro_id": 1,
+        "ocupacion": "Funcionario"
+    }
+}
+]

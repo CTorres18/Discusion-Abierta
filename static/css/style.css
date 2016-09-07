@@ -8,6 +8,7 @@
 
 .item {
   height: 200px;
+  background-color: #f2f7fe;
 }
 
 .item:first-child {
@@ -15,7 +16,7 @@
 }
 
 .item .container_nombre {
-  background-color: #ccc;
+  background-color: #f2f7fe;
   padding: 5px 5px;
 }
 .datepicker-align {
@@ -28,12 +29,12 @@
   width: calc(100% - 10px);
   height: 90%;
   resize: none;
-  background-color: #fff;
+  background-color: #f2f7fe;
   border: 0;
 }
 
 .item .container_fundamento {
-  background-color: #ccc;
+  background-color: #f2f7fe;
   padding: 5px 5px;
 }
 
@@ -47,13 +48,14 @@
   border: 0;
 }
 
+/*
 .item .categoria {
   margin: 0;
   padding: 6px 0 0 0;
   height: calc(100% - 10px);
   background-color: #ccc;
 }
-
+*/
 .item .categoria .md-ink-ripple {
   left: 10px;
 }
@@ -63,47 +65,30 @@
   font-size: 0.9em;
 }
 
-.item .categoria .par {
+.item .categoria {
   margin: 0;
   padding: 6px 14px;
-  background-color: #5C6BC0;
-  color: #fff;
-  height: calc(100% / 3);
-}
-
-.item .categoria .impar {
-  margin: 0;
-  padding: 6px 14px;
-  color: #283593;
-  background-color: #fff;
-  height: calc(100% / 3);
+  background-color: #f2f7fe;
+  color: #6d6d6e;
 }
 
 .grupoitems_item_encabezado {
 
 }
 
-.grupoitems_item_encabezado .par {
+.grupoitems_item_encabezado{
   padding: 10px;
   margin: 0;
-  background-color: #5C6BC0;
+  background-color: #f2f7fe;
   font-weight: 500;
-  color: #fff;
-}
-
-.grupoitems_item_encabezado .impar {
-  padding: 10px;
-  margin: 0;
-  background-color: #fff;
-  font-weight: 500;
-  color: #5C6BC0;
+  color: #1c75f7;
 }
 
 .grupoitems_encabezado {
   /*margin: 5px 0;*/
   padding: 10px;
-  background-color: #C5CAE9;
-  color: #283593;
+  background-color: #f2f7fe;
+  color: #1c75f7;
 }
 
 .grupoitems_encabezado .nombre {

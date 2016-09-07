@@ -1,0 +1,10 @@
+[
+{
+    "model": "actas.configuracionencuentro",
+    "pk": 1,
+    "fields": {
+        "organizador": "fake_organizador",
+        "descripcion": "fake_descripcion"
+    }
+}
+]

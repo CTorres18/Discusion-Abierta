@@ -1,0 +1,20 @@
+[
+{
+    "model": "actas.itemtema",
+    "pk": 1,
+    "fields": {
+        "tema_id": 1,
+        "pregunta": "Preguta tema 1",
+        "pregunta_propuesta": "Propuesta tema 1"
+    }
+},
+{
+    "model": "actas.itemtema",
+    "pk": 2,
+    "fields": {
+        "tema_id": 2,
+        "pregunta": "Preguta tema 2",
+        "pregunta_propuesta": "Propuesta tema 2"
+    }
+}
+]

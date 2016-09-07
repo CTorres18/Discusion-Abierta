@@ -1,0 +1,22 @@
+[
+{
+    "model": "actas.tema",
+    "pk": 1,
+    "fields": {
+        "configuracion_encuentro_id": 1,
+        "tema": "tema_1",
+        "contexto": "DCC",
+        "orden": 2
+    }
+},
+{
+    "model": "actas.tema",
+    "pk": 2,
+    "fields": {
+        "configuracion_encuentro_id": 1,
+        "tema": "tema_2",
+        "contexto": "DCC 2",
+        "orden": 2
+    }
+}
+]
