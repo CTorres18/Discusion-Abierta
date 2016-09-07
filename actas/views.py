@@ -119,3 +119,6 @@ def bajar_datos(request, string):
         return get_respuestas(request)
 
     return get_temas_encuentros(request)
+
+def mostrar_acta(request):
+    return render(request, 'mostrarActa.html')
