@@ -143,7 +143,6 @@ def validar_datos_geograficos(acta):
 
 def validar_origenes(acta):
     errores = []
-    acta['participante_organizador']
     origenes = set([p['origen'] for p in acta['participantes']])
     origenes.update([acta['participante_organizador']['origen']])
     for origen in origenes:
@@ -167,7 +166,6 @@ def validar_lugar(acta):
 
 def validar_ocupaciones(acta):
     errores = []
-    acta['participante_organizador']
     ocupaciones = set([p['ocupacion'] for p in acta['participantes']])
     ocupaciones.update([acta['participante_organizador']['ocupacion']])
     for ocupacion in ocupaciones:
@@ -368,7 +366,7 @@ def validar_cedulas_participantes(acta):
 
 def insertar_participantes(participantes, datos_acta,encuentro):
     configuracion_encuentro=ConfiguracionEncuentro.objects.get(pk=datos_acta['pk'])
-
+    participantes_totales =Participante.objects.all()
     for participante in participantes:
 
         #origen valido
@@ -393,9 +391,14 @@ def insertar_participantes(participantes, datos_acta,encuentro):
             serie_cedula = participante['serie_cedula']
 
         #guardar participante
-        p_db = Participante(rut=participante['rut'], nombre=participante['nombre'], apellido=participante['apellido'],
-                            correo=participante['email'], numero_de_carnet=serie_cedula)
-        p_db.save()
+        p_anterior =participantes_totales.filter(rut=participante['rut'])
+        p_db=""
+        if(len(p_anterior)==0):
+            p_db = Participante(rut=participante['rut'], nombre=participante['nombre'], apellido=participante['apellido'],
+                                correo=participante['email'], numero_de_carnet=serie_cedula)
+            p_db.save()
+        else:
+            p_db = p_anterior.first()
         participa_encuentro= Participa(encuentro_id= encuentro.pk,
                                         participante_id=p_db.pk,
                                         ocupacion_id=ocupacion_pk,
@@ -411,9 +414,14 @@ def insertar_respuestas(tema,encuentro):
 
 def guardar_acta(datos_acta):
     p_encargado = datos_acta['participante_organizador']
-    encargado = Participante(rut=p_encargado['rut'], nombre=p_encargado['nombre'], apellido=p_encargado['apellido'],
+    encargado = ""
+    p_anterior = Participante.objects.filter(rut=p_encargado['rut'])
+    if(len(p_anterior)==0):
+        encargado = Participante(rut=p_encargado['rut'], nombre=p_encargado['nombre'], apellido=p_encargado['apellido'],
                              correo=p_encargado['email'], numero_de_carnet=p_encargado['serie_cedula'])
-    encargado.save()
+        encargado.save()
+    else:
+        encargado = p_anterior.first()
 
 
 
@@ -431,17 +439,20 @@ def guardar_acta(datos_acta):
 
     #guardar encuentro
     uu = uuid.uuid1().hex
-    encuentro = Encuentro(  fecha_inicio='1990-01-01', fecha_termino='1990-01-01',
+    f_init = datos_acta['fechaInicio'].split('T')[0]
+    f_fin = datos_acta['fin'].split('T')[0]
+    encuentro = Encuentro(  fecha_inicio=f_init, fecha_termino=f_fin,
                             tipo_encuentro_id=tipo_pk, lugar_id=lugar_pk, encargado_id=encargado.pk,
                             configuracion_encuentro_id=datos_acta['pk'],
-                            hash_search=uu)
+                            hash_search=uu,complemento=datos_acta['memoria'])
 
 
     encuentro.save()
     participantes = datos_acta['participantes']
     participantes.append(datos_acta['participante_organizador'])
-    print participantes
     insertar_participantes(participantes, datos_acta,encuentro)
+
+
     for tema in datos_acta['temas']:
 
         insertar_respuestas(tema,encuentro)
@@ -536,7 +547,6 @@ def generar_propuesta_docx(acta):
     tpl = DocxTemplate('static/templates_docs/propuesta.docx')
     context = {}
     context['acta']=acta
-    print context
     tpl.render(context)
     f = StringIO()
     tpl.save(f)

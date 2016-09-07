@@ -35,7 +35,7 @@ def acta_base(request, id):
         'min_participantes': config['participantes_min'],
         'max_participantes': config['participantes_max'],
         'participante_organizador': {},
-        'participantes': [{} for _ in range(config['participantes_min'] - 1)]
+        'participantes': [{} for _ in range(config['participantes_min'])]
 
     }
 

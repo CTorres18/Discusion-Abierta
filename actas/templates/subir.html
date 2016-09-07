@@ -47,13 +47,13 @@
               <div layout="row">
                 <md-input-container class="datepicker-align">
                 </md-input-container>
-                <md-datepicker  ng-model="acta.fechaInicio"" ng-model="ts" md-placeholder="Inicio"></md-datepicker>
+                <md-datepicker  ng-model="acta.fechaInicio" md-placeholder="Inicio"></md-datepicker>
                 <md-datepicker ng-model="acta.fin" md-placeholder="Fin"></md-datepicker>
 
               </div>
             </div>
             <h3>
-              <span>Información de los {$ acta.participantes.length+1 $} participantes</span>
+              <span>Información de los {$ acta.participantes.length+2 $} participantes</span>
               <md-button class="md-fab md-mini" aria-label="Agregar participante" ng-click="agregarParticipante()">+</md-button>
             </h3>
             <div class="padding5">
