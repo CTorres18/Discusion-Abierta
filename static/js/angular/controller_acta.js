@@ -80,7 +80,7 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
       fullscreen: $scope.customFullscreen // Only for -xs, -sm breakpoints.
     })
     .then(function(answer) {
-            window.location.href = 'http://localhost:8000/actas/bajar/'+ answer
+            window.location.href = 'https://discusionabierta.dcc.uchile.cl/actas/bajar/'+ answer
     }, function() {
     });
   };
@@ -94,7 +94,7 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
       fullscreen: $scope.customFullscreen // Only for -xs, -sm breakpoints.
     })
     .then(function(answer) {
-            window.location.href = 'http://localhost:8000/actas/bajarpropuestadocx/'+ answer
+            window.location.href = 'https://discusionabierta.dcc.uchile.cl/actas/bajarpropuestadocx/'+ answer
     }, function() {
     });
   };
