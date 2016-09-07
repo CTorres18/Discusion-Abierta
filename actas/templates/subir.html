@@ -8,24 +8,23 @@
 {% block body %}
   <div>
     <div class="headerSubir " ng-controller="ActaCtrl">
-        <img class="ribbons left" src="{% static '/svg/etiqueta_azul2.svg' %}" style="width: 9vw; right:11vw;" ng-click="showInfo($event)">
+        <img class="ribbons left" src="{% static '/svg/etiqueta_azul2.svg' %}" style="width: 9vw; right:11vw;position:absolute;" ng-click="showInfo($event)">
         <a ng-click="showInfo($event)">
-          <img class="ribbons right" src="{% static '/svg/etiqueta_azul1.svg' %}" style="width: 9vw;right:1vw; ">
+          <img class="ribbons right" src="{% static '/svg/etiqueta_azul1.svg' %}" style="width: 9vw;right:1vw;position:absolute; ">
         </a>
         <a href="../">
-          <img class="ribbons right" src="{% static '/svg/etiqueta_azul1.svg' %}" style="width: 9vw;left:1vw;" ng-click="showInfo($event)">
+          <img class="ribbons right" src="{% static '/svg/etiqueta_azul1.svg' %}" style="width: 9vw;left:1vw;position:absolute;" ng-click="showInfo($event)">
         </a>
     </div>
   </div>
 <div layout="column" layout-align="center" ng-controller="ActaCtrl" ng-cloak>
   <div layout="column" class="md-inline-form">
     <md-content>
-      <md-tabs md-dynamic-height md-border-bottom md-selected="selectedTab" style="background-color: #e4eefe;">
-      <md-tab>
-        <img src="{% static 'svg/segunda_pagina/etiqueta1_llena.svg'%}" style="width: 20vw">
+      <md-tabs md-dynamic-height md-border-bottom md-selected="selectedTab" style="test">
+        <md-tab>
+        <img src="{% static 'svg/segunda_pagina/etiqueta1_llena.svg'%}" style="height: 10vh">
         <md-tab-body>
           <md-content class="md-padding" style="background-color: #e4eefe;">
-            <h2 class="md-display-2">Información del encuentro</h2>
             <h3>Datos geográficos</h3>
             <div layout-xs="column" layout-gt-xs="row">
               <md-input-container flex>
@@ -42,12 +41,84 @@
               </md-input-container>
               <div layout="row">
                 <md-input-container class="datepicker-align">
-
-
                 </md-input-container>
                 <md-datepicker  ng-model="acta.fechaInicio"" ng-model="ts" md-placeholder="Inicio"></md-datepicker>
                 <md-datepicker ng-model="acta.fin" md-placeholder="Fin"></md-datepicker>
 
+              </div>
+            </div>
+            <h3>
+              <span>Información de los {$ acta.participantes.length+1 $} participantes</span>
+              <md-button class="md-fab md-mini" aria-label="Agregar participante" ng-click="agregarParticipante()">+</md-button>
+            </h3>
+            <div class="padding5">
+              <div layout-xs="column" layout-gt-xs="row">
+                  <md-input-container flex>
+                    <label>Nombre Encargado</label>
+                    <input ng-model="acta.participante_organizador.nombre" required />
+                  </md-input-container>
+                  <md-input-container flex>
+                    <label>Apellido</label>
+                    <input ng-model="acta.participante_organizador.apellido" required />
+                  </md-input-container>
+                  <md-input-container flex>
+                    <label>RUT</label>
+                    <input ng-model="acta.participante_organizador.rut" required />
+                  </md-input-container>
+                  <md-input-container flex>
+                    <label>Email</label>
+                    <input ng-model="acta.participante_organizador.email" required />
+                  </md-input-container>
+                  <md-input-container flex>
+                    <label>Numero de cedula</label>
+                    <input ng-model="acta.participante_organizador.serie_cedula" required />
+                  </md-input-container>
+                    <md-input-container flex>
+                        <label>Estamento</label>
+                        <md-select ng-model="acta.participante_organizador.ocupacion" required>
+                            <md-option ng-repeat="ocupacion in acta.ocupaciones" ng-value="ocupacion.nombre">{$ ocupacion.nombre $}</md-option>
+                        </md-select>
+                    </md-input-container>
+                    <md-input-container flex>
+                        <label>Organismo</label>
+                        <md-select ng-model="acta.participante_organizador.origen" required>
+                            <md-option ng-repeat="origen in acta.origenes" ng-value="origen.nombre">{$ origen.nombre $}</md-option>
+                        </md-select>
+                    </md-input-container>
+              </div>
+              <div layout-xs="column" layout-gt-xs="row" ng-repeat="participante in acta.participantes">
+                  <md-input-container flex>
+                    <label>Nombre Participante</label>
+                    <input ng-model="participante.nombre" required />
+                  </md-input-container>
+                  <md-input-container flex>
+                    <label>Apellido</label>
+                    <input ng-model="participante.apellido" required />
+                  </md-input-container>
+                  <md-input-container flex>
+                    <label>RUT</label>
+                    <input ng-model="participante.rut" required />
+                  </md-input-container>
+                  <md-input-container flex>
+                    <label>Email</label>
+                    <input ng-model="participante.email" required />
+                  </md-input-container>
+                     <md-input-container flex>
+                          <label>Estamento</label>
+                          <md-select ng-model="participante.ocupacion" required>
+                              <md-option ng-repeat="ocupacion in acta.ocupaciones" ng-value="ocupacion.nombre">{$ ocupacion.nombre $}</md-option>
+                          </md-select>
+                      </md-input-container>
+                      <md-input-container flex>
+                          <label>Organismo</label>
+                          <md-select ng-model="participante.origen" required>
+                              <md-option ng-repeat="origen in acta.origenes" ng-value="origen.nombre">{$ origen.nombre $}</md-option>
+                          </md-select>
+                      </md-input-container>
+
+                  <md-input-container class="centrar_texto" flex flex-sm-xs=10>
+                    <md-button class="md-fab md-mini" aria-label="Quitar participante" ng-click="quitarParticipante($index)">-</md-button>
+                  </md-input-container>
               </div>
             </div>
             <div layout="column" class="md-inline-form" style="padding: 50px;">
@@ -57,166 +128,77 @@
               </md-content>
             </div>
           </md-content>
-          </md-tab-body>
+        </md-tab-body>
         </md-tab>
-        <md-tab label="2. Participantes">
-          <md-content class="md-padding">
-            <h2 class="md-display-2">
-              <span>Información de los {$ acta.participantes.length+1 $} participantes</span>
-              <md-button class="md-fab md-mini" aria-label="Agregar participante" ng-click="agregarParticipante()">+</md-button>
-            </h2>
+<<<<<<< HEAD
+        <md-tab>
+          <img src="{% static 'svg/segunda_pagina/etiqueta2_llena.svg'%}" style="height: 10vh">
+          <md-tab-body>
             <md-content class="md-padding">
-              <h3>
-                <span>Información del encargado</span></h3>
-              <div layout-xs="column" layout-gt-xs="row">
-                <md-input-container flex>
-                  <label>Nombre</label>
-                  <input ng-model="acta.participante_organizador.nombre" required />
-                </md-input-container>
-                <md-input-container flex>
-                  <label>Apellido</label>
-                  <input ng-model="acta.participante_organizador.apellido" required />
-                </md-input-container>
-                <md-input-container flex>
-                  <label>RUT</label>
-                  <input ng-model="acta.participante_organizador.rut" required />
-                </md-input-container>
-                <md-input-container flex>
-                  <label>Email</label>
-                  <input ng-model="acta.participante_organizador.email" required />
-                </md-input-container>
-                <md-input-container flex>
-                  <label>Numero de cedula</label>
-                  <input ng-model="acta.participante_organizador.serie_cedula" required />
-                </md-input-container>
-                  <md-input-container flex>
-                      <label>Estamento</label>
-                      <md-select ng-model="acta.participante_organizador.ocupacion" required>
-                          <md-option ng-repeat="ocupacion in acta.ocupaciones" ng-value="ocupacion.nombre">{$ ocupacion.nombre $}</md-option>
-                      </md-select>
-                  </md-input-container>
-                  <md-input-container flex>
-                      <label>Organismo</label>
-                      <md-select ng-model="acta.participante_organizador.origen" required>
-                          <md-option ng-repeat="origen in acta.origenes" ng-value="origen.nombre">{$ origen.nombre $}</md-option>
-                      </md-select>
-                  </md-input-container>
-
-              </div>
-            </md-content>
-            <div layout-xs="column" layout-gt-xs="row" ng-repeat="participante in acta.participantes">
-              <md-input-container class="centrar_texto" flex flex-sm-xs=5>
-                <div style="color: #ccc; margin-top: 8px;">{$ ($index + 1) $}.</div>
-              </md-input-container>
-              <md-input-container flex>
-                <label>Nombre</label>
-                <input ng-model="participante.nombre" required />
-              </md-input-container>
-              <md-input-container flex>
-                <label>Apellido</label>
-                <input ng-model="participante.apellido" required />
-              </md-input-container>
-              <md-input-container flex>
-                <label>RUT</label>
-                <input ng-model="participante.rut" required />
-              </md-input-container>
-              <md-input-container flex>
-                <label>Email</label>
-                <input ng-model="participante.email" required />
-              </md-input-container>
-                 <md-input-container flex>
-                      <label>Estamento</label>
-                      <md-select ng-model="participante.ocupacion" required>
-                          <md-option ng-repeat="ocupacion in acta.ocupaciones" ng-value="ocupacion.nombre">{$ ocupacion.nombre $}</md-option>
-                      </md-select>
-                  </md-input-container>
-                  <md-input-container flex>
-                      <label>Organismo</label>
-                      <md-select ng-model="participante.origen" required>
-                          <md-option ng-repeat="origen in acta.origenes" ng-value="origen.nombre">{$ origen.nombre $}</md-option>
-                      </md-select>
-                  </md-input-container>
-
-              <md-input-container class="centrar_texto" flex flex-sm-xs=10>
-                <md-button class="md-fab md-mini" aria-label="Quitar participante" ng-click="quitarParticipante($index)">-</md-button>
-              </md-input-container>
-            </div>
-            <div layout="column" class="md-inline-form" style="padding: 50px;">
-              <md-content class="centrar_texto">
-                <md-button class="md-raised md-primary" aria-label="Subir propuesta" ng-click="nextTab()">Siguiente</md-button>
-              </md-content>
-            </div>
-          </md-content>
-        </md-tab>
-        <md-tab label="3. Temas">
-          <md-content layout-gt-sm="column">
-            <div  class="md-accordion" ng-repeat="tema in acta.temas" style="background-color: #ccc;">
-              <md-toolbar class="grupoitems_encabezado" ng-init="data.expanded = false" ng-click="data.expanded = !data.expanded">
-                <div class="md-toolbar-tools">
-                  <div>
-                    <div class="nombre">{$ tema.titulo $}</div>
-                  </div>
-                    <span flex=""></span>
-                    <span ng-class="{expandCollapse:true, active:data.expanded}"></span>
-                </div>
-
-              </md-toolbar>
-                <div ng-class="{dataContent:true, activeContent:data.expanded}">
-              <div class="md-accordion" ng-repeat="contextualizacion in contextualizaciones[$index]">
-                <md-toolbar ng-init="contextualizacion.expanded = false" ng-click="contextualizacion.expanded = !contextualizacion.expanded">
-                  <div class="md-toolbar-tools" height="auto">
-                    <div>
-                    <div class="nombre">Contextualizacion</div>
-
-                  </div>
-                    <span flex=""></span>
-                    <span ng-class="{expandCollapse:true, active:contextualizacion.expanded}"></span>
-                  </div>
-                </md-toolbar>
-                <div ng-class="{dataContent:true, activeContent:contextualizacion.expanded}">
-
-                    <md-content flex layout-padding ng-bind-html="tema.contextualizacion | html "></md-content>
-
-
-                </div>
-              </div>
-
-              <div class="grupoitems_item_encabezado" layout="row">
-                <div class="par" flex="25">PREGUNTA</div>
-                <div class="impar centrar_texto" flex="25">RESPUESTA</div>
-                <div class="par" flex>FUNDAMENTO</div>
-              </div>
+              <h2 class="md-display-2">
+              </h2>
+              <md-content class="md-padding">
+                <div class="md-accordion" ng-repeat="tema in acta.temas" style="background-color: #ccc;">
+                  <md-toolbar class="grupoitems_encabezado" ng-init="data.expanded = false" ng-click="data.expanded = !data.expanded">
+                    <div class="md-toolbar-tools">
+                      <div>
+                        <div class="nombre">{$ tema.titulo $}</div>
+                      </div>
+                        <span flex=""></span>
+                        <span ng-class="{expandCollapse:true, active:data.expanded}"></span>
+                    </div>
+                  </md-toolbar>
+                  <div ng-class="{dataContent:true, activeContent:data.expanded}">
+                    <div class="md-accordion" ng-repeat="contextualizacion in contextualizaciones[$index]">
+                      <md-toolbar ng-init="contextualizacion.expanded = false" ng-click="contextualizacion.expanded = !contextualizacion.expanded">
+                        <div class="md-toolbar-tools" height="auto">
+                          <div>
+                          <div class="nombre">Contextualizacion</div>
+                        </div>
+                          <span flex=""></span>
+                          <span ng-class="{expandCollapse:true, active:contextualizacion.expanded}"></span> 
+                        </div>
+                      </md-toolbar>
+                      <div ng-class="{dataContent:true, activeContent:contextualizacion.expanded}">
+                          <md-content flex layout-padding ng-bind-html="tema.contextualizacion | html "></md-content>    
+                      </div>
+                    </div>
+                    <div class="grupoitems_item_encabezado" layout="row">
+                      <div class="par" flex="25">PREGUNTA</div>
+                      <div class="impar centrar_texto" flex="25">RESPUESTA</div>
+                      <div class="par" flex>FUNDAMENTO</div>
+                    </div>
                     <div ng-repeat="item in tema.items">
-              <div class="item" layout="row" >
-                <div class="container_nombre" flex=25>
-                  <textarea class="nombre" ng-model="item.pregunta" readonly></textarea>
-                </div>
-                <md-radio-group class="categoria" layout="column" ng-model="item.categoria" flex="25">
-                  <md-radio-button value="2" class="impar">Todos estamos de acuerdo</md-radio-button>
-                  <md-radio-button value="1" class="par"> La mayoría está de acuerdo</md-radio-button>
-                  <md-radio-button value="0" class="impar">No hay acuerdo de mayoría</md-radio-button>
-                  <md-radio-button value="-1" class="par">La mayoría está en desacuerdo</md-radio-button>
-                  <md-radio-button value="-2" class="impar">Todos estamos en desacuerdo</md-radio-button>
-                </md-radio-group>
-                <div class="container_fundamento" flex>
-                      <textarea class="fundamento" ng-model="item.respuesta"></textarea>
-                </div>
+                      <div class="item" layout="row" >
+                        <div class="container_nombre" flex=25>
+                          <textarea class="nombre" ng-model="item.pregunta" readonly></textarea>
+                        </div>
+                        <md-radio-group class="categoria" layout="column" ng-model="item.categoria" flex="25">
+                          <md-radio-button value="2" class="impar">Todos estamos de acuerdo</md-radio-button>
+                          <md-radio-button value="1" class="par"> La mayoría está de acuerdo</md-radio-button>
+                          <md-radio-button value="0" class="impar">No hay acuerdo de mayoría</md-radio-button>
+                          <md-radio-button value="-1" class="par">La mayoría está en desacuerdo</md-radio-button>
+                          <md-radio-button value="-2" class="impar">Todos estamos en desacuerdo</md-radio-button>
+                        </md-radio-group>
+                        <div class="container_fundamento" flex>
+                              <textarea class="fundamento" ng-model="item.respuesta"></textarea>
+                        </div>
+                      </div>
+                      <div class="grupoitems_item_encabezado" layout="row">
+                        <div class="par" flex="25">PREGUNTA</div>
+                        <div class="par" flex>PROPUESTA</div>
+                      </div>
+                      <div class="item" layout="row">
+                        <div class="container_nombre" flex=25>
+                          <textarea class="nombre" ng-model="item.pregunta_propuesta" readonly></textarea>
+                        </div>
+                        <div class="container_fundamento" flex>
+                          <textarea class="fundamento" ng-model="item.propuesta"></textarea>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
               </div>
-              <div class="grupoitems_item_encabezado" layout="row">
-                <div class="par" flex="25">PREGUNTA</div>
-                <div class="par" flex>PROPUESTA</div>
-              </div>
-              <div class="item" layout="row">
-                <div class="container_nombre" flex=25>
-                  <textarea class="nombre" ng-model="item.pregunta_propuesta" readonly></textarea>
-                </div>
-                <div class="container_fundamento" flex>
-                  <textarea class="fundamento" ng-model="item.propuesta"></textarea>
-                </div>
-              </div></div>
-            </div>
-                </div>
-
               <div>
               <md-toolbar class="grupoitems_encabezado">
                 <div class="md-toolbar-tools">
@@ -231,14 +213,28 @@
                   <textarea ng-model="acta.memoria" aria-label="Memoria histórica" md-maxlength="1024" rows="6" md-select-on-focus></textarea>
                 </md-input-container>
               </div>
-            </div>
-            <div layout="column" class="md-inline-form" style="padding: 50px;">
-              <md-content class="centrar_texto">
-                <md-button class="md-raised md-secondary" aria-label="Subir propuesta" ng-click="bajarActa($event)">Previsualizar</md-button>
-                <md-button class="md-raised md-primary" aria-label="Subir propuesta" ng-click="validarActa($event)" ng-disabled="noValidar">Enviar propuesta</md-button>
+              </div>
               </md-content>
-            </div>
-          </md-content>
+              <div layout="column" class="md-inline-form" style="padding: 50px;">
+                <md-content class="centrar_texto">
+                  <md-button class="md-raised md-primary" aria-label="Subir propuesta" ng-click="nextTab()">Siguiente</md-button>
+                </md-content>
+              </div>
+            </md-content>
+          </md-tab-body>
+        </md-tab>
+        <md-tab>
+          <img src="{% static 'svg/segunda_pagina/etiqueta3_llena.svg'%}" style="height: 10vh">
+          <md-tab-body>  
+            <md-content layout-gt-sm="column">
+              <div layout="column" class="md-inline-form" style="padding: 50px;">
+                <md-content class="centrar_texto">
+                  <md-button class="md-raised md-secondary" aria-label="Subir propuesta" ng-click="mdTabsCtrl.nextPage()">Previsualizar</md-button>
+                  <md-button class="md-raised md-primary" aria-label="Subir propuesta" ng-click="validarActa($event)" ng-disabled="noValidar">Enviar propuesta</md-button>
+                </md-content>
+              </div>
+            </md-content>
+          </md-tab-body>
         </md-tab>
       </md-tabs>
     </md-content>
