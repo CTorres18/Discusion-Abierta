@@ -83,14 +83,7 @@ class LibsValidarParticipantesTestCase(TestCase):
 class LibsValidarParticipantesExistentesTestCase(TransactionTestCase):
 
     fixtures = [
-        'regiones.json',
-        'provincias.json',
-        'comunas.json',
         'test_users.json',
-        'test_grupoitems.json',
-        'test_items.json',
-        'test_actas.json',
-        'test_actasrespuestasitems.json',
     ]
 
     @override_settings(DISCUSION_ABIERTA={'PARTICIPANTES_MIN': 1, 'PARTICIPANTES_MAX': 1})

@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
 import json
+
 from django.db import transaction
 from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render
 from django.views.decorators.csrf import ensure_csrf_cookie
+
 from actas.stream_datas import *
 
 from .libs import validar_acta_json, validar_cedulas_participantes, guardar_acta, obtener_config, get_participantes, generar_propuesta_docx
-
 from .models import ConfiguracionEncuentro
 
 
@@ -27,7 +28,7 @@ def subir(request):
 def acta_base(request, id):
     config = obtener_config()
 
-    config_acta_base = {
+    base = {
         'min_participantes': config['participantes_min'],
         'max_participantes': config['participantes_max'],
         'participante_organizador': {},
@@ -35,11 +36,14 @@ def acta_base(request, id):
 
     }
 
-    # acta['itemsGroups'] = [g.to_dict() for g in Tema.objects.all().order_by('orden')]
-    config_acta = ConfiguracionEncuentro.objects.get(pk=int(id)).to_dict()
-    config_acta_base.update(config_acta)
+    config_actas = ConfiguracionEncuentro.objects.filter(pk=int(id))
 
-    return JsonResponse(config_acta_base)
+    if len(config_actas) == 0:
+        return JsonResponse({}, status=404)
+
+    base.update(config_actas[0].to_dict())
+
+    return JsonResponse(base)
 
 
 @transaction.atomic

@@ -1,64 +1,67 @@
 # -*- coding: utf-8 -*-
+from django.test.testcases import TransactionTestCase
 
-import json
-
-from actas.models import *
-from django.test import TestCase
-from actas.test_helpers import init_db
-
-__author__ = 'Nicolas'
+from actas.models import ConfiguracionEncuentro
 
 
+__author__ = 'Nicolás Varas'
 
-class DatabaseToDictTests(TestCase):
+
+class DatabaseToDictTests(TransactionTestCase):
+
+    fixtures = [
+        'test_configuracionencuentros.json',
+        'test_temas.json',
+        'test_itemtemas.json',
+        'test_tipoencuentros.json',
+        'test_origenes.json',
+        'test_lugares.json',
+        'test_ocupaciones.json',
+    ]
+
     def test_database_to_dict(self):
-        expected_result = {
-            "lugares": [
-                {"lugar": u"fcfm","pk": 1}, {"lugar": u"piedragogico","pk": 2}
+
+        self.maxDiff = None
+
+        expected = {
+            'pk': 1,
+            'organizador': u'fake_organizador',
+            'origenes': [
+                {'pk': 1, 'nombre': u'Casa Central 1'},
+                {'pk': 2, 'nombre': u'FCFM 1'}
             ],
-            "ocupaciones": [
-                {"ocupacion": u"vagabundo", "pk": 1},
-                {"ocupacion": u"academico", "pk": 2}
+            'lugares': [
+                {'pk': 1, 'nombre': u'Casa Central'},
+                {'pk': 2, 'nombre': u'FCFM'}
             ],
-            "organizador": u"doge",
-            "origenes": [
-                {"origen": u"fcfm", "pk": 1},
-                {"origen": u"piedragogico", "pk": 2}
-            ],
-            "pk": 1,
-            "temas": [
+            'temas': [
                 {
-                    "items": [
-                        {
-                            "pk": 3,
-                            "pregunta": u"doge2 se la come?",
-                            "pregunta_propuesta": u"\u00bfatravesada2? \u00bfa dos manos2?"
-                        }
+                    'pk': 1,
+                    'titulo': u'tema_1',
+                    'contextualizacion': u'DCC',
+                    'items': [
+                        {'pk': 1, 'pregunta_propuesta': u'Propuesta tema 1', 'pregunta': u'Preguta tema 1'}
                     ],
-                    "pk": 2,
-                    "tema": u"caquita2"
                 },
                 {
-                    "items": [
-                        {
-                            "pk": 1,
-                            "pregunta": u"doge se la come?",
-                            "pregunta_propuesta": u"\u00bfatravesada? \u00bfa dos manos?"
-                        },
-                        {
-                            "pk": 2,
-                            "pregunta": u"hihose la come?",
-                            "pregunta_propuesta": u"\u00bfatravesada? \u00bfa dos manos?"
-                        }
+                    'pk': 2,
+                    'titulo': u'tema_2',
+                    'contextualizacion': u'DCC 2',
+                    'items': [
+                        {'pk': 2, 'pregunta_propuesta': u'Propuesta tema 2', 'pregunta': u'Preguta tema 2'}
                     ],
-                    "pk": 1,
-                    "tema": u"caquita"
                 }
             ],
-            "tipos": [
-                {"pk": 1, "tipo": u"sensual"},
-                {"pk": 2, "tipo": u"sepsi"}
+            'tipos': [
+                {'pk': 1, 'nombre': u'A'},
+                {'pk': 2, 'nombre': u'B'}
+            ],
+            'ocupaciones': [
+                {'pk': 1, 'nombre': u'Acad\xe9mico'},
+                {'pk': 2, 'nombre': u'Funcionario'}
             ]
         }
-        cfg1 = init_db()
-        self.assertEqual(cfg1.to_dict(), expected_result)
+
+        actual = ConfiguracionEncuentro.objects.get(pk=1)
+
+        self.assertEqual(expected, actual.to_dict())
