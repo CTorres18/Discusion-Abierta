@@ -1,0 +1,18 @@
+[
+{
+    "model": "actas.tipoencuentro",
+    "pk": 1,
+    "fields": {
+        "configuracion_encuentro_id": 1,
+        "tipo": "A"
+    }
+},
+{
+    "model": "actas.tipoencuentro",
+    "pk": 2,
+    "fields": {
+        "configuracion_encuentro_id": 1,
+        "tipo": "B"
+    }
+}
+]

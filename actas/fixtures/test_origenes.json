@@ -1,0 +1,18 @@
+[
+{
+    "model": "actas.origen",
+    "pk": 1,
+    "fields": {
+        "configuracion_encuentro_id": 1,
+        "origen": "Casa Central 1"
+    }
+},
+{
+    "model": "actas.origen",
+    "pk": 2,
+    "fields": {
+        "configuracion_encuentro_id": 1,
+        "origen": "FCFM 1"
+    }
+}
+]
