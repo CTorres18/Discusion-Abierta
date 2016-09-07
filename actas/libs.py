@@ -13,6 +13,7 @@ from django.utils import timezone
 from pyquery import PyQuery as pq
 import requests
 from stream_datas import get_participantes_stream
+import uuid
 
 from cStringIO import StringIO
 from docxtpl import DocxTemplate
@@ -430,9 +431,12 @@ def guardar_acta(datos_acta):
             lugar_pk = lugar['pk']
 
     #guardar encuentro
+    uu = uuid.uuid1().hex
     encuentro = Encuentro(  fecha_inicio='1990-01-01', fecha_termino='1990-01-01',
                             tipo_encuentro_id=tipo_pk, lugar_id=lugar_pk, encargado_id=encargado.pk,
-                            configuracion_encuentro_id=datos_acta['pk'])
+                            configuracion_encuentro_id=datos_acta['pk'],
+                            hash_search=uu)
+
 
     encuentro.save()
     participantes = datos_acta['participantes']
@@ -442,6 +446,8 @@ def guardar_acta(datos_acta):
     for tema in datos_acta['temas']:
 
         insertar_respuestas(tema,encuentro)
+
+    return uu
     # acta = Acta(
     #     comuna=Comuna.objects.get(pk=datos_acta['geo']['comuna']),
     #     memoria_historica=datos_acta.get('memoria'),
@@ -531,7 +537,7 @@ def _crear_usuario(datos_usuario):
 def generar_propuesta_docx(acta):
     tpl = DocxTemplate('static/templates_docs/propuesta.docx')
     context = {}
-    context['acta'] = acta
+    context['acta']=acta
     print context
     tpl.render(context)
     f = StringIO()

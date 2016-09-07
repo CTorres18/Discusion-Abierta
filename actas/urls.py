@@ -14,7 +14,8 @@ urlpatterns = [
     url(r'^bajartext$', get_participantes, name='get_participantes'),
     url(r'^bajartodo$', bajar_propuestas, name='bajar_propuestas'),
     url(r'^bajar/(?P<string>\w+)/$', bajar_datos, name='bajar_propuestas'),
-    url(r'^bajarpropuestadocx$', bajar_propuesta_docx, name='bajar_propuesta_docx'),
-    url(r'^mostrarActa$', mostrar_acta, name='mostrar_acta'),
+    url(r'^bajarpropuestadocx/(?P<uuid>\w+)/$', bajar_propuesta_docx, name='bajar_propuesta_docx'),
+    url(r'^mostrarActa$', mostrar_acta, name='mostrar_acta')
+
 
 ]

@@ -210,14 +210,19 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
     }, true);
   };
 
+
+
   var cargarDatos = function () {
+
+
+
     if (localStorageService.get(LOCALSTORAGE_ACTA_KEY) !== null) {
       $scope.acta = localStorageService.get(LOCALSTORAGE_ACTA_KEY);
     } else {
 
       $http({
         method: 'GET',
-        url: '/actas/base/20'
+        url: '/actas/base/21'
       }).then(function (response) {
          console.log(response.data);
         $scope.acta = response.data;
@@ -225,6 +230,8 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
       console.log($scope.acta)
     }
   };
+    /////////////////
+    ////
 
   $scope.limpiarActa = function (ev) {
 

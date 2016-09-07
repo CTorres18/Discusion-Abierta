@@ -2,13 +2,16 @@
 import json
 
 from django.db import transaction
-from django.http import JsonResponse, HttpResponse
+from django.http import JsonResponse, HttpResponse, HttpResponseBadRequest
 from django.shortcuts import render
 from django.views.decorators.csrf import ensure_csrf_cookie
 
 from actas.stream_datas import *
 
-from .libs import validar_acta_json, validar_cedulas_participantes, guardar_acta, obtener_config, get_participantes, generar_propuesta_docx
+from .libs import validar_acta_json, validar_cedulas_participantes, guardar_acta, obtener_config, get_participantes, \
+    generar_propuesta_docx
+
+
 from .models import ConfiguracionEncuentro
 
 
@@ -66,19 +69,20 @@ def subir_confirmar(request):
     errores = validar_cedulas_participantes(acta)
 
     if len(errores) == 0:
-        guardar_acta(acta)
-        return JsonResponse({'status': 'success', 'mensajes': ['El acta ha sido ingresada exitosamente.']})
+        uu = guardar_acta(acta)
+        return JsonResponse(
+            {'status': 'success', 'mensajes': ['El acta ha sido ingresada exitosamente. \n Su numero es: %s' % uu]})
 
     return JsonResponse({'status': 'error', 'mensajes': errores}, status=400)
 
 
-def bajar_propuesta_docx(request):
-    acta = request.body.decode('utf-8')
-
+def bajar_propuesta_docx(request, uuid):
+    encuentro=""
     try:
-        acta = json.loads(acta)
-    except ValueError:
-        return (None, 'Acta inválida.',)
+        encuentro = Encuentro.objects.filter(hash_search=uuid).first()
+    except:
+        return HttpResponseBadRequest()
+    acta = encuentro.to_dict()
 
     docx = generar_propuesta_docx(acta)
 
@@ -119,6 +123,7 @@ def bajar_datos(request, string):
         return get_respuestas(request)
 
     return get_temas_encuentros(request)
+
 
 def mostrar_acta(request):
     return render(request, 'mostrarActa.html')
