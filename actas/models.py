@@ -133,6 +133,7 @@ class Encuentro(models.Model):
     fecha_inicio = models.DateField()
     fecha_termino = models.DateField()
     encargado = models.ForeignKey('Participante')
+    complemento = models.TextField(blank=True, null=True)
     hash_search = models.UUIDField(default=uuid.uuid1().hex)
 
     def __str__(self):
@@ -144,6 +145,7 @@ class Encuentro(models.Model):
             'hash': self.hash_search,
             'fecha_termino': self.fecha_termino,
             'encargado_id': self.encargado.pk,
+             'complemento': self.complemento,
             'participantes': [i.to_dict() for i in self.participa_set.all()],
             'respuestas': [i.to_dict() for i in self.respuesta_set.all()]
         })
@@ -157,6 +159,7 @@ class Encuentro(models.Model):
             'hash': self.hash_search,
             'fecha_termino': self.fecha_termino,
             'encargado_id': self.encargado.pk,
+            'complemento': self.complemento,
             'participantes': [i.to_dict() for i in self.participa_set.all()],
             'respuestas': [i.to_dict() for i in self.respuesta_set.all()]
         }
@@ -221,7 +224,7 @@ class Participa(models.Model):
     origen = models.ForeignKey('Origen')
 
     def __str__(self):
-        return 'fuck'
+        return str(self.to_dict())
 
     def to_dict(self):
         return {

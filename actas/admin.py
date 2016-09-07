@@ -2,7 +2,7 @@
 from django.contrib import admin
 
 from .models import Tema, ItemTema, Ocupacion, Origen, ConfiguracionEncuentro, Lugar, TipoEncuentro, Encuentro, \
-    Respuesta
+    Respuesta, Participante
 
 
 class TemaAdmin(admin.ModelAdmin):
@@ -40,6 +40,8 @@ class ConfiguracionEncuentroAdmin(admin.ModelAdmin):
 class RespuestasAdmin(admin.ModelAdmin):
     pass
 
+class ParticipanteAdmin(admin.ModelAdmin):
+    pass
 
 admin.site.register(ConfiguracionEncuentro, ItemTemaAdmin)
 admin.site.register(Tema, TemaAdmin)
@@ -50,3 +52,4 @@ admin.site.register(TipoEncuentro, ItemTemaAdmin)
 admin.site.register(Encuentro, EncuentroAdmin)
 admin.site.register(ItemTema, ItemTemaAdmin)
 admin.site.register(Respuesta, RespuestasAdmin)
+admin.site.register(Participante,ParticipanteAdmin)

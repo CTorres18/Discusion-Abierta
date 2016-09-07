@@ -101,11 +101,11 @@ def get_encuentros(request):
     def encuentros_generator(encuentros):
         return (
             [encuentro.pk, encuentro.tipo_encuentro_id, encuentro.lugar_id, encuentro.fecha_inicio,
-             encuentro.fecha_termino]
+             encuentro.fecha_termino,encuentro.complemento]
             for encuentro in encuentros)
 
     def column_name_generator():
-        yield ("idEncuentro", "idTipoEncuentro", "idLugar", "fecha_inicio", "fecha_termino")
+        yield ("idEncuentro", "idTipoEncuentro", "idLugar", "fecha_inicio", "fecha_termino","complemento")
 
     rows = chain(column_name_generator(), encuentros_generator(encuentros_all))
     pseudo_buffer = Echo()
