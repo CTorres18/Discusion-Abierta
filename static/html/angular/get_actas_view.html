@@ -7,7 +7,6 @@
         </md-button>
       </div>
     </md-toolbar>
-    <h1>{$ datito $}</h1>
     <md-dialog-content>
        <md-select ng-model="datito" required style="padding: 40px">
                           <md-option ng-repeat="option in options_get" ng-value="option.name">{$ option.name $}</md-option>
@@ -19,7 +18,7 @@
        Obtener
       </md-button>
         <span flex></span>
-      <md-button ng-click="answer('useful')">
+      <md-button ng-click="answer('')">
         Cancelar
       </md-button>
     </md-dialog-actions>

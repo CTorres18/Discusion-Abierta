@@ -11,7 +11,6 @@ from actas.stream_datas import *
 from .libs import validar_acta_json, validar_cedulas_participantes, guardar_acta, obtener_config, \
     generar_propuesta_docx
 
-
 from .models import ConfiguracionEncuentro
 
 
@@ -71,13 +70,14 @@ def subir_confirmar(request):
     if len(errores) == 0:
         uu = guardar_acta(acta)
         return JsonResponse(
-            {'status': 'success', 'mensajes': ['El acta ha sido ingresada exitosamente. \n Su numero es: %s' % uu]})
+            {'status': 'success', 'mensajes': [
+                'El acta ha sido ingresada exitosamente. \n Su numero es: %s \n Recuerde guardarlo para posterior uso' % uu]})
 
     return JsonResponse({'status': 'error', 'mensajes': errores}, status=400)
 
 
 def bajar_propuesta_docx(request, uuid):
-    encuentro=""
+    encuentro = ""
     try:
         encuentro = Encuentro.objects.filter(hash_search=uuid).first()
     except:
@@ -96,6 +96,7 @@ def bajar_propuesta_docx(request, uuid):
     response['Content-Disposition'] = 'attachment; filename=propuesta.docx'
     response['Content-Length'] = length
     return response
+
 
 def bajar_propuestas(request):
     return get_respuestas(request)

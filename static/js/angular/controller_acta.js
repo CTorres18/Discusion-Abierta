@@ -75,7 +75,6 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
       fullscreen: $scope.customFullscreen // Only for -xs, -sm breakpoints.
     })
     .then(function(answer) {
-            console.log(answer)
             window.location.href = 'http://localhost:8000/actas/bajar/'+ answer
     }, function() {
     });
@@ -127,7 +126,6 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
   };
   $scope.validarActa = function (ev) {
     $scope.noValidar = true;
-      console.log($scope.acta)
 
     $http({
       method: 'POST',
@@ -145,13 +143,13 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
   };
 
 
-  $scope.bajarActa = function (ev) {
-    console.log($scope.acta)
-
-    var docDefinition = {
-      content: 'propuesta funciona :D'
-    };
-    pdfMake.createPdf(docDefinition).download('propuesta.pdf')
+  //$scope.bajarActa = function (ev) {
+  //  console.log($scope.acta)
+  //
+  //  var docDefinition = {
+  //    content: 'propuesta funciona :D'
+  //  };
+  //  pdfMake.createPdf(docDefinition).download('propuesta.pdf')
     /*$http({
       method: 'POST',
       url: '/actas/bajarpropuestadocx',
@@ -166,7 +164,7 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
         console.log(response);
       }
     );*/
-  };
+  //};
  /* var filtrarProvincias = function () {
     $scope.provinciasFiltradas = $scope.provincias.filter(function (provincia) {
       if ($scope.acta.geo.region === undefined) {
@@ -224,10 +222,10 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
         method: 'GET',
         url: '/actas/base/21'
       }).then(function (response) {
-         console.log(response.data);
+         //console.log(response.data);
         $scope.acta = response.data;
       });
-      console.log($scope.acta)
+      //console.log($scope.acta)
     }
   };
     /////////////////
