@@ -19,7 +19,7 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
     }
 
     $scope.isSelectedTab = function(thisTab){
-      console.log($scope.selectedTab);
+     // console.log($scope.selectedTab);
       return $scope.selectedTab === thisTab;
     }
 
@@ -81,6 +81,20 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
     })
     .then(function(answer) {
             window.location.href = 'http://localhost:8000/actas/bajar/'+ answer
+    }, function() {
+    });
+  };
+  $scope.getPropuesta = function(ev) {
+    $mdDialog.show({
+      controller: DialogController,
+      templateUrl: '/static/html/angular/get_propuesta_view.html',
+      parent: angular.element(document.body),
+      targetEvent: ev,
+      clickOutsideToClose:true,
+      fullscreen: $scope.customFullscreen // Only for -xs, -sm breakpoints.
+    })
+    .then(function(answer) {
+            window.location.href = 'http://localhost:8000/actas/bajarpropuestadocx/'+ answer
     }, function() {
     });
   };

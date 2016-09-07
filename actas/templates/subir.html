@@ -10,15 +10,15 @@
 {% block body %}
   <div>
     <div class="headerSubir " ng-controller="ActaCtrl">
-        <a href="../mostrarActa">
-          <img class="ribbons right" src="{% static '/svg/etiqueta_azul1.svg' %}" style="width: 9vw;right:21vw;position:absolute;" ng-click="showInfo($event)">
+        <a >
+          <img class="ribbons right" src="{% static '/svg/etiqueta_azul1.svg' %}" style="width: 9vw;right:21vw;position:absolute;" ng-click="getPropuesta($event)">
         </a>
         <img class="ribbons left" src="{% static '/svg/etiqueta_azul2.svg' %}" style="width: 9vw; right:11vw;position:absolute;" ng-click="showInfo($event)">
-        <a ng-click="showInfo($event)">
-          <img class="ribbons right" src="{% static '/svg/etiqueta_azul1.svg' %}" style="width: 9vw;right:1vw;position:absolute; ">
+        <a>
+          <img class="ribbons right" src="{% static '/svg/etiqueta_azul1.svg' %}" style="width: 9vw;right:1vw;position:absolute; " ng-click="getPropuesta($event)">
         </a>
         <a href="../">
-          <img class="ribbons right" src="{% static '/svg/etiqueta_azul1.svg' %}" style="width: 9vw;left:1vw;position:absolute;" ng-click="showInfo($event)">
+          <img class="ribbons right" src="{% static '/svg/etiqueta_azul1.svg' %}" style="width: 9vw;left:1vw;position:absolute;">
         </a>
     </div>
   </div>
