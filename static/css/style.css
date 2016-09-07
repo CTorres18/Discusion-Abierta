@@ -532,3 +532,16 @@ ul#horizontal-menu li {
 .padding5{
   padding: 1vw;
 }
+
+.siguiente{
+  background: #e4eefe;
+  height: 10vw;
+  right: 0;
+  position: absolute;
+  display: block;
+}
+
+.fondo-flecha{
+  height:20vh;
+  background-color: #e4eefe;
+}

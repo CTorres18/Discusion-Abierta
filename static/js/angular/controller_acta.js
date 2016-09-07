@@ -18,6 +18,11 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
         }
     }
 
+    $scope.isSelectedTab = function(thisTab){
+      console.log($scope.selectedTab);
+      return $scope.selectedTab === thisTab;
+    }
+
 
   $scope.agregarParticipante = function () {
     if ($scope.acta.participantes.length < $scope.acta.max_participantes) {

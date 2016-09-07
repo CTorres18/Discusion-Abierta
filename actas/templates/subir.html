@@ -27,7 +27,10 @@
     <md-content>
       <md-tabs md-dynamic-height md-border-bottom md-selected="selectedTab" style="test">
         <md-tab>
-        <img src="{% static 'svg/segunda_pagina/etiqueta1_llena.svg'%}" style="height: 10vh">
+          <div>
+            <img src="{% static 'svg/segunda_pagina/etiqueta1_llena.svg'%}" style="height: 10vh" ng-show="isSelectedTab(0)">
+            <img src="{% static 'svg/segunda_pagina/etiqueta1_media.svg'%}" style="height: 10vh" ng-hide="isSelectedTab(0)">
+          </div>
         <md-tab-body>
           <md-content class="md-padding">
             <h3>Datos geográficos</h3>
@@ -127,8 +130,8 @@
               </div>
             </div>
             <div layout="column" class="md-inline-form" style="padding: 50px;">
-              <md-content class="centrar_texto" style="background-color: #e4eefe;">
-                <md-button class="md-raised md-primary" aria-label="Siguiente" ng-click="nextTab()">Siguiente</md-button>
+              <md-content class="fondo-flecha">
+                  <img src="{% static '/svg/segunda_pagina/flecha_siguiente.svg' %}"  class="siguiente" aria-label="Subir propuesta" ng-click="nextTab()"/>
                 <md-button class="md-raised md-primary" aria-label="Subir propuesta" ng-click="limpiarActa($event)">¡¡¡¡Limpiar!!![Solo desarrollo]</md-button>
               </md-content>
             </div>
@@ -136,7 +139,10 @@
         </md-tab-body>
         </md-tab>
         <md-tab>
-          <img src="{% static 'svg/segunda_pagina/etiqueta2_llena.svg'%}" style="height: 10vh">
+          <div>
+            <img src="{% static 'svg/segunda_pagina/etiqueta2_llena.svg'%}" style="height: 10vh" ng-show="isSelectedTab(1)">
+            <img src="{% static 'svg/segunda_pagina/etiqueta2_vacia.svg'%}" style="height: 10vh" ng-hide="isSelectedTab(1)">
+          </div>
           <md-tab-body>
             <md-content class="md-padding">
               <h2 class="md-display-2">
@@ -218,16 +224,17 @@
               </div>
               </div>
               </md-content>
-              <div layout="column" class="md-inline-form" style="padding: 50px;">
-                <md-content class="centrar_texto">
-                  <md-button class="md-raised md-primary" aria-label="Subir propuesta" ng-click="nextTab()">Siguiente</md-button>
+                <md-content class="fondo-flecha">
+                  <img src="{% static '/svg/segunda_pagina/flecha_siguiente.svg' %}"  class="siguiente" aria-label="Subir propuesta" ng-click="nextTab()"/>
                 </md-content>
-              </div>
             </md-content>
           </md-tab-body>
         </md-tab>
         <md-tab>
-          <img src="{% static 'svg/segunda_pagina/etiqueta3_llena.svg'%}" style="height: 10vh">
+          <div>
+            <img src="{% static 'svg/segunda_pagina/etiqueta3_llena.svg'%}" style="height: 10vh" ng-show="isSelectedTab(2)">
+            <img src="{% static 'svg/segunda_pagina/etiqueta3_vacia.svg'%}" style="height: 10vh" ng-hide="isSelectedTab(2)">
+          </div>
           <md-tab-body>  
             <md-content layout-gt-sm="column">
               <div layout="column" class="md-inline-form" style="padding: 50px;">
