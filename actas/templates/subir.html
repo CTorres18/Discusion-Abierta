@@ -3,6 +3,8 @@
 
 {% block js %}
 <script src="{% static 'js/angular/controller_acta.js' %}"></script>
+<script src="{% static 'bower_components/angular-elastic/elastic.js' %}"></script>
+<
 {% endblock %}
 
 {% block body %}
@@ -27,7 +29,7 @@
         <md-tab>
         <img src="{% static 'svg/segunda_pagina/etiqueta1_llena.svg'%}" style="height: 10vh">
         <md-tab-body>
-          <md-content class="md-padding" style="background-color: #e4eefe;">
+          <md-content class="md-padding">
             <h3>Datos geográficos</h3>
             <div layout-xs="column" layout-gt-xs="row">
               <md-input-container flex>
@@ -140,7 +142,7 @@
               <h2 class="md-display-2">
               </h2>
               <md-content class="md-padding">
-                <div class="md-accordion" ng-repeat="tema in acta.temas" style="background-color: #ccc;">
+                <div class="md-accordion" ng-repeat="tema in acta.temas">
                   <md-toolbar class="grupoitems_encabezado" ng-init="data.expanded = false" ng-click="data.expanded = !data.expanded">
                     <div class="md-toolbar-tools">
                       <div>
@@ -186,16 +188,15 @@
                               <textarea class="fundamento" ng-model="item.respuesta"></textarea>
                         </div>
                       </div>
-                      <div class="grupoitems_item_encabezado" layout="row">
-                        <div flex="25">PREGUNTA</div>
+                      <div class="grupoitems_item_encabezado">
                         <div flex>PROPUESTA</div>
                       </div>
-                      <div class="item" layout="row">
-                        <div class="container_nombre" flex=25>
+                      <div class="item">
+                        <div class="container_nombre">
                           <textarea class="nombre" ng-model="item.pregunta_propuesta" readonly></textarea>
                         </div>
                         <div class="container_fundamento" flex>
-                          <textarea class="fundamento" ng-model="item.propuesta"></textarea>
+                          <textarea msd-elastic class="fundamento" ng-model="item.propuesta"></textarea>
                         </div>
                       </div>
                     </div>
