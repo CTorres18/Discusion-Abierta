@@ -164,9 +164,9 @@
                       </div>
                     </div>
                     <div class="grupoitems_item_encabezado" layout="row">
-                      <div class="par" flex="25">PREGUNTA</div>
-                      <div class="impar centrar_texto" flex="25">RESPUESTA</div>
-                      <div class="par" flex>FUNDAMENTO</div>
+                      <div flex="25">PREGUNTA</div>
+                      <div class="centrar_texto" flex="25">RESPUESTA</div>
+                      <div flex>FUNDAMENTO</div>
                     </div>
                     <div ng-repeat="item in tema.items">
                       <div class="item" layout="row" >
@@ -174,19 +174,19 @@
                           <textarea class="nombre" ng-model="item.pregunta" readonly></textarea>
                         </div>
                         <md-radio-group class="categoria" layout="column" ng-model="item.categoria" flex="25">
-                          <md-radio-button value="2" class="impar">Todos estamos de acuerdo</md-radio-button>
-                          <md-radio-button value="1" class="par"> La mayoría está de acuerdo</md-radio-button>
-                          <md-radio-button value="0" class="impar">No hay acuerdo de mayoría</md-radio-button>
-                          <md-radio-button value="-1" class="par">La mayoría está en desacuerdo</md-radio-button>
-                          <md-radio-button value="-2" class="impar">Todos estamos en desacuerdo</md-radio-button>
+                          <md-radio-button value="2">Todos estamos de acuerdo</md-radio-button>
+                          <md-radio-button value="1"> La mayoría está de acuerdo</md-radio-button>
+                          <md-radio-button value="0">No hay acuerdo de mayoría</md-radio-button>
+                          <md-radio-button value="-1">La mayoría está en desacuerdo</md-radio-button>
+                          <md-radio-button value="-2">Todos estamos en desacuerdo</md-radio-button>
                         </md-radio-group>
                         <div class="container_fundamento" flex>
                               <textarea class="fundamento" ng-model="item.respuesta"></textarea>
                         </div>
                       </div>
                       <div class="grupoitems_item_encabezado" layout="row">
-                        <div class="par" flex="25">PREGUNTA</div>
-                        <div class="par" flex>PROPUESTA</div>
+                        <div flex="25">PREGUNTA</div>
+                        <div flex>PROPUESTA</div>
                       </div>
                       <div class="item" layout="row">
                         <div class="container_nombre" flex=25>
