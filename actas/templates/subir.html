@@ -239,38 +239,39 @@
           <md-tab-body>  
             <md-content layout-gt-sm="column">
               <div layout="column" class="md-inline-form" style="padding: 50px;">
-                <md-content class="centrar_texto">
-                <md-content class="md-padding">
-              <h2 class="md-display-2">
-              </h2>
-              <md-content class="md-padding">
-                <div ng-repeat="tema in acta.temas">
-                  <div ng-show="tema.items[0].categoria">
-                        <div>{$ tema.titulo $}</div>                      
-                  <div >
-                    <div ng-repeat="item in tema.items">
-                    <div style="margin: 5px" layout="row">
-                        <div flex>FUNDAMENTO</div> <div flex>{$ categorias[item.categoria*1.0 + 2] $} </div>
-                      </div>
-                      <div class="item" layout="row" >  
-                        <div class="container_fundamento" flex>
-                              <textarea class="fundamento" ng-model="item.respuesta" readonly></textarea>
+                  <md-content class="md-padding">
+                    <h2 class="md-display-2">
+                    </h2>
+                    <md-content class="md-padding">
+                      <div ng-repeat="tema in acta.temas">
+                        <div ng-show="tema.items[0].categoria">
+
+                            <md-content class="centrar_texto">
+                              <div>{$ tema.titulo $}</div> 
+                            </md-content>             
+                          <div >
+                          <div ng-repeat="item in tema.items">
+                          <div style="margin: 5px" layout="row">
+                              <div flex>FUNDAMENTO</div> <div flex>{$ categorias[item.categoria*1.0 + 2] $} </div>
+                            </div>
+                            <div class="item" layout="row" >  
+                              <div class="container_fundamento" flex>
+                                    <textarea class="fundamento" ng-model="item.respuesta" readonly></textarea>
+                              </div>
+                            </div>
+                            <div class="grupoitems_item_encabezado" style="margin: 5px">
+                              <div flex>PROPUESTA</div>
+                            </div>
+                            <div class="item">
+                              <div class="container_fundamento" flex>
+                                <textarea msd-elastic class="fundamento" ng-model="item.propuesta" readonly></textarea>
+                              </div>
+                            </div>
+                          </div>
+                          </div>
                         </div>
                       </div>
-                      <div class="grupoitems_item_encabezado" style="margin: 5px">
-                        <div flex>PROPUESTA</div>
-                      </div>
-                      <div class="item">
-                        <div class="container_fundamento" flex>
-                          <textarea msd-elastic class="fundamento" ng-model="item.propuesta" readonly></textarea>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  </div>
-              </div>
-              </md-content>
-            </md-content>
+                  </md-content>
                   <md-button class="md-raised md-primary" aria-label="Subir propuesta" ng-click="validarActa($event)" ng-disabled="noValidar">Enviar propuesta</md-button>
                 </md-content>
               </div>
