@@ -80,7 +80,9 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
       fullscreen: $scope.customFullscreen // Only for -xs, -sm breakpoints.
     })
     .then(function(answer) {
-            window.location.href = 'https://discusionabierta.dcc.uchile.cl/actas/bajar/'+ answer
+           if(answer.length >0) {
+             window.location.href = 'https://discusionabierta.dcc.uchile.cl/actas/bajar/' + answer
+           }
     }, function() {
     });
   };
@@ -94,7 +96,9 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
       fullscreen: $scope.customFullscreen // Only for -xs, -sm breakpoints.
     })
     .then(function(answer) {
+            if(answer.length >0) {
             window.location.href = 'https://discusionabierta.dcc.uchile.cl/actas/bajarpropuestadocx/'+ answer
+          }
     }, function() {
     });
   };
@@ -241,7 +245,7 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
         method: 'GET',
         url: '/actas/base/21'
       }).then(function (response) {
-         //console.log(response.data);
+         console.log(response.data);
         $scope.acta = response.data;
       });
       //console.log($scope.acta)
