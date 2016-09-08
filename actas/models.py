@@ -2,13 +2,19 @@ from django.db import models
 from django.utils.encoding import smart_text
 from django.utils.encoding import python_2_unicode_compatible
 import uuid
+import datetime
 
-
+def default_datetime():
+    now = datetime.datetime.now()
+    now.replace(microsecond=0)
+    return now
 class ConfiguracionEncuentro(models.Model):
     organizador = models.CharField(max_length=128)  ## esto tiene que ser u    n ID hacia el participante
     descripcion = models.CharField(max_length=1024)
     min_participantes = models.IntegerField(default=7)
     max_participantes = models.IntegerField(default=50)
+    created_at = models.DateTimeField(default=default_datetime)
+    updated_at = models.DateTimeField(null=False,default=default_datetime)
 
     def __str__(self):
         return (u'<ConfiguracionEncuentro: organizador: {0}, descripcion: {1}, id{2}>'.format(self.organizador,
@@ -42,7 +48,8 @@ class ConfiguracionEncuentro(models.Model):
             'participantes': [{} for _ in range(int(self.min_participantes))],
             'participante_organizador': {},
             'memoria': '',
-            'temas': [i.get_tema() for i in self.tema_set.all().order_by('orden')]
+            'temas': [i.get_tema() for i in self.tema_set.all().order_by('orden')],
+            'updated_at': self.updated_at
         }
 
 
@@ -50,6 +57,8 @@ class Lugar(models.Model):
     configuracion_encuentro = models.ForeignKey('ConfiguracionEncuentro', \
                                                 on_delete=models.CASCADE)
     lugar = models.CharField(max_length=128)
+    created_at = models.DateTimeField(default=default_datetime)
+    updated_at = models.DateTimeField(null=False,default=default_datetime)
 
     def __str__(self):
         return (
@@ -70,6 +79,8 @@ class Tema(models.Model):
     tema = models.CharField(max_length=128)
     contexto = models.TextField(blank=True, null=True)
     orden = models.IntegerField(default=1)
+    created_at = models.DateTimeField(default=default_datetime)
+    updated_at = models.DateTimeField(null=False,default=default_datetime)
 
     def __str__(self):
         return (u'Tema id: {0} \nNombre: {1}'.format(self.pk, self.tema)).encode('utf-8')
@@ -95,6 +106,8 @@ class TipoEncuentro(models.Model):
     configuracion_encuentro = models.ForeignKey('ConfiguracionEncuentro', \
                                                 on_delete=models.CASCADE)
     tipo = models.CharField(max_length=128)
+    created_at = models.DateTimeField(default=default_datetime)
+    updated_at = models.DateTimeField(null=False,default=default_datetime)
 
     def __str__(self):
         return (u'Tipo Encuentro id: {0} \nNombre: {1}'.format(self.pk, self.tipo)).encode('utf-8')
@@ -110,7 +123,8 @@ class Origen(models.Model):
     configuracion_encuentro = models.ForeignKey('ConfiguracionEncuentro', \
                                                 on_delete=models.CASCADE)
     origen = models.CharField(max_length=128)
-
+    created_at = models.DateTimeField(default=default_datetime)
+    updated_at = models.DateTimeField(null=False,default=default_datetime)
     def __str__(self):
         return (u'Origen: {0} \nOrigen: {1}'.format(self.pk, self.origen)).encode(
             'utf-8')
@@ -126,6 +140,8 @@ class Ocupacion(models.Model):
     configuracion_encuentro = models.ForeignKey('ConfiguracionEncuentro', \
                                                 on_delete=models.CASCADE)
     ocupacion = models.CharField(max_length=128)
+    created_at = models.DateTimeField(default=default_datetime)
+    updated_at = models.DateTimeField(null=False,default=default_datetime)
 
     def to_dict(self):
         return {
@@ -142,6 +158,8 @@ class ItemTema(models.Model):
     tema = models.ForeignKey('Tema')
     pregunta = models.TextField(blank=True, null=True)
     pregunta_propuesta = models.TextField(blank=True, null=True)
+    created_at = models.DateTimeField(default=default_datetime)
+    updated_at = models.DateTimeField(null=False,default=default_datetime)
 
     def __str__(self):
         return (u'ID:{0}\nPregunta:{1}\nPregunta propuesta:{2}>'.format(self.tema_id, self.pregunta, self.pregunta_propuesta)).encode('utf-8')
@@ -172,6 +190,8 @@ class Encuentro(models.Model):
     encargado = models.ForeignKey('Participante')
     complemento = models.TextField(blank=True, null=True)
     hash_search = models.UUIDField(default=uuid.uuid1().hex)
+    created_at = models.DateTimeField(default=default_datetime)
+    updated_at = models.DateTimeField(null=False,default=default_datetime)
 
     def __str__(self):
         return str({
@@ -215,6 +235,8 @@ class Respuesta(models.Model):
     categoria = models.IntegerField(choices=CATEGORIA_OPCIONES)
     fundamento = models.TextField(blank=True, null=True)
     propuesta = models.TextField(blank=True, null=True)
+    created_at = models.DateTimeField(default=default_datetime)
+    updated_at = models.DateTimeField(null=False,default=default_datetime)
 
     def __str__(self):
         return (u'Item Tema: {0} \nEncuentro_id: {1} \nRespuesta: {2}'.format(self.item_tema, self.encuentro_id,
@@ -242,6 +264,8 @@ class Participante(models.Model):
     apellido = models.CharField(max_length=128)
     correo = models.EmailField(max_length=128)
     numero_de_carnet = models.CharField(max_length=128)
+    created_at = models.DateTimeField(default=default_datetime)
+    updated_at = models.DateTimeField(null=False,default=default_datetime)
 
     def to_dict(self):
         return {
@@ -259,6 +283,8 @@ class Participa(models.Model):
     encuentro = models.ForeignKey('Encuentro')
     ocupacion = models.ForeignKey('Ocupacion')
     origen = models.ForeignKey('Origen')
+    created_at = models.DateTimeField(default=default_datetime)
+    updated_at = models.DateTimeField(null=False,default=default_datetime)
 
     def __str__(self):
         return str(self.to_dict())
