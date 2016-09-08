@@ -136,7 +136,7 @@ class ItemTema(models.Model):
     pregunta_propuesta = models.TextField(blank=True, null=True)
 
     def __str__(self):
-        return (u'<ItemTema: tema {0}>'.format(self.tema_id, self.pregunta, self.pregunta_propuesta)).encode('utf-8')
+        return (u'ID:{0}\nPregunta:{1}\nPregunta propuesta:{2}>'.format(self.tema_id, self.pregunta, self.pregunta_propuesta)).encode('utf-8')
 
     def to_dict(self):
         return {
