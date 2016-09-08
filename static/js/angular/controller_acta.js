@@ -9,6 +9,8 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
 
     $scope.selectedTab = 0;
 
+    $scope.categorias = ['Todos estamos en desacuerdo', 'La mayoría está en desacuerdo', 'No hay acuerdo de mayoría','La mayoría está de acuerdo',  'Todos estamos de acuerdo'];
+
     $scope.nextTab = function() {
         if ($scope.selectedTab === 4) {
             $scope.selectedTab = 0;
