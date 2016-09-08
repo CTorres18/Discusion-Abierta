@@ -31,10 +31,11 @@ def acta_base(request, id):
     config = obtener_config()
 
     base = {
-        'min_participantes': config['participantes_min'],
-        'max_participantes': config['participantes_max'],
-        'participante_organizador': {},
-        'participantes': [{} for _ in range(config['participantes_min'])]
+        #'min_participantes': config['participantes_min'],
+        #'max_participantes': config['participantes_max'],
+        #'participante_organizador': {},
+        #'participantes': [{} for _ in range(config['participantes_min'])],
+        #'memoria': '',
 
     }
 
@@ -43,7 +44,7 @@ def acta_base(request, id):
     if len(config_actas) == 0:
         return JsonResponse({}, status=404)
 
-    base.update(config_actas[0].to_dict())
+    base.update(config_actas[0].get_configuration())
 
     return JsonResponse(base)
 

@@ -408,8 +408,9 @@ def insertar_participantes(participantes, datos_acta,encuentro):
 
 def insertar_respuestas(tema,encuentro):
     for item in tema['items']:
-        respuesta = Respuesta(item_tema_id =item['pk'],encuentro_id=encuentro.pk,categoria=item['categoria'],fundamento=item['respuesta'],propuesta = item['propuesta'])
-        respuesta.save()
+        if 'categoria' in item:
+            respuesta = Respuesta(item_tema_id =item['pk'],encuentro_id=encuentro.pk,categoria=item['categoria'],fundamento=item['respuesta'],propuesta = item['propuesta'])
+            respuesta.save()
 
 
 def guardar_acta(datos_acta):

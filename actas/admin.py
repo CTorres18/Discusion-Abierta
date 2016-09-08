@@ -1,47 +1,50 @@
 # -*- coding: utf-8 -*-
 from django.contrib import admin
+from actas.read_only_admin import ReadOnlyModelAdmin
 
 from .models import Tema, ItemTema, Ocupacion, Origen, ConfiguracionEncuentro, Lugar, TipoEncuentro, Encuentro, \
     Respuesta, Participante
 
 
-class TemaAdmin(admin.ModelAdmin):
+class TemaAdmin(ReadOnlyModelAdmin):
     pass
 
 
-class ItemTemaAdmin(admin.ModelAdmin):
+class ItemTemaAdmin(ReadOnlyModelAdmin):
     pass
 
 
-class OrigenAdmin(admin.ModelAdmin):
+class OrigenAdmin(ReadOnlyModelAdmin):
     pass
 
 
-class LugarAdmin(admin.ModelAdmin):
+class LugarAdmin(ReadOnlyModelAdmin):
     pass
 
 
-class OcupacionAdmin(admin.ModelAdmin):
+class OcupacionAdmin(ReadOnlyModelAdmin):
     pass
 
 
-class TipoEncuentroAdmin(admin.ModelAdmin):
+class TipoEncuentroAdmin(ReadOnlyModelAdmin):
     pass
 
 
-class EncuentroAdmin(admin.ModelAdmin):
+class EncuentroAdmin(ReadOnlyModelAdmin):
     pass
 
 
-class ConfiguracionEncuentroAdmin(admin.ModelAdmin):
+class ConfiguracionEncuentroAdmin(ReadOnlyModelAdmin):
     pass
 
 
-class RespuestasAdmin(admin.ModelAdmin):
+class RespuestasAdmin(ReadOnlyModelAdmin):
     pass
 
-class ParticipanteAdmin(admin.ModelAdmin):
+
+class ParticipanteAdmin(ReadOnlyModelAdmin):
     pass
+
 
 admin.site.register(ConfiguracionEncuentro, ItemTemaAdmin)
 admin.site.register(Tema, TemaAdmin)
@@ -52,4 +55,4 @@ admin.site.register(TipoEncuentro, ItemTemaAdmin)
 admin.site.register(Encuentro, EncuentroAdmin)
 admin.site.register(ItemTema, ItemTemaAdmin)
 admin.site.register(Respuesta, RespuestasAdmin)
-admin.site.register(Participante,ParticipanteAdmin)
+admin.site.register(Participante, ParticipanteAdmin)

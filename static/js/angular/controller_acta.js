@@ -241,7 +241,7 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
         method: 'GET',
         url: '/actas/base/21'
       }).then(function (response) {
-         //console.log(response.data);
+         console.log(response.data);
         $scope.acta = response.data;
       });
       //console.log($scope.acta)

@@ -7,6 +7,8 @@ import uuid
 class ConfiguracionEncuentro(models.Model):
     organizador = models.CharField(max_length=128)  ## esto tiene que ser u    n ID hacia el participante
     descripcion = models.CharField(max_length=1024)
+    min_participantes = models.IntegerField(default=7)
+    max_participantes = models.IntegerField(default=50)
 
     def __str__(self):
         return (u'<ConfiguracionEncuentro: organizador: {0}, descripcion: {1}, id{2}>'.format(self.organizador,
@@ -22,6 +24,24 @@ class ConfiguracionEncuentro(models.Model):
             'lugares': [i.to_dict() for i in self.lugar_set.all()],
             'origenes': [i.to_dict() for i in self.origen_set.all()],
             'ocupaciones': [i.to_dict() for i in self.ocupacion_set.all()],
+            'min_participantes': self.min_participantes,
+            'max_participantes': self.max_participantes,
+            'temas': [i.to_dict() for i in self.tema_set.all().order_by('orden')]
+        }
+
+    def get_configuration(self):
+        return {
+            'pk': self.pk,
+            'organizador': self.organizador,
+            'tipos': [i.to_dict() for i in self.tipoencuentro_set.all()],
+            'lugares': [i.to_dict() for i in self.lugar_set.all()],
+            'origenes': [i.to_dict() for i in self.origen_set.all()],
+            'ocupaciones': [i.to_dict() for i in self.ocupacion_set.all()],
+            'min_participantes': self.min_participantes,
+            'max_participantes': self.max_participantes,
+            'participantes': [{} for _ in range(int(self.min_participantes))],
+            'participante_organizador': {},
+            'memoria': '',
             'temas': [i.to_dict() for i in self.tema_set.all().order_by('orden')]
         }
 
@@ -145,7 +165,7 @@ class Encuentro(models.Model):
             'hash': self.hash_search,
             'fecha_termino': self.fecha_termino,
             'encargado_id': self.encargado.pk,
-             'complemento': self.complemento,
+            'complemento': self.complemento,
             'participantes': [i.to_dict() for i in self.participa_set.all()],
             'respuestas': [i.to_dict() for i in self.respuesta_set.all()]
         })
@@ -181,7 +201,7 @@ class Respuesta(models.Model):
 
     def __str__(self):
         return (u'Item Tema: {0} \nEncuentro_id: {1} \nRespuesta: {2}'.format(self.item_tema, self.encuentro_id,
-                                                                           self.fundamento[:125] + "...")).encode(
+                                                                              self.fundamento[:125] + "...")).encode(
             'utf-8')
 
     def to_dict(self):
@@ -224,6 +244,7 @@ class Participa(models.Model):
     origen = models.ForeignKey('Origen')
 
     def __str__(self):
+        return str(self.to_dict())
         return str(self.to_dict())
 
     def to_dict(self):
