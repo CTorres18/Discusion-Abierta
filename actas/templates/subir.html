@@ -159,17 +159,17 @@
                     </div>
                   </md-toolbar>
                   <div ng-class="{dataContent:true, activeContent:data.expanded}">
-                    <div class="md-accordion" ng-repeat="contextualizacion in contextualizaciones[$index]">
-                      <md-toolbar ng-init="contextualizacion.expanded = false" ng-click="contextualizacion.expanded = !contextualizacion.expanded">
+                    <div class="md-accordion">
+                      <md-toolbar ng-init="tema.expanded = false" ng-click="tema.expanded = !tema.expanded">
                         <div class="md-toolbar-tools" height="auto">
                           <div>
                           <div class="nombre">Contextualizacion</div>
                         </div>
                           <span flex=""></span>
-                          <span ng-class="{expandCollapse:true, active:contextualizacion.expanded}"></span> 
+                          <span ng-class="{expandCollapse:true, active:tema.expanded}"></span> 
                         </div>
                       </md-toolbar>
-                      <div ng-class="{dataContent:true, activeContent:contextualizacion.expanded}">
+                      <div ng-class="{dataContent:true, activeContent:tema.expanded}">
                           <md-content flex layout-padding ng-bind-html="tema.contextualizacion | html "></md-content>    
                       </div>
                     </div>
