@@ -42,7 +42,7 @@ class ConfiguracionEncuentro(models.Model):
             'participantes': [{} for _ in range(int(self.min_participantes))],
             'participante_organizador': {},
             'memoria': '',
-            'temas': [i.to_dict() for i in self.tema_set.all().order_by('orden')]
+            'temas': [i.get_tema() for i in self.tema_set.all().order_by('orden')]
         }
 
 
@@ -80,6 +80,14 @@ class Tema(models.Model):
             'titulo': self.tema,
             'contextualizacion': self.contexto,
             'items': [i.to_dict() for i in self.itemtema_set.all()]
+        }
+
+    def get_tema(self):
+        return {
+            'pk': self.pk,
+            'titulo': self.tema,
+            'contextualizacion': self.contexto,
+            'items': [i.get_item() for i in self.itemtema_set.all()]
         }
 
 
@@ -144,6 +152,15 @@ class ItemTema(models.Model):
             'pregunta': self.pregunta,
             'pregunta_propuesta': self.pregunta_propuesta
         }
+    def get_item(self):
+        return {
+            'pk': self.pk,
+            'pregunta': self.pregunta,
+            'pregunta_propuesta': self.pregunta_propuesta,
+            'respuesta': "",
+            'propuesta': "",
+        }
+
 
 
 class Encuentro(models.Model):
