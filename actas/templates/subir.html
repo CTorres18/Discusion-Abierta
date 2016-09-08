@@ -56,7 +56,7 @@
               </div>
             </div>
             <h3>
-              <span>Información de los {$ acta.participantes.length+1 $} participantes</span>
+              <span>Información de los {$ acta.participantes.length $} participantes</span>
             </h3>
             <div class="padding5">
               <div layout-xs="column" layout-gt-xs="row">
@@ -137,7 +137,6 @@
             <div layout="column" class="md-inline-form" style="padding: 50px;">
               <md-content class="fondo-flecha">
                   <img src="{% static '/svg/segunda_pagina/flecha_siguiente.svg' %}"  class="siguiente" aria-label="Subir propuesta" ng-click="nextTab()"/>
-                <md-button class="md-raised md-primary" aria-label="Subir propuesta" ng-click="limpiarActa($event)">¡¡¡¡Limpiar!!![Solo desarrollo]</md-button>
                 <md-button class="md-raised md-primary" aria-label="Subir propuesta" ng-click="nextTab()">Continuar</md-button>
               </md-content>
             </div>
