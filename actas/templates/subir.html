@@ -57,7 +57,6 @@
             </div>
             <h3>
               <span>Información de los {$ acta.participantes.length+1 $} participantes</span>
-              <md-button class="md-fab md-mini" aria-label="Agregar participante" ng-click="agregarParticipante()">+</md-button>
             </h3>
             <div class="padding5">
               <div layout-xs="column" layout-gt-xs="row">
@@ -125,14 +124,21 @@
                       </md-input-container>
 
                   <md-input-container class="centrar_texto" flex flex-sm-xs=10>
-                    <md-button class="md-fab md-mini" aria-label="Quitar participante" ng-click="quitarParticipante($index)">-</md-button>
+                    <md-button class="md-fab md-mini" aria-label="Quitar participante" ng-click="quitarParticipante($index)">
+                      <img src="{% static 'svg/Primera_pagina/garbage.svg' %}" style="width:30px;padding-top: 5px;">
+                    </md-button>
                   </md-input-container>
               </div>
+            </div>
+            <div>
+              Agregar Participante
+              <md-button class="md-fab md-mini" aria-label="Agregar participante" ng-click="agregarParticipante()">+</md-button>
             </div>
             <div layout="column" class="md-inline-form" style="padding: 50px;">
               <md-content class="fondo-flecha">
                   <img src="{% static '/svg/segunda_pagina/flecha_siguiente.svg' %}"  class="siguiente" aria-label="Subir propuesta" ng-click="nextTab()"/>
                 <md-button class="md-raised md-primary" aria-label="Subir propuesta" ng-click="limpiarActa($event)">¡¡¡¡Limpiar!!![Solo desarrollo]</md-button>
+                <md-button class="md-raised md-primary" aria-label="Subir propuesta" ng-click="nextTab()">Continuar</md-button>
               </md-content>
             </div>
           </md-content>
@@ -200,7 +206,7 @@
                       </div>
                       <div class="item">
                         <div class="container_nombre">
-                          <textarea class="nombre" ng-model="item.pregunta_propuesta" readonly ng-show="item.pregunta"></textarea>
+                          <textarea class="nombre" ng-model="item.pregunta_propuesta" readonly ng-show="item.pregunta" style="height:11vh"></textarea>
                         </div>
                         <div class="container_fundamento" flex>
                           <textarea msd-elastic class="fundamento" ng-model="item.propuesta"></textarea>
@@ -227,6 +233,7 @@
               </md-content>
                 <md-content class="fondo-flecha">
                   <img src="{% static '/svg/segunda_pagina/flecha_siguiente.svg' %}"  class="siguiente" aria-label="Subir propuesta" ng-click="nextTab()"/>
+                  <md-button class="md-raised md-primary" aria-label="Subir propuesta" ng-click="nextTab()">Continuar</md-button>
                 </md-content>
             </md-content>
           </md-tab-body>
