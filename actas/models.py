@@ -239,9 +239,9 @@ class Respuesta(models.Model):
     updated_at = models.DateTimeField(null=False,default=default_datetime)
 
     def __str__(self):
-        return (u'Item Tema: {0} \nEncuentro_id: {1}'.format(self.item_tema, self.encuentro_id,
-                                                                              self.fundamento[:125] + "...")).encode(
-            'utf-8')
+        return str(self.to_dict())
+    
+
 
     def to_dict(self):
         item = self.item_tema
