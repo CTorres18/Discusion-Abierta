@@ -224,11 +224,11 @@ class Encuentro(models.Model):
 
 class Respuesta(models.Model):
     CATEGORIA_OPCIONES = (
-        {u'de_acuerdo', 2},
-        {u'mayoria_de_acuerdo', 1},
-        {u'desacuerdo', 0},
-        {u'mayoria_desacuerdo', -1},
-        {u'desacuerdo', -2},
+                             (u'de_acuerdo', 2),
+                             (u'mayoria_de_acuerdo', 1),
+                             (u'desacuerdo', 0),
+                             (u'mayoria_desacuerdo', -1),
+                             (u'desacuerdo', -2),
     )
     item_tema = models.ForeignKey('ItemTema')
     encuentro = models.ForeignKey('Encuentro')
@@ -239,7 +239,9 @@ class Respuesta(models.Model):
     updated_at = models.DateTimeField(null=False,default=default_datetime)
 
     def __str__(self):
-        return "tema"
+        return (u'Item Tema: {0} \nEncuentro_id: {1}'.format(self.item_tema, self.encuentro_id,
+                                                                              self.fundamento[:125] + "...")).encode(
+            'utf-8')
 
     def to_dict(self):
         item = self.item_tema
