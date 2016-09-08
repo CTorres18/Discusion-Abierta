@@ -1,3 +1,14 @@
+{% extends 'base/base.html' %}
+{% load staticfiles %}
+
+{% block js %}
+<script src="{% static 'js/angular/controller_acta.js' %}"></script>
+<script src="{% static 'bower_components/angular-elastic/elastic.js' %}"></script>
+{% endblock %}
+
+{% block body %}
 <div>
 Hola
-</div
+</div>
+
+{% endblock %}
