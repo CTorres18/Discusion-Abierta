@@ -245,7 +245,6 @@ class Participa(models.Model):
 
     def __str__(self):
         return str(self.to_dict())
-        return str(self.to_dict())
 
     def to_dict(self):
         return {
