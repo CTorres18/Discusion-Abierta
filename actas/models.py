@@ -239,8 +239,7 @@ class Respuesta(models.Model):
     updated_at = models.DateTimeField(null=False,default=default_datetime)
 
     def __str__(self):
-        return (u'Item Tema: {0} \nEncuentro_id: {1} \nRespuesta: {2}'.format(self.item_tema, self.encuentro_id,
-                                                                              self.fundamento[:125] + "...")).encode(
+        return (u'Item Tema: {0} \nEncuentro_id: {1}'.format(self.item_tema, self.encuentro_id)).encode(
             'utf-8')
 
     def to_dict(self):
