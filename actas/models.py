@@ -162,7 +162,7 @@ class ItemTema(models.Model):
     updated_at = models.DateTimeField(null=False,default=default_datetime)
 
     def __str__(self):
-        return (u'ID:{0}\nPregunta:{1}\nPregunta propuesta:{2}>'.format(self.tema_id, self.pregunta, self.pregunta_propuesta)).encode('utf-8')
+        return str(self.to_dict())
 
     def to_dict(self):
         return {
