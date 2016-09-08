@@ -239,8 +239,15 @@ class Respuesta(models.Model):
     updated_at = models.DateTimeField(null=False,default=default_datetime)
 
     def __str__(self):
-        return str(self.to_dict())
-    
+        return str(self.str_view())
+    def str_view(self):
+        return {
+            "item_tema_id": self.item_tema_id,
+            "categoria": self.categoria,
+            "respuesta": self.fundamento,
+            "propuesta": self.propuesta
+        }
+
 
 
     def to_dict(self):
