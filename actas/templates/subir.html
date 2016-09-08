@@ -162,7 +162,7 @@
                   </md-toolbar>
                   <div ng-class="{dataContent:true, activeContent:data.expanded}">
                     <div class="md-accordion">
-                      <md-toolbar ng-init="tema.expanded = false" ng-click="tema.expanded = !tema.expanded">
+                      <md-toolbar ng-init="tema.expanded = true" ng-click="tema.expanded = !tema.expanded">
                         <div class="md-toolbar-tools" height="auto">
                           <div>
                           <div class="nombre">Contextualización</div>
@@ -180,7 +180,9 @@
                         <div class="grupoitems_item_encabezado" layout="row">
                           <div flex="25">PREGUNTA</div>
                           <div class="centrar_texto" flex="25" ng-show="item.pregunta">RESPUESTA</div>
-                          <div flex ng-show="item.pregunta">FUNDAMENTO </div>
+                          <div flex ng-show="item.pregunta">
+                              FUNDAMENTO
+                          </div>
                         </div>
                       <div class="item" layout="row" >
                         <div class="container_nombre" flex=25 ng-show="item.pregunta">
@@ -194,16 +196,24 @@
                           <md-radio-button value="-2">Todos estamos en desacuerdo</md-radio-button>
                         </md-radio-group>
                         <div class="container_fundamento" flex>
-                              <textarea class="fundamento" ng-model="item.respuesta"></textarea>
+                          <md-tooltip md-direction="bottom">
+                            Expongan los motivos que sustentan su respuesta
+                          </md-tooltip>
+                          <textarea class="fundamento" ng-model="item.respuesta"></textarea>
                         </div>
                       </div>
                       <div class="grupoitems_item_encabezado">
                         <div flex>PROPUESTA</div>
                       </div>
                       <div class="item">
-                        <div class="container_nombre">
-                          <textarea class="nombre" ng-model="item.pregunta_propuesta" readonly ng-show="item.pregunta" style="height:11vh"></textarea>
+                        <div class="container_nombre ">
+                          <div ng-show="item.pregunta">
+                            {$ item.pregunta_propuesta $}
+                          </div>
                         </div>
+                        <md-tooltip md-direction="bottom">
+                          Expongan sus propuestas respecto de este tema. Pueden considerar las preguntas a modo de referencia
+                        </md-tooltip>
                         <div class="container_fundamento" flex>
                           <textarea msd-elastic class="fundamento" ng-model="item.propuesta"></textarea>
                         </div>
@@ -254,8 +264,13 @@
                             </md-content>             
                           <div >
                           <div ng-repeat="item in tema.items">
-                          <div style="margin: 5px" layout="row">
-                              <div flex>FUNDAMENTO</div> <div flex>{$ categorias[item.categoria*1.0 + 2] $} </div>
+                            <div style="margin: 5px" layout="row">
+                              <div flex>
+                                FUNDAMENTO
+                              </div> 
+                              <div flex>
+                                {$ categorias[item.categoria*1.0 + 2] $} 
+                              </div>
                             </div>
                             <div class="item" layout="row" >  
                               <div class="container_fundamento" flex>
