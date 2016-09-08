@@ -20,6 +20,12 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
         }
     }
 
+    $scope.prevTab = function(){
+      if ($scope.selectedTab > 0) {
+          $scope.selectedTab--;
+        }
+    }
+
     $scope.isSelectedTab = function(thisTab){
      // console.log($scope.selectedTab);
       return $scope.selectedTab === thisTab;

@@ -134,11 +134,8 @@
               Agregar Participante
               <md-button class="md-fab md-mini" aria-label="Agregar participante" ng-click="agregarParticipante()">+</md-button>
             </div>
-            <div layout="column" class="md-inline-form" style="padding: 50px;">
-              <md-content class="fondo-flecha">
-                  <img src="{% static '/svg/segunda_pagina/flecha_siguiente.svg' %}"  class="siguiente" aria-label="Subir propuesta" ng-click="nextTab()"/>
-                <md-button class="md-raised md-primary" aria-label="Subir propuesta" ng-click="nextTab()">Continuar</md-button>
-              </md-content>
+            <div layout="column" class="md-inline-form" style="padding: 50px;float:right">
+                  <img src="{% static '/svg/Continuar.svg' %} " class="md-raised md-primary" ng-click="nextTab()"/>
             </div>
           </md-content>
         </md-tab-body>
@@ -168,7 +165,7 @@
                       <md-toolbar ng-init="tema.expanded = false" ng-click="tema.expanded = !tema.expanded">
                         <div class="md-toolbar-tools" height="auto">
                           <div>
-                          <div class="nombre">Contextualizacion</div>
+                          <div class="nombre">Contextualización</div>
                         </div>
                           <span flex=""></span>
                           <span ng-class="{expandCollapse:true, active:tema.expanded}"></span> 
@@ -230,10 +227,10 @@
               </div>
               </div>
               </md-content>
-                <md-content class="fondo-flecha">
-                  <img src="{% static '/svg/segunda_pagina/flecha_siguiente.svg' %}"  class="siguiente" aria-label="Subir propuesta" ng-click="nextTab()"/>
-                  <md-button class="md-raised md-primary" aria-label="Subir propuesta" ng-click="nextTab()">Continuar</md-button>
-                </md-content>
+              <div layout="row" style="float:center">
+                <img src="{% static '/svg/Atras.svg' %} " class="md-raised md-primary" ng-click="prevTab()" style="padding-right: 50vw"/>
+                  <img src="{% static '/svg/Continuar.svg' %} " class="md-raised md-primary" ng-click="nextTab()"/>
+              </div>
             </md-content>
           </md-tab-body>
         </md-tab>
@@ -278,7 +275,9 @@
                         </div>
                       </div>
                   </md-content>
-                  <md-button class="md-raised md-primary" aria-label="Subir propuesta" ng-click="validarActa($event)" ng-disabled="noValidar">Enviar propuesta</md-button>
+                  <div layout="row" style="float:center">
+                    <img src="{% static 'svg/enviar_propuesta.svg' %}" ng-click="validarActa($event)" ng-disabled="noValidar"/>
+                  </div>
                 </md-content>
               </div>
             </md-content>
