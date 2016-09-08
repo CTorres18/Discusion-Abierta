@@ -168,11 +168,11 @@
                           <div class="nombre">Contextualización</div>
                         </div>
                           <span flex=""></span>
-                          <span ng-class="{expandCollapse:true, active:tema.expanded}"></span> 
+                          <span ng-class="{expandCollapse:true, active:tema.expanded}"></span>
                         </div>
                       </md-toolbar>
                       <div ng-class="{dataContent:true, activeContent:tema.expanded}">
-                          <md-content flex layout-padding ng-bind-html="tema.contextualizacion | html "></md-content>    
+                          <md-content flex layout-padding ng-bind-html="tema.contextualizacion | html "></md-content>
                       </div>
                     </div>
 
@@ -240,9 +240,17 @@
               </div>
               </div>
               </md-content>
-              <div layout="row" style="float:center">
-                <img src="{% static '/svg/Atras.svg' %} " class="md-raised md-primary" ng-click="prevTab()" style="padding-right: 50vw"/>
-                  <img src="{% static '/svg/Continuar.svg' %} " class="md-raised md-primary" ng-click="nextTab()"/>
+              <div layout="row" layout-fill>
+                <section layout="column" flex layout-padding layout-margin >
+                  <div>
+                    <img src="{% static '/svg/Atras.svg' %} " class="md-raised md-primary" ng-click="prevTab()" style="float:left"/>
+                  </div>
+                </section>
+                <section layout="column" flex layout-padding layout-margin >
+                  <div>
+                    <img src="{% static '/svg/Continuar.svg' %} " class="md-raised md-primary" ng-click="nextTab()" style="float:right"/>
+                  </div>
+                </section>
               </div>
             </md-content>
           </md-tab-body>
@@ -252,7 +260,7 @@
             <img src="{% static 'svg/segunda_pagina/etiqueta3_llena.svg'%}" style="height: 10vh" ng-show="isSelectedTab(2)">
             <img src="{% static 'svg/segunda_pagina/etiqueta3_vacia.svg'%}" style="height: 10vh" ng-hide="isSelectedTab(2)">
           </div>
-          <md-tab-body>  
+          <md-tab-body>
             <md-content layout-gt-sm="column">
               <div layout="column" class="md-inline-form" style="padding: 50px;">
                   <md-content class="md-padding">
@@ -263,19 +271,19 @@
                         <div ng-show="tema.items[0].categoria">
 
                             <md-content class="centrar_texto">
-                              <div>{$ tema.titulo $}</div> 
-                            </md-content>             
+                              <div>{$ tema.titulo $}</div>
+                            </md-content>
                           <div >
                           <div ng-repeat="item in tema.items">
                             <div style="margin: 5px" layout="row">
                               <div flex>
                                 FUNDAMENTO
-                              </div> 
+                              </div>
                               <div flex>
-                                {$ categorias[item.categoria*1.0 + 2] $} 
+                                {$ categorias[item.categoria*1.0 + 2] $}
                               </div>
                             </div>
-                            <div class="item" layout="row" >  
+                            <div class="item" layout="row" >
                               <div class="container_fundamento" flex>
                                     <textarea class="fundamento" ng-model="item.respuesta" readonly></textarea>
                               </div>
