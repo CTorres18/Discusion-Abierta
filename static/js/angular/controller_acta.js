@@ -247,18 +247,33 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
 
     if (localStorageService.get(LOCALSTORAGE_ACTA_KEY) !== null) {
       $scope.acta = localStorageService.get(LOCALSTORAGE_ACTA_KEY);
-    } else {
+    }
 
       $http({
         method: 'GET',
         url: '/actas/base/21'
       }).then(function (response) {
-         console.log(response.data);
-        $scope.acta = response.data;
+        if (!(typeof $scope.acta === "undefined"))
+        {
+          if (!(typeof $scope.acta.updated_at === "undefined")) {
+            var striped_data = response.data.updated_at.substring(0,19);
+            var striped_acta = $scope.acta.updated_at.substring(0,19);
+            if (!(striped_data === striped_acta)) {
+              console.log("changed it!");
+                $scope.acta = response.data;
+            }
+          }
+          else{
+            console.log("changed it!")
+            $scope.acta = response.data;
+          }
+        }
+
+
+
       });
       //console.log($scope.acta)
-    }
-  };
+    };
     /////////////////
     ////
 
