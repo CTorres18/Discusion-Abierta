@@ -13,9 +13,9 @@
         <a >
           <img class="ribbons right" src="{% static '/svg/buscar_propuesta1.svg' %}" style="width: 9vw;right:21vw;position:absolute;" ng-click="getPropuesta($event)">
         </a>
-        <img class="ribbons left" src="{% static '/svg/subir_propuesta2.svg' %}" style="width: 9vw; right:11vw;position:absolute;" ng-click="showInfo($event)">
+        <img class="ribbons left" src="{% static '/svg/subir_propuesta2.svg' %}" style="width: 9vw; right:11vw;position:absolute;">
         <a>
-          <img class="ribbons right" src="{% static '/svg/propuestas1.svg' %}" style="width: 9vw;right:1vw;position:absolute; " ng-click="getPropuesta($event)">
+          <img class="ribbons right" src="{% static '/svg/propuestas1.svg' %}" style="width: 9vw;right:1vw;position:absolute; " ng-click="showInfo($event)">
         </a>
         <a href="../">
           <img class="ribbons right" src="{% static '/svg/Inicio.svg' %}" style="width: 9vw;left:1vw;position:absolute;">
@@ -56,7 +56,7 @@
               </div>
             </div>
             <h3>
-              <span>Información de los {$ acta.participantes.length $} participantes</span>
+              <span>Información de los {$ acta.participantes.length + 1$} participantes</span>
             </h3>
             <div class="padding5">
               <div layout-xs="column" layout-gt-xs="row">
@@ -77,7 +77,7 @@
                     <input ng-model="acta.participante_organizador.email" required />
                   </md-input-container>
                   <md-input-container flex>
-                    <label>Numero de cedula</label>
+                    <label>Número de cédula</label>
                     <input ng-model="acta.participante_organizador.serie_cedula" required />
                   </md-input-container>
                     <md-input-container flex>
@@ -222,18 +222,21 @@
                   </div>
               </div>
               <div>
-              <md-toolbar class="grupoitems_encabezado">
-                <div class="md-toolbar-tools">
-                  <div>
-                    <div class="nombre">Complementos</div>
-                    <div class="descripcion">Puede ser completado con ideas, propuestas y visiones sobre la educación de nuestro país para las futuras generaciones.</div>
-                  </div>
+              <div class="grupoitems_item_encabezado">
+                <div flex>Aporte Adicional</div>
+              </div>
+              <div class="item">
+                <div class="container_nombre">
+                    <div>
+                    En esta sección puede agregar ideas, propuestas y visiones sobre la educación de nuestro país para las futuras generaciones.
+                    </div>
                 </div>
-              </md-toolbar>
-              <div layout="row">
-                <md-input-container class="md-block" flex>
-                  <textarea ng-model="acta.memoria" aria-label="Memoria histórica" md-maxlength="1024" rows="6" md-select-on-focus></textarea>
-                </md-input-container>
+                <md-tooltip md-direction="bottom">
+                  Espacio libre para su expresión
+                </md-tooltip>
+                <div class="container_fundamento" flex>
+                  <textarea msd-elastic class="fundamento" ng-model="acta.memoria"></textarea>
+                </div>
               </div>
               </div>
               </md-content>
