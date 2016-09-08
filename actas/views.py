@@ -62,6 +62,7 @@ def subir_validar(request):
 @transaction.atomic
 def subir_confirmar(request):
     acta, errores = validar_acta_json(request)
+    acta = acta.strip(' \t\n\r')
 
     if len(errores) > 0:
         return JsonResponse({'status': 'error', 'mensajes': errores}, status=400)
