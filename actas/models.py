@@ -299,7 +299,7 @@ class Participa(models.Model):
     def to_dict(self):
         return {
             'pk': self.pk,
-            'encuentro_id': self.encuentro.pk,
+            'encuentro_id': self.encuentro.pk   ,
             'ocupacion': self.ocupacion.ocupacion,
             'origen': self.origen.origen,
         }
