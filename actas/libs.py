@@ -552,7 +552,7 @@ def enviar_email_a_participantes(acta, ID):
     message = "Estimad@: \n La ID de su propuesta es {0}.\n Puede recuperar su acta en la pagina web https://discusionabierta.dcc.uchile.cl".format(ID)
     from_email = "propuestas@dcc.uchile.cl"
     recipient_list = []
-    for recipient in acta.participantes:
+    for recipient in acta['participantes']:
         recipient_list.extend(str(recipient.email))
     encargado = acta['participante_organizador']
     recipient_list.extend(str(encargado.email))
