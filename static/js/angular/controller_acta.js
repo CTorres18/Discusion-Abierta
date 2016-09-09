@@ -3,11 +3,12 @@
 var LOCALSTORAGE_ACTA_KEY = 'acta';
 
 var app =angular.module('DiscusionAbiertaApp');
-app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageService) {
+app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageService,$mdToast) {
 
     $scope.datito=''
 
     $scope.selectedTab = 0;
+    $scope.counter=0;
 
     $scope.categorias = ['Todos estamos en desacuerdo', 'La mayoría está en desacuerdo', 'No hay acuerdo de mayoría','La mayoría está de acuerdo',  'Todos estamos de acuerdo'];
 
@@ -355,9 +356,57 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
 */
   var cargarWatchersActa = function () {
     $scope.$watch('acta', function () {
+       $scope.counter +=1;
+      if(($scope.counter% 40)==1){
+        $scope.showActionToast()
+
+      }
       localStorageService.set(LOCALSTORAGE_ACTA_KEY, $scope.acta);
     }, true);
   };
+  var last = {
+      bottom: false,
+      top: true,
+      left: false,
+      right: true
+    };
+
+  $scope.toastPosition = angular.extend({},last);
+
+  $scope.getToastPosition = function() {
+    sanitizePosition();
+
+    return Object.keys($scope.toastPosition)
+      .filter(function(pos) { return $scope.toastPosition[pos]; })
+      .join(' ');
+  };
+
+  function sanitizePosition() {
+    var current = $scope.toastPosition;
+
+    if ( current.bottom && last.top ) current.top = false;
+    if ( current.top && last.bottom ) current.bottom = false;
+    if ( current.right && last.left ) current.left = false;
+    if ( current.left && last.right ) current.right = false;
+
+    last = angular.extend({},current);
+  }
+  $scope.showActionToast = function() {
+    var pinTo = $scope.getToastPosition();
+    var toast = $mdToast.simple()
+      .textContent('Recuerda: La informacion esta siendo guardada en tu navegador!')
+      .action('Cerrar')
+      .highlightAction(true)
+      .highlightClass('md-accent')// Accent is used by default, this just demonstrates the usage.
+      .position(pinTo)
+        .parent(document.getElementById('ptoast'))
+    .hideDelay(0);
+
+    $mdToast.show(toast).then(function(response) {
+
+    });
+  };
+
 
 
 
@@ -457,9 +506,15 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
 */
   cargarWatchersActa();
   cargarDatos();
+})
+.controller('ToastCtrl', function($scope, $mdToast) {
+  $scope.closeToast = function() {
+    $mdToast.hide();
+  };
 });
 
 app.filter('html', ['$sce', function ($sce) {
+
     return function (text) {
         return $sce.trustAsHtml(text);
     };

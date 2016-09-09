@@ -16,7 +16,6 @@ class Echo(object):
         return value
 
 
-
 # def get_respuestas(request):
 #     def generator1(respuestas):
 #         return (
@@ -48,6 +47,7 @@ def get_respuestas(request):
              resp.fundamento, resp.propuesta] for resp in respuestas)
 
     def column_name_generator():
+        yield ("Respuestas","")
         yield ("idEncuentro", "idTema", "idItem", "categoria", "fundamento", "propuesta")
 
     rows = chain(column_name_generator(), respuestas_generator(resp_all, items_all))
@@ -63,9 +63,10 @@ def get_origenes(request):
     origen_all = Origen.objects.all()
 
     def origen_generator(origenes):
-        return ([origen.pk, origen.origen] for origen in origenes)
+        return ([origen.pk, origen.origen.encode('utf-8')] for origen in origenes)
 
     def column_name_generator():
+        yield ("Organismos","")
         yield ("idOrigen", "nombreOrigen")
 
     rows = chain(column_name_generator(), origen_generator(origen_all))
@@ -81,9 +82,10 @@ def get_lugares(request):
     lugar_all = Lugar.objects.all()
 
     def lugar_generator(lugares):
-        return ([lugar.pk, lugar.lugar] for lugar in lugares)
+        return ([lugar.pk, lugar.lugar.encode('utf-8')] for lugar in lugares)
 
     def column_name_generator():
+        yield ("Lugares","")
         yield ("idLugar", "nombreLugar")
 
     rows = chain(column_name_generator(), lugar_generator(lugar_all))
@@ -96,16 +98,18 @@ def get_lugares(request):
 
 
 def get_encuentros(request):
+
     encuentros_all = Encuentro.objects.all()
 
     def encuentros_generator(encuentros):
         return (
             [encuentro.pk, encuentro.tipo_encuentro_id, encuentro.lugar_id, encuentro.fecha_inicio,
-             encuentro.fecha_termino,encuentro.complemento]
+             encuentro.fecha_termino, encuentro.complemento]
             for encuentro in encuentros)
 
     def column_name_generator():
-        yield ("idEncuentro", "idTipoEncuentro", "idLugar", "fecha_inicio", "fecha_termino","complemento")
+        yield ("Encuentros","")
+        yield ("idEncuentro", "idTipoEncuentro", "idLugar", "fecha_inicio", "fecha_termino", "complemento")
 
     rows = chain(column_name_generator(), encuentros_generator(encuentros_all))
     pseudo_buffer = Echo()
@@ -125,6 +129,7 @@ def get_tipos_encuentros(request):
             for tipo in tipos)
 
     def column_name_generator():
+        yield ("Tipos de Encuentro","")
         yield ("idTipoEncuentro", "nombreTipo")
 
     rows = chain(column_name_generator(), tipos_generator(tipos_all))
@@ -145,6 +150,7 @@ def get_temas_encuentros(request):
             for tema in temas)
 
     def column_name_generator():
+        yield ("Temas","")
         yield ("idTipoEncuentro", "nombreTipo")
 
     rows = chain(column_name_generator(), temas_generator(temas_all))
@@ -157,6 +163,7 @@ def get_temas_encuentros(request):
 
 
 def get_ocupaciones(request):
+
     ocupaciones_all = Encuentro.objects.all()
 
     def ocupaciones_generator(ocupaciones):
@@ -165,6 +172,7 @@ def get_ocupaciones(request):
             for ocupacion in ocupaciones)
 
     def column_name_generator():
+        yield ("Estamentos","")
         yield ("idOcupacion", "nombreOcupacion")
 
     rows = chain(column_name_generator(), ocupaciones_generator(ocupaciones_all))
@@ -185,6 +193,7 @@ def get_participa(request):
             for participa in participantes)
 
     def column_name_generator():
+        yield ("Participantes","")
         yield ("idEncuentro", "idParticipante", "idOcupacion", "idOrigen")
 
     rows = chain(column_name_generator(), participantes_generator(participantes_all))
@@ -194,5 +203,3 @@ def get_participa(request):
                                      content_type="text/csv")
     response['Content-Disposition'] = 'attachment; filename="participantes.csv"'
     return response
-
-
