@@ -158,7 +158,7 @@ def validar_lugar(acta):
         errores.append('Lugar Inválido.')
         return errores
 
-    configuracion_encuentro=ConfiguracionEncuentro.objects.get(pk=acta['pk'])
+    configuracion_encuentro = ConfiguracionEncuentro.objects.get(pk=acta['pk'])
     if not Lugar.objects.filter(configuracion_encuentro=configuracion_encuentro, lugar=acta['lugar']).exists():
         errores.append('Lugar Inválido.')
     return errores
@@ -257,9 +257,9 @@ def validar_participantes(acta):
         participa_participantes = Participa.objects.filter(participante_id__in=list(participantes_ids))
         for participa in participa_participantes:
 
-
             if participa.encuentro.tipo_encuentro.tipo == acta['tipo']:
-                errores.append('El RUT {0:s} ya participó de este tipo de encuentro.'.format(participantes_en_db.filter(pk=participa.participante_id).first().rut))
+                errores.append('El RUT {0:s} ya participó de este tipo de encuentro.'.format(
+                    participantes_en_db.filter(pk=participa.participante_id).first().rut))
 
     errores += verificar_cedula(participante_organizador['rut'], participante_organizador['serie_cedula'])
     return errores
@@ -364,12 +364,12 @@ def validar_cedulas_participantes(acta):
 # return errores
 
 
-def insertar_participantes(participantes, datos_acta,encuentro):
-    configuracion_encuentro=ConfiguracionEncuentro.objects.get(pk=datos_acta['pk'])
-    participantes_totales =Participante.objects.all()
+def insertar_participantes(participantes, datos_acta, encuentro):
+    configuracion_encuentro = ConfiguracionEncuentro.objects.get(pk=datos_acta['pk'])
+    participantes_totales = Participante.objects.all()
     for participante in participantes:
 
-        #origen valido
+        # origen valido
         origen = Origen.objects.filter(configuracion_encuentro=configuracion_encuentro, origen=participante['origen'])
         origen_pk = -1
         if origen.exists():
@@ -377,39 +377,44 @@ def insertar_participantes(participantes, datos_acta,encuentro):
         else:
             return ['Origen inválido.']
 
-        #ocupacion valido
-        ocupacion = Ocupacion.objects.filter(configuracion_encuentro=configuracion_encuentro, ocupacion=participante['ocupacion'])
+        # ocupacion valido
+        ocupacion = Ocupacion.objects.filter(configuracion_encuentro=configuracion_encuentro,
+                                             ocupacion=participante['ocupacion'])
         ocupacion_pk = -1
         if ocupacion.exists():
             ocupacion_pk = ocupacion[0].pk
         else:
             return ['Ocupación inválido.']
 
-        #serie sedula para el organizador
+        # serie sedula para el organizador
         serie_cedula = ''
         if 'serie_cedula' in participante:
             serie_cedula = participante['serie_cedula']
 
-        #guardar participante
-        p_anterior =participantes_totales.filter(rut=participante['rut'])
-        p_db=""
-        if(len(p_anterior)==0):
-            p_db = Participante(rut=participante['rut'], nombre=participante['nombre'], apellido=participante['apellido'],
+        # guardar participante
+        p_anterior = participantes_totales.filter(rut=participante['rut'])
+        p_db = ""
+        if (len(p_anterior) == 0):
+            p_db = Participante(rut=participante['rut'], nombre=participante['nombre'],
+                                apellido=participante['apellido'],
                                 correo=participante['email'], numero_de_carnet=serie_cedula)
             p_db.save()
         else:
             p_db = p_anterior.first()
-        participa_encuentro= Participa(encuentro_id= encuentro.pk,
+        participa_encuentro = Participa(encuentro_id=encuentro.pk,
                                         participante_id=p_db.pk,
                                         ocupacion_id=ocupacion_pk,
                                         origen_id=origen_pk)
         participa_encuentro.save()
 
 
-def insertar_respuestas(tema,encuentro):
+def insertar_respuestas(tema, encuentro):
     for item in tema['items']:
         if 'categoria' in item:
-            respuesta = Respuesta(item_tema_id =item['pk'],encuentro_id=encuentro.pk,categoria=item['categoria'],fundamento=item['respuesta'],propuesta = item['propuesta'])
+            r = clean_string(item['respuesta'])
+            p = clean_string(item['propuesta'])
+            respuesta = Respuesta(item_tema_id=item['pk'], encuentro_id=encuentro.pk, categoria=item['categoria'],
+                                  fundamento=r, propuesta=p)
             respuesta.save()
 
 
@@ -417,9 +422,9 @@ def guardar_acta(datos_acta):
     p_encargado = datos_acta['participante_organizador']
     encargado = ""
     p_anterior = Participante.objects.filter(rut=p_encargado['rut'])
-    if(len(p_anterior)==0):
+    if (len(p_anterior) == 0):
         encargado = Participante(rut=p_encargado['rut'], nombre=p_encargado['nombre'], apellido=p_encargado['apellido'],
-                             correo=p_encargado['email'], numero_de_carnet=p_encargado['serie_cedula'])
+                                 correo=p_encargado['email'], numero_de_carnet=p_encargado['serie_cedula'])
         encargado.save()
     else:
         encargado = p_anterior.first()
@@ -438,25 +443,22 @@ def guardar_acta(datos_acta):
         if lugar['nombre'] == datos_acta['lugar']:
             lugar_pk = lugar['pk']
 
-    #guardar encuentro
+    # guardar encuentro
     uu = uuid.uuid1().hex
     f_init = datos_acta['fechaInicio'].split('T')[0]
     f_fin = datos_acta['fin'].split('T')[0]
-    encuentro = Encuentro(  fecha_inicio=f_init, fecha_termino=f_fin,
-                            tipo_encuentro_id=tipo_pk, lugar_id=lugar_pk, encargado_id=encargado.pk,
-                            configuracion_encuentro_id=datos_acta['pk'],
-                            hash_search=uu,complemento=datos_acta['memoria'])
-
+    encuentro = Encuentro(fecha_inicio=f_init, fecha_termino=f_fin,
+                          tipo_encuentro_id=tipo_pk, lugar_id=lugar_pk, encargado_id=encargado.pk,
+                          configuracion_encuentro_id=datos_acta['pk'],
+                          hash_search=uu, complemento=clean_string(datos_acta['memoria']))
 
     encuentro.save()
     participantes = datos_acta['participantes']
     participantes.append(datos_acta['participante_organizador'])
-    insertar_participantes(participantes, datos_acta,encuentro)
-
+    insertar_participantes(participantes, datos_acta, encuentro)
 
     for tema in datos_acta['temas']:
-
-        insertar_respuestas(tema,encuentro)
+        insertar_respuestas(tema, encuentro)
 
     return uu
     # acta = Acta(
@@ -505,7 +507,8 @@ def validar_acta_json(request):
         acta = json.loads(acta)
     except ValueError:
         return (None, 'Acta inválida.',)
-    validation_functions = [validar_participantes, validar_origenes, validar_lugar, validar_ocupaciones, validar_temas, validar_tipo_encuentro]
+    validation_functions = [validar_participantes, validar_origenes, validar_lugar, validar_ocupaciones, validar_temas,
+                            validar_tipo_encuentro]
     for function in validation_functions:
         errores = function(acta)
 
@@ -515,24 +518,19 @@ def validar_acta_json(request):
     return (acta, [],)
 
 
-
+def clean_string(string):
+    string = string.replace("\n", "<>")
+    return string
 
 
 def obtener_config():
+    config = ConfiguracionEncuentro.objects.get(pk=21)
     config = {
-        'participantes_min': 3,
-        'participantes_max': 50,
+        'participantes_min': config.min_participantes,
+        'participantes_max': config.max_participantes,
         'encuentro': 20,
 
     }
-
-    if hasattr(settings, 'DISCUSION_ABIERTA') and type(settings.DISCUSION_ABIERTA) == dict:
-        config['participantes_min'] = int(
-            settings.DISCUSION_ABIERTA.get('PARTICIPANTES_MIN', config['participantes_min'])
-        )
-        config['participantes_max'] = int(
-            settings.DISCUSION_ABIERTA.get('PARTICIPANTES_MAX', config['participantes_max'])
-        )
 
     return config
 
@@ -544,10 +542,11 @@ def _crear_usuario(datos_usuario):
     usuario.save()
     return usuario
 
+
 def generar_propuesta_docx(acta):
     tpl = DocxTemplate('static/templates_docs/propuesta.docx')
     context = {}
-    context['acta']=acta
+    context['acta'] = acta
     tpl.render(context)
     f = StringIO()
     tpl.save(f)
