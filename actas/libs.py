@@ -553,11 +553,11 @@ def enviar_email_a_participantes(acta, ID):
     from_email = "propuestas@dcc.uchile.cl"
     recipient_list = []
     for recipient in acta['participantes']:
-        recipient_list.extend(str(recipient['email']))
+        recipient_list.append(str(recipient['email']))
     encargado = acta['participante_organizador']
-    recipient_list.extend(str(encargado['email']))
+    recipient_list.append(str(encargado['email']))
     mensaje_html = None
-    send_mail(subject, message, from_email, recipient_list, fail_silently=False, html_message=mensaje_html)
+    send_mail(subject, message, from_email, recipient_list, fail_silently=True, html_message=mensaje_html)
 
 
 def validar_acta_json(request):
