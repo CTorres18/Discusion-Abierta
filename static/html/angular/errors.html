@@ -1,13 +1,13 @@
 <md-dialog aria-label="Errores" ng-cloak>
   <form>
     <md-dialog-content>
-      <div ng-hide="error.length" class="md-dialog-content">
+      <div ng-show="errores.length" class="md-dialog-content">
         <h4>El acta contiene los siguientes errores</h4>
         <p ng-repeat="error in errores">{$ error $}</p>
       </div>
     </md-dialog-content>
     <md-dialog-content>
-      <div ng-show="error.length" class="md-dialog-content">
+      <div ng-hide="errores.length" class="md-dialog-content">
         <h4>Ha ocurrido un error en el servidor, por favor comunícate con nsdelgadov@gmail.com para solucionarlo. Por favor revisa el acta de todas maneras.
         </h4>
       </div>
