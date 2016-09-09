@@ -90,7 +90,7 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
     })
     .then(function(answer) {
            if(answer.length >0) {
-             window.location.href = 'http://localhost:8000/actas/bajar/' + answer
+             window.location.href = 'https://discusionabierta.dcc.uchile.cl/actas/bajar/' + answer
            }
     }, function() {
     });
@@ -106,7 +106,7 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
     })
     .then(function(answer) {
             if(answer.length >0) {
-            window.location.href = 'http://localhost:8000/actas/bajarpropuestadocx/'+ answer
+            window.location.href = 'https://discusionabierta.dcc.uchile.cl/actas/bajarpropuestadocx/'+ answer
           }
     }, function() {
     });
