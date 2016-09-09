@@ -29,121 +29,171 @@
         <md-tab>
           <div>
             <img src="{% static 'svg/segunda_pagina/etiqueta1_llena.svg'%}" style="height: 10vh" ng-show="isSelectedTab(0)">
-            <img src="{% static 'svg/segunda_pagina/etiqueta1_media.svg'%}" style="height: 10vh" ng-hide="isSelectedTab(0)">
+            <img src="{% static 'svg/segunda_pagina/etiqueta1_vacia.svg'%}" style="height: 10vh" ng-hide="isSelectedTab(0)">
           </div>
-        <md-tab-body>
-          <md-content class="md-padding">
-            <h3>Datos geográficos</h3>
-            <div layout-xs="column" layout-gt-xs="row">
-              <md-input-container flex>
-                <label>Campus</label>
-                <md-select ng-model="acta.lugar" required>
-                  <md-option ng-repeat="lugar in acta.lugares" ng-value="lugar.nombre">{$ lugar.nombre $}</md-option>
-                </md-select>
-              </md-input-container>
-              <md-input-container flex>
-                <label>Tipo de encuentro</label>
-                <md-select ng-model="acta.tipo" required>
-                  <md-option ng-repeat="tipo in acta.tipos" ng-value="tipo.nombre">{$ tipo.nombre $}</md-option>
-                </md-select>
-              </md-input-container>
-              <div layout="row">
-                <md-input-container class="datepicker-align">
-                </md-input-container>
-                <md-datepicker  ng-model="acta.fechaInicio" md-placeholder="Inicio"></md-datepicker>
-                <md-datepicker ng-model="acta.fin" md-placeholder="Fin"></md-datepicker>
-
+          <div layout="column" class="md-inline-form" style="padding: 50px;float:right">
+            <img src="{% static '/svg/Continuar.svg' %} " class="md-raised md-primary" ng-click="nextTab()"/>
+          </div>
+          <md-tab-body>
+            <div layout="row" class="text-1">
+              <div flex align="justify" style="padding:2vw;">
+                <p>Para la Universidad de Chile es un deber entregar al país un análisis riguroso, crítico y propositivo sobre la reforma del sistema de educación superior que propone el Gobierno y que iniciará en un futuro próximo su tramitación parlamentaria.</p>
+                <p>Nuestro papel como la principal institución estatal de educación superior de Chile nos obliga a asumir este desafío en el entendido de que lo que está en juego es fundamental para el desarrollo del país y el futuro de las nuevas generaciones. </p>
+                <p>Esto implica identificar las transformaciones al "modelo" vigente que exige la situación actual, con el propósito de incidir en las decisiones políticas que restituyan el valor de la educación superior pública de relevancia nacional, despojada de lógicas mercantiles, y que signifique un verdadero avance para la sociedad en su conjunto.</p>
+                <p>La importancia del momento que se vive nos ha llevado a iniciar un proceso de información, discusión y análisis de la situación y del proyecto de ley que compromete a toda la comunidad universitaria y a sus distintas instancias y estamentos.</p>
+                <p>Este proceso es coordinado por un Comité Institucional -creado especialmente con este objetivo- integrado por representantes de las diversas instancias de la Universidad: Consejo Universitario, Senado Universitario, Consejo de Evaluación, así como por la Federación de Estudiantes de Chile (FECH); la Asociación de Académicos (Acauch), y la Federación de Asociaciones de Funcionarios de la Universidad de Chile (Fenafuch).</p>
+                <p>De acuerdo al mandato recibido, el Comité se ha propuesto diseñar un itinerario de trabajo que permita obtener los siguientes resultados:</p>
+                <p>Elaborar a través de reflexión, discusión y formulación de propuestas, un planteamiento de la Universidad de Chile que considere la situación actual, el proyecto de ley y la discusión política y legislativa.</p>
+              </div>
+              <div flex align="justify" style="padding:2vw;">
+                <p>Incidir en el resultado legislativo en curso, identificando los nudos críticos de la propuesta del Gobierno y proponer indicaciones precisas que permitan una mirada alternativa y/o mejoras sustanciales del actual proyecto.</p>
+                <p>En una primera etapa está previsto realizar este trabajo desde septiembre de 2016 a enero de 2017 de manera coordinada en toda la Universidad. A continuación se presenta una guía metodológica, como insumo para facilitar el logro de los resultados planteados. </p>
+                <p>La recopilación de los resultados de la discusión que se realizará en las distintas facultades e institutos de la Universidad y en los demás espacios que forman parte de ella, será un material de alta relevancia para que la Universidad de Chile haga público su trabajo en pos de la educación superior en nuestro país.</p>
+                <p>Invitamos a todos y todas los integrantes de esta casa de estudios, a participar en esta tarea con entusiasmo. Lo que logremos generar en este proceso será una marca decisiva de nuestro compromiso académico con las necesidades de Chile y de su Educación.</p>
+                <p>¡APORTAR IDEAS, EXIGIR CAMBIOS!</p>
+                <p><b>Comité Institucional para la Reforma de la Educación Superior</b></p>
+                <div>
+                   <a href="{% static '/Others/Metodologia.pdf' %}" target="_blank">
+                    <img src="{% static '/svg/descarga_metodo.svg' %}" style="width:25vw;margin-left:10vw;"/>
+                  </a>
+                </div>
               </div>
             </div>
-            <h3>
-              <span>Información de los {$ acta.participantes.length + 1$} participantes</span>
-            </h3>
-            <div class="padding5">
-              <div layout-xs="column" layout-gt-xs="row">
-                  <md-input-container flex>
-                    <label>Nombre Encargado</label>
-                    <input ng-model="acta.participante_organizador.nombre" required />
-                  </md-input-container>
-                  <md-input-container flex>
-                    <label>Apellido</label>
-                    <input ng-model="acta.participante_organizador.apellido" required />
-                  </md-input-container>
-                  <md-input-container flex>
-                    <label>RUT</label>
-                    <input ng-model="acta.participante_organizador.rut" required />
-                  </md-input-container>
-                  <md-input-container flex>
-                    <label>Email</label>
-                    <input ng-model="acta.participante_organizador.email" required />
-                  </md-input-container>
-                  <md-input-container flex>
-                    <label>Número de cédula</label>
-                    <input ng-model="acta.participante_organizador.serie_cedula" required />
-                  </md-input-container>
-                    <md-input-container flex>
-                        <label>Estamento</label>
-                        <md-select ng-model="acta.participante_organizador.ocupacion" required>
-                            <md-option ng-repeat="ocupacion in acta.ocupaciones" ng-value="ocupacion.nombre">{$ ocupacion.nombre $}</md-option>
-                        </md-select>
-                    </md-input-container>
-                    <md-input-container flex>
-                        <label>Organismo</label>
-                        <md-select ng-model="acta.participante_organizador.origen" required>
-                            <md-option ng-repeat="origen in acta.origenes" ng-value="origen.nombre">{$ origen.nombre $}</md-option>
-                        </md-select>
-                    </md-input-container>
+            <div flex layout="row" layout-fill>
+                  <section layout="column" flex layout-padding layout-margin >
+                    <div>
+                      <img src="{% static '/svg/Continuar.svg' %} " class="md-raised md-primary" ng-click="nextTab()" style="float:right"/>
+                    </div>
+                  </section>
               </div>
-              <div layout-xs="column" layout-gt-xs="row" ng-repeat="participante in acta.participantes">
-                  <md-input-container flex>
-                    <label>Nombre Participante</label>
-                    <input ng-model="participante.nombre" required />
-                  </md-input-container>
-                  <md-input-container flex>
-                    <label>Apellido</label>
-                    <input ng-model="participante.apellido" required />
-                  </md-input-container>
-                  <md-input-container flex>
-                    <label>RUT</label>
-                    <input ng-model="participante.rut" required />
-                  </md-input-container>
-                  <md-input-container flex>
-                    <label>Email</label>
-                    <input ng-model="participante.email" required />
-                  </md-input-container>
-                     <md-input-container flex>
-                          <label>Estamento</label>
-                          <md-select ng-model="participante.ocupacion" required>
-                              <md-option ng-repeat="ocupacion in acta.ocupaciones" ng-value="ocupacion.nombre">{$ ocupacion.nombre $}</md-option>
-                          </md-select>
-                      </md-input-container>
-                      <md-input-container flex>
-                          <label>Organismo</label>
-                          <md-select ng-model="participante.origen" required>
-                              <md-option ng-repeat="origen in acta.origenes" ng-value="origen.nombre">{$ origen.nombre $}</md-option>
-                          </md-select>
-                      </md-input-container>
-
-                  <md-input-container class="centrar_texto" flex flex-sm-xs=10>
-                    <md-button class="md-fab md-mini" aria-label="Quitar participante" ng-click="quitarParticipante($index)">
-                      <img src="{% static 'svg/Primera_pagina/garbage.svg' %}" style="width:30px;padding-top: 5px;">
-                    </md-button>
-                  </md-input-container>
-              </div>
-            </div>
-            <div>
-              Agregar Participante
-              <md-button class="md-fab md-mini" aria-label="Agregar participante" ng-click="agregarParticipante()">+</md-button>
-            </div>
-            <div layout="column" class="md-inline-form" style="padding: 50px;float:right">
-                  <img src="{% static '/svg/Continuar.svg' %} " class="md-raised md-primary" ng-click="nextTab()"/>
-            </div>
-          </md-content>
-        </md-tab-body>
+          </md-tab-body>
         </md-tab>
         <md-tab>
           <div>
             <img src="{% static 'svg/segunda_pagina/etiqueta2_llena.svg'%}" style="height: 10vh" ng-show="isSelectedTab(1)">
             <img src="{% static 'svg/segunda_pagina/etiqueta2_vacia.svg'%}" style="height: 10vh" ng-hide="isSelectedTab(1)">
+          </div>
+          <md-tab-body>
+              <md-content class="md-padding">
+                <h3>Datos geográficos</h3>
+                <div layout-xs="column" layout-gt-xs="row">
+                  <md-input-container flex>
+                    <label>Campus</label>
+                    <md-select ng-model="acta.lugar" required>
+                      <md-option ng-repeat="lugar in acta.lugares" ng-value="lugar.nombre">{$ lugar.nombre $}</md-option>
+                    </md-select>
+                  </md-input-container>
+                  <md-input-container flex>
+                    <label>Tipo de encuentro</label>
+                    <md-select ng-model="acta.tipo" required>
+                      <md-option ng-repeat="tipo in acta.tipos" ng-value="tipo.nombre">{$ tipo.nombre $}</md-option>
+                    </md-select>
+                  </md-input-container>
+                  <div layout="row">
+                    <md-input-container class="datepicker-align">
+                    </md-input-container>
+                    <md-datepicker  ng-model="acta.fechaInicio" md-placeholder="Inicio"></md-datepicker>
+                    <md-datepicker ng-model="acta.fin" md-placeholder="Fin"></md-datepicker>
+                  </div>
+                </div>
+                <h3>
+                  <span>Información de los {$ acta.participantes.length + 1$} participantes</span>
+                </h3>
+                <div class="padding5">
+                  <div layout-xs="column" layout-gt-xs="row">
+                      <md-input-container flex>
+                        <label>Nombre Encargado</label>
+                        <input ng-model="acta.participante_organizador.nombre" required />
+                      </md-input-container>
+                      <md-input-container flex>
+                        <label>Apellido</label>
+                        <input ng-model="acta.participante_organizador.apellido" required />
+                      </md-input-container>
+                      <md-input-container flex>
+                        <label>RUT</label>
+                        <input ng-model="acta.participante_organizador.rut" required />
+                      </md-input-container>
+                      <md-input-container flex>
+                        <label>Email</label>
+                        <input ng-model="acta.participante_organizador.email" required />
+                      </md-input-container>
+                      <md-input-container flex>
+                        <label>Número de cédula</label>
+                        <input ng-model="acta.participante_organizador.serie_cedula" required />
+                      </md-input-container>
+                        <md-input-container flex>
+                            <label>Estamento</label>
+                            <md-select ng-model="acta.participante_organizador.ocupacion" required>
+                                <md-option ng-repeat="ocupacion in acta.ocupaciones" ng-value="ocupacion.nombre">{$ ocupacion.nombre $}</md-option>
+                            </md-select>
+                        </md-input-container>
+                        <md-input-container flex>
+                            <label>Organismo</label>
+                            <md-select ng-model="acta.participante_organizador.origen" required>
+                                <md-option ng-repeat="origen in acta.origenes" ng-value="origen.nombre">{$ origen.nombre $}</md-option>
+                            </md-select>
+                        </md-input-container>
+                  </div>
+                  <div layout-xs="column" layout-gt-xs="row" ng-repeat="participante in acta.participantes">
+                      <md-input-container flex>
+                        <label>Nombre Participante</label>
+                        <input ng-model="participante.nombre" required />
+                      </md-input-container>
+                      <md-input-container flex>
+                        <label>Apellido</label>
+                        <input ng-model="participante.apellido" required />
+                      </md-input-container>
+                      <md-input-container flex>
+                        <label>RUT</label>
+                        <input ng-model="participante.rut" required />
+                      </md-input-container>
+                      <md-input-container flex>
+                        <label>Email</label>
+                        <input ng-model="participante.email" required />
+                      </md-input-container>
+                         <md-input-container flex>
+                              <label>Estamento</label>
+                              <md-select ng-model="participante.ocupacion" required>
+                                  <md-option ng-repeat="ocupacion in acta.ocupaciones" ng-value="ocupacion.nombre">{$ ocupacion.nombre $}</md-option>
+                              </md-select>
+                          </md-input-container>
+                          <md-input-container flex>
+                              <label>Organismo</label>
+                              <md-select ng-model="participante.origen" required>
+                                  <md-option ng-repeat="origen in acta.origenes" ng-value="origen.nombre">{$ origen.nombre $}</md-option>
+                              </md-select>
+                          </md-input-container>
+
+                      <md-input-container class="centrar_texto" flex flex-sm-xs=10>
+                        <md-button class="md-fab md-mini" aria-label="Quitar participante" ng-click="quitarParticipante($index)">
+                          <img src="{% static 'svg/Primera_pagina/garbage.svg' %}" style="width:30px;padding-top: 5px;">
+                        </md-button>
+                      </md-input-container>
+                  </div>
+                </div>
+                <div>
+                  Agregar Participante
+                  <md-button class="md-fab md-mini" aria-label="Agregar participante" ng-click="agregarParticipante()">+</md-button>
+                </div>
+                <div layout="row" layout-fill>
+                  <section layout="column" flex layout-padding layout-margin >
+                    <div>
+                      <img src="{% static '/svg/Atras.svg' %} " class="md-raised md-primary" ng-click="prevTab()" style="float:left"/>
+                    </div>
+                  </section>
+                  <section layout="column" flex layout-padding layout-margin >
+                    <div>
+                      <img src="{% static '/svg/Continuar.svg' %} " class="md-raised md-primary" ng-click="nextTab()" style="float:right"/>
+                    </div>
+                  </section>
+              </div>
+              </md-content>
+          </md-tab-body>
+        </md-tab>
+        <md-tab>
+          <div>
+            <img src="{% static 'svg/segunda_pagina/etiqueta3_llena.svg'%}" style="height: 10vh" ng-show="isSelectedTab(2)">
+            <img src="{% static 'svg/segunda_pagina/etiqueta3_vacia.svg'%}" style="height: 10vh" ng-hide="isSelectedTab(2)">
           </div>
           <md-tab-body>
             <md-content class="md-padding">
@@ -220,25 +270,25 @@
                       </div>
                     </div>
                   </div>
-              </div>
-              <div>
-              <div class="grupoitems_item_encabezado">
-                <div flex>Aporte Adicional</div>
-              </div>
-              <div class="item">
-                <div class="container_nombre">
-                    <div>
-                    En esta sección puede agregar ideas, propuestas y visiones sobre la educación de nuestro país para las futuras generaciones.
+                </div>
+                <div>
+                  <div class="grupoitems_item_encabezado">
+                    <div flex>Aporte Adicional</div>
+                  </div>
+                  <div class="item">
+                    <div class="container_nombre">
+                        <div>
+                        En esta sección puede agregar ideas, propuestas y visiones sobre la educación de nuestro país para las futuras generaciones.
+                        </div>
                     </div>
+                    <md-tooltip md-direction="bottom">
+                      Espacio libre para su expresión
+                    </md-tooltip>
+                    <div class="container_fundamento" flex>
+                      <textarea msd-elastic class="fundamento" ng-model="acta.memoria"></textarea>
+                    </div>
+                  </div>
                 </div>
-                <md-tooltip md-direction="bottom">
-                  Espacio libre para su expresión
-                </md-tooltip>
-                <div class="container_fundamento" flex>
-                  <textarea msd-elastic class="fundamento" ng-model="acta.memoria"></textarea>
-                </div>
-              </div>
-              </div>
               </md-content>
               <div layout="row" layout-fill>
                 <section layout="column" flex layout-padding layout-margin >
@@ -257,8 +307,8 @@
         </md-tab>
         <md-tab>
           <div>
-            <img src="{% static 'svg/segunda_pagina/etiqueta3_llena.svg'%}" style="height: 10vh" ng-show="isSelectedTab(2)">
-            <img src="{% static 'svg/segunda_pagina/etiqueta3_vacia.svg'%}" style="height: 10vh" ng-hide="isSelectedTab(2)">
+            <img src="{% static 'svg/segunda_pagina/etiqueta4_llena.svg'%}" style="height: 10vh" ng-show="isSelectedTab(3)">
+            <img src="{% static 'svg/segunda_pagina/etiqueta4_vacia.svg'%}" style="height: 10vh" ng-hide="isSelectedTab(3)">
           </div>
           <md-tab-body>
             <md-content layout-gt-sm="column">
