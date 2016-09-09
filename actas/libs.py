@@ -4,6 +4,7 @@ from itertools import cycle
 import re
 
 from django.conf import settings
+from django.core.mail import send_mail
 from models import Tema, ItemTema, Origen, Ocupacion, Encuentro, Participante, ConfiguracionEncuentro, Lugar, Participa, \
     Respuesta
 from django.contrib.auth.models import User
@@ -22,6 +23,8 @@ from docxtpl import DocxTemplate
 
 REGEX_RUT = re.compile(r'([0-9]+)\-([0-9K])', re.IGNORECASE)
 RUT_VERIFICACION_URL = 'https://portal.sidiv.registrocivil.cl/usuarios-portal/pages/DocumentRequestStatus.xhtml?RUN={0:s}&type=CEDULA&serial={1:s}'
+
+RUT_VERIFICACION_URL2 = 'https://portal.sidiv.registrocivil.cl/usuarios-portal/pages/DocumentRequestStatus.xhtml?RUN={0:s}&type=CEDULA_EXT&serial={1:s}'
 
 
 # https://gist.github.com/rbonvall/464824
@@ -64,6 +67,18 @@ def _get_html_verificar_cedula(rut_con_dv, serie):
     return r.content
 
 
+def _get_html_verificar_cedula2(rut_con_dv, serie):
+    r = requests.get(
+        RUT_VERIFICACION_URL2.format(rut_con_dv, serie),
+        verify=False  # Registro Civil pls
+    )
+
+    if r.status_code != 200:
+        return None
+
+    return r.content
+
+
 def verificar_cedula(rut_con_dv, serie):
     result = []
 
@@ -83,6 +98,52 @@ def verificar_cedula(rut_con_dv, serie):
     serie = serie.upper()
 
     html = _get_html_verificar_cedula(rut_con_dv, serie)
+
+    if html is None:
+        result.append('Validación de cédula no disponible.')
+        return result
+
+    html = html.replace(
+        '<html xmlns="http://www.w3.org/1999/xhtml">',
+        '<html>'
+    )
+
+    document = pq(html)
+
+    verificacion_rut = document('form input#form\:run').val()
+    verificacion_serie = document('form input#form\:docNumber').val()
+    vigente = document('table#tableResult td.setWidthOfSecondColumn').text().upper() == 'VIGENTE'
+
+    if rut_con_dv != verificacion_rut:
+        return verificar_cedula2(rut_con_dv,serie)
+
+    if serie != verificacion_serie:
+        return verificar_cedula2(rut_con_dv,serie)
+
+    if not vigente:
+        return verificar_cedula2(rut_con_dv,serie)
+
+    return result
+
+def verificar_cedula2(rut_con_dv, serie):
+    result = []
+
+    if type(rut_con_dv) not in [str, unicode] \
+            or len(rut_con_dv) == 0 \
+            or not verificar_rut(rut_con_dv):
+        result.append('RUT inválido ({0})'.format(rut_con_dv) if rut_con_dv is not None and len(
+            rut_con_dv) > 0 else 'RUT inválido')
+
+    if type(serie) not in [str, unicode] or len(serie) == 0:
+        result.append('Número de serie inválido para el RUT {0:s}'.format(rut_con_dv) if rut_con_dv is not None and len(
+            rut_con_dv) > 0 else 'Número de serie inválido')
+
+    if len(result) > 0:
+        return result
+
+    serie = serie.upper()
+
+    html = _get_html_verificar_cedula2(rut_con_dv, serie)
 
     if html is None:
         result.append('Validación de cédula no disponible.')
@@ -459,7 +520,7 @@ def guardar_acta(datos_acta):
 
     for tema in datos_acta['temas']:
         insertar_respuestas(tema, encuentro)
-
+    enviar_email_a_participantes(datos_acta,uu)
     return uu
     # acta = Acta(
     #     comuna=Comuna.objects.get(pk=datos_acta['geo']['comuna']),
@@ -486,13 +547,15 @@ def guardar_acta(datos_acta):
     #         acta_item.save()
 
 
-def enviar_email_a_participantes(acta):
+def enviar_email_a_participantes(acta, ID):
     subject = "Participación en Discusión Abierta UChile"
-    message = "Estimade: El contenido del acta es: bleh bleh bleh"
-    from_email = "no-responder@discusionabierta.cl"
+    message = "Estimad@: \n La ID de su propuesta es {0}.\n Puede recuperar su acta en la pagina web https://discusionabierta.dcc.uchile.cl".format(ID)
+    from_email = "propuestas@dcc.uchile.cl"
     recipient_list = []
     for recipient in acta.participantes:
-        recipient_list.extend(str(recipient.mail))
+        recipient_list.extend(str(recipient.email))
+    encargado = acta['participante_organizador']
+    recipient_list.extend(str(encargado.email))
     mensaje_html = None
     send_mail(subject, message, from_email, recipient_list, fail_silently=False, html_message=mensaje_html)
 

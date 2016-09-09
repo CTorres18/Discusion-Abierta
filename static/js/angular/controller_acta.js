@@ -247,10 +247,10 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
         errores.push('Falta el origen del organizador');
     }
     if(!$scope.acta.participantes)
-      errores.push('Tienes que tener por lo menos' + $scope.acta.min_participantes + ' participantes');
+      errores.push('Tienes que tener por lo menos' + ($scope.acta.min_participantes+1) + ' participantes');
     else {
-      if($scope.acta.participantes.length < 7)
-        errores.push('Tienes que tener por lo menos ' + $scope.acta.min_participantes + ' participantes');
+      if($scope.acta.participantes.length < $scope.acta.min_participantes)
+        errores.push('Tienes que tener por lo menos ' + ($scope.acta.min_participantes +1) + ' participantes ');
       else {
         var par_num = 0;
         for(var i=0;i<$scope.acta.participantes.length;i++){
