@@ -4,6 +4,7 @@ from itertools import cycle
 import re
 
 from django.conf import settings
+from django.core.mail import send_mail
 from models import Tema, ItemTema, Origen, Ocupacion, Encuentro, Participante, ConfiguracionEncuentro, Lugar, Participa, \
     Respuesta
 from django.contrib.auth.models import User
@@ -519,7 +520,7 @@ def guardar_acta(datos_acta):
 
     for tema in datos_acta['temas']:
         insertar_respuestas(tema, encuentro)
-
+    enviar_email_a_participantes(datos_acta,uu)
     return uu
     # acta = Acta(
     #     comuna=Comuna.objects.get(pk=datos_acta['geo']['comuna']),
@@ -546,13 +547,15 @@ def guardar_acta(datos_acta):
     #         acta_item.save()
 
 
-def enviar_email_a_participantes(acta):
+def enviar_email_a_participantes(acta, ID):
     subject = "Participación en Discusión Abierta UChile"
-    message = "Estimade: El contenido del acta es: bleh bleh bleh"
-    from_email = "no-responder@discusionabierta.cl"
+    message = "Estimad@: \n La ID de su propuesta es {0}.\n Puede recuperar su acta en la pagina web https://discusionabierta.dcc.uchile.cl".format(ID)
+    from_email = "propuestas@dcc.uchile.cl"
     recipient_list = []
     for recipient in acta.participantes:
-        recipient_list.extend(str(recipient.mail))
+        recipient_list.extend(str(recipient.email))
+    encargado = acta['participante_organizador']
+    recipient_list.extend(str(encargado.email))
     mensaje_html = None
     send_mail(subject, message, from_email, recipient_list, fail_silently=False, html_message=mensaje_html)
 
