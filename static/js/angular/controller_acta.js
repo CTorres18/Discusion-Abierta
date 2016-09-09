@@ -156,7 +156,7 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
       $scope.noValidar = false;
     });
   };
-  $scope.validarActa = function (ev) {
+  /*$scope.validarActa = function (ev) {
     $scope.noValidar = true;
 
     $http({
@@ -172,6 +172,126 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
         $scope.noValidar = false;
       }
     );
+  };*/
+
+  //valida un RUT
+  function Validar_Rut(rut){
+    if(rut.length < 5)
+      return false;
+    if(rut.indexOf('-') < 0)
+      return false;
+
+    //separar rut en digitos y digito verificador entregado
+    var aux = rut.split('-');
+    var digitos = aux[0];
+    var digito_ver = aux[1].toLowerCase();
+
+    //calcular digito verificador para compararlo con el entregado
+    var suma = 0;
+    var multiplicador = 2;
+    for (;digitos != "";){
+      var dig = digitos.slice(-1);
+      suma += dig*multiplicador;
+      multiplicador++;
+      if(multiplicador>7)
+        multiplicador=2;
+      digitos = digitos.slice(0,digitos.length-1);
+    }
+    var digito_ver_calc = suma%11;
+    digito_ver_calc = 11-digito_ver_calc
+
+    //11=k, 10=0
+    if(digito_ver_calc==11)
+      digito_ver_calc='k';
+    else if(digito_ver_calc==10)
+      digito_ver_calc='0';
+    else digito_ver_calc = digito_ver_calc + '';
+
+    //comparacion del digito verificador entregado con digito verificador calculado
+    if(digito_ver_calc==digito_ver)
+      return true;
+    else return false;
+  }
+
+  $scope.validarActa = function (ev) {
+    $scope.noValidar = true;
+    var errores = [];
+    if(!$scope.acta.lugar)
+      errores.push('Falta el campus.');
+    if(!$scope.acta.tipo)
+      errores.push('Falta el tipo de encuentro');
+    if(!$scope.acta.fechaInicio)
+      errores.push('Falta la fecha de inicio');
+    if(!$scope.acta.fin)
+      errores.push('Falta la fecha de termino');
+    if(!$scope.acta.participante_organizador)
+      errores.push('Falta la fecha de inicio');
+    else{
+      if(!$scope.acta.participante_organizador.nombre)
+        errores.push('Falta el nombre del organizador');
+      if(!$scope.acta.participante_organizador.apellido)
+        errores.push('Falta el apellido del organizador');
+      if(!$scope.acta.participante_organizador.rut)
+        errores.push('Falta el rut del organizador');
+      else{
+        if(!Validar_Rut($scope.acta.participante_organizador.rut))
+          errores.push('Falta el rut inválido del organizador');
+      }
+      if(!$scope.acta.participante_organizador.email)
+        errores.push('Falta el email del organizador');
+      if(!$scope.acta.participante_organizador.serie_cedula)
+        errores.push('Falta el número de cédula del organizador');
+      if(!$scope.acta.participante_organizador.ocupacion)
+        errores.push('Falta el ocupación del organizador');
+      if(!$scope.acta.participante_organizador.origen)
+        errores.push('Falta el origen del organizador');
+    }
+    if(!$scope.acta.participantes)
+      errores.push('Tienes que tener por lo menos' + $scope.acta.min_participantes + ' participantes');
+    else {
+      if($scope.acta.participantes.length < 7)
+        errores.push('Tienes que tener por lo menos ' + $scope.acta.min_participantes + ' participantes');
+      else {
+        var par_num = 0;
+        for(var i=0;i<$scope.acta.participantes.length;i++){
+          par_num++;
+          var participante = $scope.acta.participantes[i];
+          if(!participante.nombre){
+            errores.push('Falta el nombre del participante ' + par_num);
+          }
+          else if(!participante.apellido){
+            errores.push('Falta el apellido del participante ' + par_num);
+          }
+          else{
+            if(!participante.rut){
+              errores.push('Falta el rut del participante ' + par_num);
+            }
+            else{
+              if(!Validar_Rut(participante.rut)){
+                errores.push('Falta el rut inválido del participante ' + par_num);
+              }
+              else if(!participante.email){
+                errores.push('Falta el email del participante ' + par_num);
+              }
+              else if(!participante.ocupacion){
+                errores.push('Falta el ocupación del participante ' + par_num);
+              }
+              else if(!participante.origen){
+                errores.push('Falta el origen del participante ' + par_num);
+              }
+            }
+          }
+        }
+      }
+    }
+    if(errores.length > 0){
+      console.log(errores);
+      mostrarErrores(ev, errores);
+      $scope.noValidar = false;
+    }
+    else {
+      confirmarActa(ev);
+    }
   };
 
 

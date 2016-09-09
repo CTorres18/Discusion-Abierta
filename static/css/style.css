@@ -545,3 +545,7 @@ ul#horizontal-menu li {
   height:20vh;
   background-color: #e4eefe;
 }
+.text-1{
+  padding:2vw; 
+  font-size:calc(5px + 1vw);
+}
