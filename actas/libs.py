@@ -552,6 +552,7 @@ def enviar_email_a_participantes(acta, ID):
    EmailThread(acta,ID).start()
 
 
+
 def validar_acta_json(request):
     if request.method != 'POST':
         return (None, 'Request inválido.',)
