@@ -5,6 +5,7 @@ import re
 
 from django.conf import settings
 from django.core.mail import send_mail
+from actas.EmailThreading import EmailThread
 from models import Tema, ItemTema, Origen, Ocupacion, Encuentro, Participante, ConfiguracionEncuentro, Lugar, Participa, \
     Respuesta
 from django.contrib.auth.models import User
@@ -548,16 +549,7 @@ def guardar_acta(datos_acta):
 
 
 def enviar_email_a_participantes(acta, ID):
-    subject = "Participación en Discusión Abierta UChile"
-    message = "Estimad@: \n La ID de su propuesta es {0}.\n Puede recuperar su acta en la pagina web https://discusionabierta.dcc.uchile.cl".format(ID)
-    from_email = "propuestas@dcc.uchile.cl"
-    recipient_list = []
-    for recipient in acta['participantes']:
-        recipient_list.extend(str(recipient['email']))
-    encargado = acta['participante_organizador']
-    recipient_list.extend(str(encargado['email']))
-    mensaje_html = None
-    send_mail(subject, message, from_email, recipient_list, fail_silently=False, html_message=mensaje_html)
+   EmailThread(acta,ID).start()
 
 
 def validar_acta_json(request):
