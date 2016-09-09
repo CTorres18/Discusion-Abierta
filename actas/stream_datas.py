@@ -44,7 +44,7 @@ def get_respuestas(request):
     def respuestas_generator(respuestas, items):
         return (
             [resp.encuentro_id, items.filter(pk=resp.item_tema_id).first().tema_id, resp.item_tema_id, resp.categoria,
-             resp.fundamento, resp.propuesta] for resp in respuestas)
+             resp.fundamento.encode('utf-8'), resp.propuesta.encode('utf-8')] for resp in respuestas)
 
     def column_name_generator():
         yield ("Respuestas","")
@@ -104,7 +104,7 @@ def get_encuentros(request):
     def encuentros_generator(encuentros):
         return (
             [encuentro.pk, encuentro.tipo_encuentro_id, encuentro.lugar_id, encuentro.fecha_inicio,
-             encuentro.fecha_termino, encuentro.complemento]
+             encuentro.fecha_termino, encuentro.complemento.encode('utf-8')]
             for encuentro in encuentros)
 
     def column_name_generator():
@@ -125,7 +125,7 @@ def get_tipos_encuentros(request):
 
     def tipos_generator(tipos):
         return (
-            [tipo.pk, tipo.tipo]
+            [tipo.pk, tipo.tipo.encode('utf-8')]
             for tipo in tipos)
 
     def column_name_generator():
@@ -146,7 +146,7 @@ def get_temas_encuentros(request):
 
     def temas_generator(temas):
         return (
-            [tema.pk, tema.tema, tema.contexto]
+            [tema.pk, tema.tema.encode('utf-8')]
             for tema in temas)
 
     def column_name_generator():
@@ -168,7 +168,7 @@ def get_ocupaciones(request):
 
     def ocupaciones_generator(ocupaciones):
         return (
-            [ocupacion.pk, ocupacion.ocupacion]
+            [ocupacion.pk, ocupacion.ocupacion.encode('utf-8')]
             for ocupacion in ocupaciones)
 
     def column_name_generator():
