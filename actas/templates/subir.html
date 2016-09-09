@@ -213,10 +213,13 @@
                   <div ng-class="{dataContent:true, activeContent:data.expanded}">
                     <div class="md-accordion">
                       <md-toolbar ng-init="tema.expanded = true" ng-click="tema.expanded = !tema.expanded">
+                        <md-tooltip md-direction="up">
+                          Puede esconder este texto haciendo click en él
+                        </md-tooltip>
                         <div class="md-toolbar-tools" height="auto">
                           <div>
-                          <div class="nombre">Contextualización</div>
-                        </div>
+                            <div class="nombre">Contextualización</div>
+                          </div>
                           <span flex=""></span>
                           <span ng-class="{expandCollapse:true, active:tema.expanded}"></span>
                         </div>
@@ -238,6 +241,9 @@
                         <div class="container_nombre" flex=25 ng-show="item.pregunta">
                           <textarea class="nombre" ng-model="item.pregunta" readonly></textarea>
                         </div>
+                        <md-tooltip md-direction="up">
+                          Debe contestar el nivel de acuerdo para que sea válida su propuesta.
+                        </md-tooltip>
                         <md-radio-group class="categoria" layout="column" ng-model="item.categoria" flex="25" ng-show="item.pregunta">
                           <md-radio-button value="2">Todos estamos de acuerdo</md-radio-button>
                           <md-radio-button value="1"> La mayoría está de acuerdo</md-radio-button>
@@ -311,50 +317,85 @@
             <img src="{% static 'svg/segunda_pagina/etiqueta4_vacia.svg'%}" style="height: 10vh" ng-hide="isSelectedTab(3)">
           </div>
           <md-tab-body>
-            <md-content layout-gt-sm="column">
-              <div layout="column" class="md-inline-form" style="padding: 50px;">
-                  <md-content class="md-padding">
-                    <h2 class="md-display-2">
-                    </h2>
-                    <md-content class="md-padding">
-                      <div ng-repeat="tema in acta.temas">
-                        <div ng-show="tema.items[0].categoria">
+            <md-content class="md-padding">
+              <h2 class="md-display-2">
+              </h2>
+              <md-content class="md-padding">
+                <div class="md-accordion" ng-repeat="tema in acta.temas">
+                  <div ng-show="tema.items[0].categoria">
+                    <md-toolbar class="grupoitems_encabezado" ng-init="data.expanded = true" ng-click="data.expanded = !data.expanded">
+                      <div class="md-toolbar-tools">
+                        <div>
+                          <div class="nombre">{$ tema.titulo $}</div>
+                        </div>
+                          <span flex=""></span>
+                          <span ng-class="{expandCollapse:true, active:data.expanded}"></span>
+                      </div>
+                    </md-toolbar>
+                    <div ng-class="{dataContent:true, activeContent:data.expanded}">
 
-                            <md-content class="centrar_texto">
-                              <div>{$ tema.titulo $}</div>
-                            </md-content>
-                          <div >
-                          <div ng-repeat="item in tema.items">
-                            <div style="margin: 5px" layout="row">
-                              <div flex>
-                                FUNDAMENTO
-                              </div>
-                              <div flex>
-                                {$ categorias[item.categoria*1.0 + 2] $}
-                              </div>
-                            </div>
-                            <div class="item" layout="row" >
-                              <div class="container_fundamento" flex>
-                                    <textarea class="fundamento" ng-model="item.respuesta" readonly></textarea>
-                              </div>
-                            </div>
-                            <div class="grupoitems_item_encabezado" style="margin: 5px">
-                              <div flex>PROPUESTA</div>
-                            </div>
-                            <div class="item">
-                              <div class="container_fundamento" flex>
-                                <textarea msd-elastic class="fundamento" ng-model="item.propuesta" readonly></textarea>
-                              </div>
+                      <div ng-repeat="item in tema.items">
+                        <div class="grupoitems_item_encabezado" layout="row">
+                          <div flex>
+                            {$ categorias[item.categoria*1.0 + 2] $}
+                          </div>
+                          <div flex>
+                            FUNDAMENTO
+                          </div>
+                        </div>
+                        <div class="item" layout="row" >
+                          <div class="container_fundamento" flex>
+                            <md-tooltip md-direction="bottom">
+                              Revise su fundamento
+                            </md-tooltip>
+                            <textarea class="fundamento" ng-model="item.respuesta" readonly></textarea>
+                          </div>
+                        </div>
+                        <div class="grupoitems_item_encabezado">
+                          <div flex>PROPUESTA</div>
+                        </div>
+                        <div class="item">
+                          <div class="container_nombre ">
+                            <div ng-show="item.pregunta">
+                              {$ item.pregunta_propuesta $}
                             </div>
                           </div>
+                          <md-tooltip md-direction="bottom">
+                            Revise su Propuesta
+                          </md-tooltip>
+                          <div class="container_fundamento" flex>
+                            <textarea msd-elastic class="fundamento" ng-model="item.propuesta" readonly></textarea>
                           </div>
                         </div>
                       </div>
-                  </md-content>
-                  <div layout="row" style="float:center">
-                    <img src="{% static 'svg/enviar_propuesta.svg' %}" ng-click="validarActa($event)" ng-disabled="noValidar"/>
+                    </div>
                   </div>
-                </md-content>
+                </div>
+                <div>
+                  <div class="grupoitems_item_encabezado">
+                    <div flex>Aporte Adicional</div>
+                  </div>
+                  <div class="item">
+                    <md-tooltip md-direction="bottom">
+                      Revise sus comentarios
+                    </md-tooltip>
+                    <div class="container_fundamento" flex>
+                      <textarea msd-elastic class="fundamento" ng-model="acta.memoria" readonly></textarea>
+                    </div>
+                  </div>
+                </div>
+              </md-content>
+              <div layout="row" layout-fill>
+                <section layout="column" flex layout-padding layout-margin >
+                  <div>
+                    <img src="{% static '/svg/Atras.svg' %} " class="md-raised md-primary" ng-click="prevTab()" style="float:left"/>
+                  </div>
+                </section>
+                <section layout="column" flex layout-padding layout-margin >
+                  <div>
+                    <img src="/static/svg/enviar_propuesta.svg" ng-click="validarActa($event)" ng-disabled="noValidar" role="button" tabindex="0" aria-disabled="false" style="float:right"/>
+                  </div>
+                </section>
               </div>
             </md-content>
           </md-tab-body>
