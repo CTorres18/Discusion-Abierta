@@ -5,7 +5,7 @@ from django.db import transaction
 from django.http import JsonResponse, HttpResponse, HttpResponseBadRequest
 from django.shortcuts import render
 from django.views.decorators.csrf import ensure_csrf_cookie
-
+import ast
 from actas.stream_datas import *
 
 from .libs import validar_acta_json, validar_cedulas_participantes, guardar_acta, obtener_config, \
@@ -62,8 +62,11 @@ def subir_validar(request):
 @transaction.atomic
 def subir_confirmar(request):
     acta, errores = validar_acta_json(request)
-    acta = acta.strip(' \t\n\r')
-
+    #str_json = json.dumps(pre_acta)
+    #print str_json
+    #str_json = str_json.strip('\n')
+    #real_acta = json.loads(str_json)
+    #print real_acta
     if len(errores) > 0:
         return JsonResponse({'status': 'error', 'mensajes': errores}, status=400)
 
