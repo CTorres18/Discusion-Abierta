@@ -2,7 +2,15 @@
 
 var LOCALSTORAGE_ACTA_KEY = 'acta';
 
-var app =angular.module('DiscusionAbiertaApp', ['ngMaterial', 'LocalStorageModule']);
+var app =angular.module('DiscusionAbiertaApp', ['ngMaterial', 'LocalStorageModule'])
+  .config(function ($httpProvider) {
+    $httpProvider.defaults.xsrfCookieName = 'csrftoken';
+    $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
+  })
+  .config(function ($interpolateProvider) {
+    $interpolateProvider.startSymbol('{$');
+    $interpolateProvider.endSymbol('$}');
+  });
 app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageService,$mdToast, $location, $anchorScroll) {
     var section2 = angular.element(document.getElementById('Section2'));
     $scope.toSection2 = function(obj){
@@ -439,6 +447,7 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
 
 
     if (localStorageService.get(LOCALSTORAGE_ACTA_KEY) !== null) {
+      console.log('changed it!')
       $scope.acta = localStorageService.get(LOCALSTORAGE_ACTA_KEY);
     }
 
