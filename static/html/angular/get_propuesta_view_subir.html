@@ -1,0 +1,27 @@
+<md-dialog aria-label="Mango (Fruit)" ng-cloack ng-controller="ActaCtrl">
+  <form ng-cloak>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>Bajar propuesta</h2>
+        <md-button class="md-icon-button" ng-click="cancel()">
+        </md-button>
+      </div>
+    </md-toolbar>
+    <md-dialog-content>
+       <md-input-container flex>
+                    <label>ID Propuesta</label>
+                    <input ng-model="datito" required />
+       </md-input-container>
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row">
+      <md-button ng-click="answer(datito)">
+       Obtener
+      </md-button>
+        <span flex></span>
+      <md-button ng-click="answer('')">
+        Cancelar
+      </md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>
