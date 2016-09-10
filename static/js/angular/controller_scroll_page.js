@@ -15,7 +15,8 @@ app.controller('ScrollPageCtrl', function($scope, $document, localStorageService
     $anchorScroll('Section3');
     //$document.scrollToElementAnimated(section3);
   };
-  
+
+  $scope.options_get = [{"name": "Origenes"},{"name": "Lugares"},{"name": "Encuentros"},{"name": "Estamentos"},{"name": "Respuestas"},{"name": "Temas"},{"name": "Participantes"},{"name": "Tipos_de_Encuentros"}]
   $scope.datito=''
 
   $scope.getPropuesta = function(ev) {

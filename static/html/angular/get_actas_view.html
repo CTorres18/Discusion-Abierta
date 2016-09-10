@@ -9,7 +9,7 @@
     </md-toolbar>
     <md-dialog-content>
        <md-select ng-model="datito" required style="padding: 40px">
-                          <md-option ng-repeat="option in options_get" ng-value="option.name">{$ option.name $}</md-option>
+                          <md-option ng-repeat="option in options_get" ng-value="option.name">{{ option.name }}</md-option>
        </md-select>
     </md-dialog-content>
 
