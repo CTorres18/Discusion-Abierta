@@ -416,8 +416,6 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
 
     if (localStorageService.get(LOCALSTORAGE_ACTA_KEY) !== null) {
       $scope.acta = localStorageService.get(LOCALSTORAGE_ACTA_KEY);
-      //$scope.acta.fechaInicio = new Date();
-      $scope.acta.fin = new Date();
     }
 
       $http({
@@ -432,15 +430,11 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
             if (!(striped_data === striped_acta)) {
               console.log("changed it!");
                 $scope.acta = response.data;
-                //$scope.acta.fechaInicio = new Date();
-                $scope.acta.fin = new Date();
             }
           }
           else{
             console.log("changed it!")
             $scope.acta = response.data;
-            //$scope.acta.fechaInicio = new Date();
-            $scope.acta.fin = new Date();
           }
         }
 

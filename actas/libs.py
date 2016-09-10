@@ -575,7 +575,7 @@ def validar_acta_json(request):
 
 
 def clean_string(string):
-    string = string.replace("\n", "---")
+    string = string.replace("\n", "<>")
     return string
 
 
@@ -584,7 +584,7 @@ def obtener_config():
     config = {
         'participantes_min': config.min_participantes,
         'participantes_max': config.max_participantes,
-        'encuentro': 21,
+        'encuentro': 20,
 
     }
 
@@ -600,15 +600,9 @@ def _crear_usuario(datos_usuario):
 
 
 def generar_propuesta_docx(acta):
-    categorias={2: u'Todos estamos de acuerdo',
-                             1: u'La mayoría está de acuerdo',
-                             0: u'No hay acuerdo de mayoría',
-                             -1: u'La mayoría está en desacuerdo',
-                             -2: u'Todos estamos en desacuerdo'}
     tpl = DocxTemplate('static/templates_docs/propuesta.docx')
     context = {}
     context['acta'] = acta
-    context['categorias']= categorias
     tpl.render(context)
     f = StringIO()
     tpl.save(f)
