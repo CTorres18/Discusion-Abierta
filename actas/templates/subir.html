@@ -119,6 +119,10 @@
                       </md-input-container>
                       <md-input-container flex>
                         <label>Número de cédula</label>
+                        <md-tooltip md-direction="up" class="image-tooltip">
+                          .
+                          <img src="https://www.srcei.cl/PortalOI/images/serie.png"/>
+                        </md-tooltip>
                         <input ng-model="acta.participante_organizador.serie_cedula" required />
                       </md-input-container>
                         <md-input-container flex>
@@ -213,7 +217,7 @@
                   <div ng-class="{dataContent:true, activeContent:data.expanded}">
                     <div class="md-accordion">
                       <md-toolbar ng-init="tema.expanded = true" ng-click="tema.expanded = !tema.expanded">
-                        <md-tooltip md-direction="up">
+                        <md-tooltip md-direction="up" class="image-tooltip">
                           Puede esconder este texto haciendo click en él
                         </md-tooltip>
                         <div class="md-toolbar-tools" height="auto">
