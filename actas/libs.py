@@ -301,7 +301,7 @@ def validar_participantes(acta):
 
     # Ruts diferentes
     ruts = set(ruts_participantes)
-    if not len(ruts) <= len(ruts_participantes):
+    if len(ruts) != len(ruts_participantes):
         return ['Existen RUTs repetidos.']
 
     for rut in ruts:
