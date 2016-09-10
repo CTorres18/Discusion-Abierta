@@ -2,8 +2,20 @@
 
 var LOCALSTORAGE_ACTA_KEY = 'acta';
 
-var app =angular.module('DiscusionAbiertaApp');
-app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageService,$mdToast) {
+var app =angular.module('DiscusionAbiertaApp', ['ngMaterial', 'LocalStorageModule']);
+app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageService,$mdToast, $location, $anchorScroll) {
+    var section2 = angular.element(document.getElementById('Section2'));
+    $scope.toSection2 = function(obj){
+      $anchorScroll('Section2');
+      //$document.scrollToElementAnimated(section2);
+
+    };
+
+    var section3 = angular.element(document.getElementById('Section3'));
+    $scope.toSection3 = function(obj){
+      $anchorScroll('Section3');
+      //$document.scrollToElementAnimated(section3);
+    };
 
     $scope.datito=''
 
@@ -12,6 +24,15 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
 
     $scope.categorias = ['Todos estamos en desacuerdo', 'La mayoría está en desacuerdo', 'No hay acuerdo de mayoría','La mayoría está de acuerdo',  'Todos estamos de acuerdo'];
 
+    $scope.gotoTop = function(){
+      // set the location.hash to the id of
+      // the element you wish to scroll to.
+      $location.hash('top');
+
+      // call $anchorScroll()
+      $anchorScroll();
+    }
+
     $scope.nextTab = function() {
         if ($scope.selectedTab === 4) {
             $scope.selectedTab = 0;
@@ -19,12 +40,15 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
         else {
             $scope.selectedTab++;
         }
+        $scope.gotoTop();
     }
 
     $scope.prevTab = function(){
       if ($scope.selectedTab > 0) {
           $scope.selectedTab--;
         }
+
+      $scope.gotoTop();
     }
 
     $scope.isSelectedTab = function(thisTab){
@@ -82,7 +106,7 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
     $scope.showInfo = function(ev) {
     $mdDialog.show({
       controller: DialogController,
-      templateUrl: '/static/html/angular/get_actas_view.html',
+      templateUrl: '/static/html/angular/get_actas_view_subir.html',
       parent: angular.element(document.body),
       targetEvent: ev,
       clickOutsideToClose:true,
@@ -98,7 +122,7 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
   $scope.getPropuesta = function(ev) {
     $mdDialog.show({
       controller: DialogController,
-      templateUrl: '/static/html/angular/get_propuesta_view.html',
+      templateUrl: '/static/html/angular/get_propuesta_view_subir.html',
       parent: angular.element(document.body),
       targetEvent: ev,
       clickOutsideToClose:true,
