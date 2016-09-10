@@ -314,15 +314,15 @@ def validar_participantes(acta):
         return errores
 
     # Verificar que los participantes no hayan enviado un acta antes
-    participantes_en_db = Participante.objects.filter(rut__in=list(ruts))
-    if len(participantes_en_db) > 0:
-        participantes_ids = set([p.pk for p in participantes_en_db])
-        participa_participantes = Participa.objects.filter(participante_id__in=list(participantes_ids))
-        for participa in participa_participantes:
-
-            if participa.encuentro.tipo_encuentro.tipo == acta['tipo'] and acta['tipo'] != 'Encuentro transversal':
-                errores.append('El RUT {0:s} ya participó de este tipo de encuentro.'.format(
-                    participantes_en_db.filter(pk=participa.participante_id).first().rut))
+    if acta['tipo'] == 'Encuentro autoconvocado':
+        participantes_en_db = Participante.objects.filter(rut__in=list(ruts))
+        if len(participantes_en_db) > 0:
+            participantes_ids = set([p.pk for p in participantes_en_db])
+            participa_participantes = Participa.objects.filter(participante_id__in=list(participantes_ids))
+            for participa in participa_participantes:
+                if participa.encuentro.tipo_encuentro.tipo == acta['tipo']:
+                    errores.append('El RUT {0:s} ya participó de este tipo de encuentro.'.format(
+                        participantes_en_db.filter(pk=participa.participante_id).first().rut))
 
     errores += verificar_cedula(participante_organizador['rut'], participante_organizador['serie_cedula'])
     return errores
@@ -505,7 +505,6 @@ def guardar_acta(datos_acta):
     for lugar in datos_acta['lugares']:
         if lugar['nombre'] == datos_acta['lugar']:
             lugar_pk = lugar['pk']
-
     # guardar encuentro
     uu = uuid.uuid1().hex
     f_init = datos_acta['fechaInicio'].split('T')[0]
