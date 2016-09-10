@@ -15,6 +15,8 @@ app.controller('ScrollPageCtrl', function($scope, $document, localStorageService
     $anchorScroll('Section3');
     //$document.scrollToElementAnimated(section3);
   };
+  
+  $scope.datito=''
 
   $scope.getPropuesta = function(ev) {
     $mdDialog.show({
