@@ -116,15 +116,16 @@ def verificar_cedula(rut_con_dv, serie):
     vigente = document('table#tableResult td.setWidthOfSecondColumn').text().upper() == 'VIGENTE'
 
     if rut_con_dv != verificacion_rut:
-        return verificar_cedula2(rut_con_dv,serie)
+        return verificar_cedula2(rut_con_dv, serie)
 
     if serie != verificacion_serie:
-        return verificar_cedula2(rut_con_dv,serie)
+        return verificar_cedula2(rut_con_dv, serie)
 
     if not vigente:
-        return verificar_cedula2(rut_con_dv,serie)
+        return verificar_cedula2(rut_con_dv, serie)
 
     return result
+
 
 def verificar_cedula2(rut_con_dv, serie):
     result = []
@@ -301,7 +302,7 @@ def validar_participantes(acta):
 
     # Ruts diferentes
     ruts = set(ruts_participantes)
-    if not len(ruts) <= len(ruts_participantes):
+    if len(ruts) != len(ruts_participantes):
         return ['Existen RUTs repetidos.']
 
     for rut in ruts:
@@ -313,15 +314,15 @@ def validar_participantes(acta):
         return errores
 
     # Verificar que los participantes no hayan enviado un acta antes
-    participantes_en_db = Participante.objects.filter(rut__in=list(ruts))
-    if len(participantes_en_db) > 0:
-        participantes_ids = set([p.pk for p in participantes_en_db])
-        participa_participantes = Participa.objects.filter(participante_id__in=list(participantes_ids))
-        for participa in participa_participantes:
-
-            if participa.encuentro.tipo_encuentro.tipo == acta['tipo']:
-                errores.append('El RUT {0:s} ya participó de este tipo de encuentro.'.format(
-                    participantes_en_db.filter(pk=participa.participante_id).first().rut))
+    if acta['tipo'] == 'Encuentro autoconvocado':
+        participantes_en_db = Participante.objects.filter(rut__in=list(ruts))
+        if len(participantes_en_db) > 0:
+            participantes_ids = set([p.pk for p in participantes_en_db])
+            participa_participantes = Participa.objects.filter(participante_id__in=list(participantes_ids))
+            for participa in participa_participantes:
+                if participa.encuentro.tipo_encuentro.tipo == acta['tipo']:
+                    errores.append('El RUT {0:s} ya participó de este tipo de encuentro.'.format(
+                        participantes_en_db.filter(pk=participa.participante_id).first().rut))
 
     errores += verificar_cedula(participante_organizador['rut'], participante_organizador['serie_cedula'])
     return errores
@@ -504,7 +505,6 @@ def guardar_acta(datos_acta):
     for lugar in datos_acta['lugares']:
         if lugar['nombre'] == datos_acta['lugar']:
             lugar_pk = lugar['pk']
-
     # guardar encuentro
     uu = uuid.uuid1().hex
     f_init = datos_acta['fechaInicio'].split('T')[0]
@@ -521,7 +521,7 @@ def guardar_acta(datos_acta):
 
     for tema in datos_acta['temas']:
         insertar_respuestas(tema, encuentro)
-    enviar_email_a_participantes(datos_acta,uu)
+    enviar_email_a_participantes(datos_acta, uu)
     return uu
     # acta = Acta(
     #     comuna=Comuna.objects.get(pk=datos_acta['geo']['comuna']),
@@ -549,8 +549,7 @@ def guardar_acta(datos_acta):
 
 
 def enviar_email_a_participantes(acta, ID):
-   EmailThread(acta,ID).start()
-
+    EmailThread(acta, ID).start()
 
 
 def validar_acta_json(request):
@@ -575,7 +574,7 @@ def validar_acta_json(request):
 
 
 def clean_string(string):
-    string = string.replace("\n", "<>")
+    string = string.replace("\n", "---")
     return string
 
 
@@ -584,7 +583,7 @@ def obtener_config():
     config = {
         'participantes_min': config.min_participantes,
         'participantes_max': config.max_participantes,
-        'encuentro': 20,
+        'encuentro': 21,
 
     }
 
@@ -600,9 +599,15 @@ def _crear_usuario(datos_usuario):
 
 
 def generar_propuesta_docx(acta):
+    categorias = {2: u'Todos estamos de acuerdo',
+                  1: u'La mayoría está de acuerdo',
+                  0: u'No hay acuerdo de mayoría',
+                  -1: u'La mayoría está en desacuerdo',
+                  -2: u'Todos estamos en desacuerdo'}
     tpl = DocxTemplate('static/templates_docs/propuesta.docx')
     context = {}
     context['acta'] = acta
+    context['categorias'] = categorias
     tpl.render(context)
     f = StringIO()
     tpl.save(f)
