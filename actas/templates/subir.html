@@ -187,7 +187,7 @@
                   </section>
                   <section layout="column" flex layout-padding layout-margin >
                     <div>
-                      <img src="{% static '/svg/Continuar.svg' %} " class="md-raised md-primary" ng-click="nextTab()" style="float:right;cursor: pointer;"/>
+                      <img src="{% static '/svg/Continuar.svg' %} " class="md-raised md-primary" ng-click="nextTab(); validarActa($event)" style="float:right;cursor: pointer;"/>
                     </div>
                   </section>
               </div>
@@ -310,7 +310,7 @@
                 </section>
                 <section layout="column" flex layout-padding layout-margin >
                   <div>
-                    <img src="{% static '/svg/Continuar.svg' %} " class="md-raised md-primary" ng-click="nextTab()" style="float:right;cursor: pointer;"/>
+                    <img src="{% static '/svg/Continuar.svg' %} " class="md-raised md-primary" ng-click="nextTab();  validarActa($event)" style="float:right;cursor: pointer;"/>
                   </div>
                 </section>
               </div>
