@@ -201,9 +201,9 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
     digito_ver_calc = 11-digito_ver_calc
 
     //11=k, 10=0
-    if(digito_ver_calc==11)
+    if(digito_ver_calc==10)
       digito_ver_calc='k';
-    else if(digito_ver_calc==10)
+    else if(digito_ver_calc==11)
       digito_ver_calc='0';
     else digito_ver_calc = digito_ver_calc + '';
 
@@ -235,7 +235,7 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
         errores.push('Falta el rut del organizador');
       else{
         if(!Validar_Rut($scope.acta.participante_organizador.rut))
-          errores.push('Falta el rut inválido del organizador');
+          errores.push('Rut inválido del organizador');
       }
       if(!$scope.acta.participante_organizador.email)
         errores.push('Falta el email del organizador');
@@ -268,7 +268,7 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
             }
             else{
               if(!Validar_Rut(participante.rut)){
-                errores.push('Falta el rut inválido del participante ' + par_num);
+                errores.push('Rut inválido del participante ' + par_num);
               }
               else if(!participante.email){
                 errores.push('Falta el email del participante ' + par_num);
