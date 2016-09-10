@@ -3,7 +3,7 @@
 var LOCALSTORAGE_ACTA_KEY = 'acta';
 
 var app =angular.module('DiscusionAbiertaApp');
-app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageService,$mdToast) {
+app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageService,$mdToast, $location, $anchorScroll) {
 
     $scope.datito=''
 
@@ -12,6 +12,15 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
 
     $scope.categorias = ['Todos estamos en desacuerdo', 'La mayoría está en desacuerdo', 'No hay acuerdo de mayoría','La mayoría está de acuerdo',  'Todos estamos de acuerdo'];
 
+    $scope.gotoTop = function(){
+      // set the location.hash to the id of
+      // the element you wish to scroll to.
+      $location.hash('top');
+
+      // call $anchorScroll()
+      $anchorScroll();
+    }
+
     $scope.nextTab = function() {
         if ($scope.selectedTab === 4) {
             $scope.selectedTab = 0;
@@ -19,12 +28,15 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
         else {
             $scope.selectedTab++;
         }
+        $scope.gotoTop();
     }
 
     $scope.prevTab = function(){
       if ($scope.selectedTab > 0) {
           $scope.selectedTab--;
         }
+
+      $scope.gotoTop();
     }
 
     $scope.isSelectedTab = function(thisTab){
