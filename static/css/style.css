@@ -111,50 +111,50 @@
       overflow:auto;
     }
 
-.md-accordion .expandCollapse {
+.md-accordion .expandCollapse { 
   width:30px;
-  height:30px;
-  position:relative;
-  font-size:20px;
-  font-weight:bold;
-  cursor:pointer;
-  color:#1c75f7;
-  display:block;
-  margin-top: -2px;
-  margin-left: -2px;
-  overflow:hidden;
+  height:30px; 
+  position:relative; 
+  font-size:20px; 
+  font-weight:bold; 
+  cursor:pointer; 
+  color:#1c75f7; 
+  display:block; 
+  margin-top: -2px; 
+  margin-left: -2px; 
+  overflow:hidden; 
 }
-.md-accordion .expandCollapse:active {
-  border:0px;
+.md-accordion .expandCollapse:active { 
+  border:0px; 
 }
-.md-accordion .expandCollapse:before, .md-accordion .expandCollapse:after {
-  width:30px;
-  height:30px;
-  display:block;
-  position:absolute;
-  top:0;
-  left:0;
-  line-height:32px;
-  text-align:center;
-  -webkit-transition: .3s all ease-out;
-  transition: .3s all ease-out;
+.md-accordion .expandCollapse:before, .md-accordion .expandCollapse:after { 
+  width:30px; 
+  height:30px; 
+  display:block; 
+  position:absolute; 
+  top:0; 
+  left:0; 
+  line-height:32px; 
+  text-align:center; 
+  -webkit-transition: .3s all ease-out; 
+  transition: .3s all ease-out; 
 }
 .md-accordion .expandCollapse:before { opacity:1; -webkit-transform: rotate(0deg); transform: rotate(0deg); content: "|"; margin-top:-3px; }
 .md-accordion .expandCollapse:after { opacity:1; -webkit-transform: rotate(-90deg); transform: rotate(-90deg); content: "|"; margin-left:-3px; }
 .md-accordion .active:before { opacity:1; -webkit-transform: rotate(90deg); transform: rotate(90deg); margin-left:3px; margin-top:0px; }
-.md-accordion .dataContent {
-  background: #F2F2F2;
-  height:0px;
-  overflow:auto;
-  -webkit-transition: .3s all ease-out;
-  transition: .3s all ease-out;
+.md-accordion .dataContent { 
+  background: #F2F2F2; 
+  height:0px; 
+  overflow:auto; 
+  -webkit-transition: .3s all ease-out; 
+  transition: .3s all ease-out; 
 }
 .md-accordion .activeContent { height:auto; padding:20px; display:block; }
-.md-accordion md-toolbar{
+.md-accordion md-toolbar{ 
   cursor:pointer;
   border-bottom:1px;
   background-color: #cfe2fd;
-  color:  #606161;
+  color:  #606161; 
 }
 
 /*
@@ -546,14 +546,10 @@ ul#horizontal-menu li {
   background-color: #e4eefe;
 }
 .text-1{
-  padding:2vw;
+  padding:2vw; 
   font-size:calc(5px + 1vw);
 }
 
 .clickabke{
   cursor: pointer;
-}
-md-toast.ng-scope{
-  position: fixed;
-  width: 33vw;
 }
