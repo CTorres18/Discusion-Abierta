@@ -13,9 +13,9 @@
           <img class="ribbons right" src="{% static '/svg/buscar_propuesta1.svg' %}" style="width: 9vw;right:21vw;position:absolute;" ng-click="getPropuesta($event)">
         </a>
         <img class="ribbons left" src="{% static '/svg/logo_reforma.svg' %}" style="width: 25vw; left:30vw;position:absolute;">
-        <img class="ribbons left" src="{% static '/svg/subir_propuesta2.svg' %}" style="width: 9vw; right:11vw;position:absolute;">
+        <img class="ribbons left" src="{% static '/svg/registrar_encuentro2.svg' %}" style="width: 9vw; right:11vw;position:absolute;">
         <a>
-          <img class="ribbons right" src="{% static '/svg/propuestas1.svg' %}" style="width: 9vw;right:1vw;position:absolute; " ng-click="showInfo($event)">
+          <img class="ribbons right" src="{% static '/svg/bajar_datos.svg' %}" style="width: 9vw;right:1vw;position:absolute; " ng-click="showInfo($event)">
         </a>
         <a href="../">
           <img class="ribbons right" src="{% static '/svg/Inicio.svg' %}" style="width: 9vw;left:1vw;position:absolute;">
@@ -54,7 +54,7 @@
                 <p><b>Comité Institucional para la Reforma de la Educación Superior</b></p>
                 <div>
                    <a href="{% static '/Others/Metodologia.pdf' %}" target="_blank">
-                    <img src="{% static '/svg/descarga_metodo.svg' %}" style="width:25vw;margin-left:10vw;"/>
+                    <img src="{% static '/svg/descarga_instructivo.svg' %}" style="width:25vw;margin-left:10vw;"/>
                   </a>
                 </div>
               </div>
@@ -241,18 +241,20 @@
                         <div class="container_nombre" flex=25 ng-show="item.pregunta">
                           <textarea class="nombre" ng-model="item.pregunta" readonly></textarea>
                         </div>
-                        <md-tooltip md-direction="up">
-                          Debe contestar el nivel de acuerdo para que sea válida su propuesta.
-                        </md-tooltip>
-                        <md-radio-group class="categoria" layout="column" ng-model="item.categoria" flex="25" ng-show="item.pregunta">
-                          <md-radio-button value="2">Todos estamos de acuerdo</md-radio-button>
-                          <md-radio-button value="1"> La mayoría está de acuerdo</md-radio-button>
-                          <md-radio-button value="0">No hay acuerdo de mayoría</md-radio-button>
-                          <md-radio-button value="-1">La mayoría está en desacuerdo</md-radio-button>
-                          <md-radio-button value="-2">Todos estamos en desacuerdo</md-radio-button>
-                        </md-radio-group>
+                        <div flex="25">
+                          <md-tooltip md-direction="up">
+                            Debe contestar el nivel de acuerdo para que sea válida su propuesta.
+                          </md-tooltip>
+                          <md-radio-group class="categoria" layout="column" ng-model="item.categoria" ng-show="item.pregunta">
+                            <md-radio-button value="2">Todos estamos de acuerdo</md-radio-button>
+                            <md-radio-button value="1"> La mayoría está de acuerdo</md-radio-button>
+                            <md-radio-button value="0">No hay acuerdo de mayoría</md-radio-button>
+                            <md-radio-button value="-1">La mayoría está en desacuerdo</md-radio-button>
+                            <md-radio-button value="-2">Todos estamos en desacuerdo</md-radio-button>
+                          </md-radio-group>
+                        </div>
                         <div class="container_fundamento" flex>
-                          <md-tooltip md-direction="bottom">
+                          <md-tooltip md-direction="top">
                             Expongan los motivos que sustentan su respuesta
                           </md-tooltip>
                           <textarea class="fundamento" ng-model="item.respuesta"></textarea>
@@ -360,7 +362,7 @@
                               {$ item.pregunta_propuesta $}
                             </div>
                           </div>
-                          <md-tooltip md-direction="bottom">
+                          <md-tooltip md-direction="top">
                             Revise su Propuesta
                           </md-tooltip>
                           <div class="container_fundamento" flex>
