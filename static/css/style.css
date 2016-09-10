@@ -221,6 +221,7 @@ outline:0;
 text-decoration:none;
 }
 .ribbons{
+  cursor: pointer;
   z-index: 1;
   position: fixed;
   top: 0;
@@ -547,4 +548,8 @@ ul#horizontal-menu li {
 .text-1{
   padding:2vw; 
   font-size:calc(5px + 1vw);
+}
+
+.clickabke{
+  cursor: pointer;
 }
