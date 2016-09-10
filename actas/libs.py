@@ -116,15 +116,16 @@ def verificar_cedula(rut_con_dv, serie):
     vigente = document('table#tableResult td.setWidthOfSecondColumn').text().upper() == 'VIGENTE'
 
     if rut_con_dv != verificacion_rut:
-        return verificar_cedula2(rut_con_dv,serie)
+        return verificar_cedula2(rut_con_dv, serie)
 
     if serie != verificacion_serie:
-        return verificar_cedula2(rut_con_dv,serie)
+        return verificar_cedula2(rut_con_dv, serie)
 
     if not vigente:
-        return verificar_cedula2(rut_con_dv,serie)
+        return verificar_cedula2(rut_con_dv, serie)
 
     return result
+
 
 def verificar_cedula2(rut_con_dv, serie):
     result = []
@@ -319,7 +320,7 @@ def validar_participantes(acta):
         participa_participantes = Participa.objects.filter(participante_id__in=list(participantes_ids))
         for participa in participa_participantes:
 
-            if participa.encuentro.tipo_encuentro.tipo == acta['tipo']:
+            if participa.encuentro.tipo_encuentro.tipo == acta['tipo'] and acta['tipo'] != 'Encuentro transversal':
                 errores.append('El RUT {0:s} ya participó de este tipo de encuentro.'.format(
                     participantes_en_db.filter(pk=participa.participante_id).first().rut))
 
@@ -521,7 +522,7 @@ def guardar_acta(datos_acta):
 
     for tema in datos_acta['temas']:
         insertar_respuestas(tema, encuentro)
-    enviar_email_a_participantes(datos_acta,uu)
+    enviar_email_a_participantes(datos_acta, uu)
     return uu
     # acta = Acta(
     #     comuna=Comuna.objects.get(pk=datos_acta['geo']['comuna']),
@@ -549,8 +550,7 @@ def guardar_acta(datos_acta):
 
 
 def enviar_email_a_participantes(acta, ID):
-   EmailThread(acta,ID).start()
-
+    EmailThread(acta, ID).start()
 
 
 def validar_acta_json(request):
@@ -600,15 +600,15 @@ def _crear_usuario(datos_usuario):
 
 
 def generar_propuesta_docx(acta):
-    categorias={2: u'Todos estamos de acuerdo',
-                             1: u'La mayoría está de acuerdo',
-                             0: u'No hay acuerdo de mayoría',
-                             -1: u'La mayoría está en desacuerdo',
-                             -2: u'Todos estamos en desacuerdo'}
+    categorias = {2: u'Todos estamos de acuerdo',
+                  1: u'La mayoría está de acuerdo',
+                  0: u'No hay acuerdo de mayoría',
+                  -1: u'La mayoría está en desacuerdo',
+                  -2: u'Todos estamos en desacuerdo'}
     tpl = DocxTemplate('static/templates_docs/propuesta.docx')
     context = {}
     context['acta'] = acta
-    context['categorias']= categorias
+    context['categorias'] = categorias
     tpl.render(context)
     f = StringIO()
     tpl.save(f)
