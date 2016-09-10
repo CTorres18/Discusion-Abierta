@@ -325,7 +325,53 @@
               <md-content class="md-padding">
                 <h2 class="md-display-2">
                 </h2>
-                <md-content class="md-padding">
+                    <div flex="" layout-padding="" style="padding: 1vw;">
+                        <h1 class="md-headline">Resumen propuesta</h1>
+                        <div layout="row">
+                            <div class="md-title" flex=""> Datos Geograficos</div>
+                            <div class="md-subhead" flex="">{$ acta.lugar $}</div>
+                            <div class="md-subhead" flex="">{$ acta.tipo $}</div>
+                            <div class="md-subhead" flex="">{$ (acta.fechaInicio).split('T')[0] $}</div>
+                            <div class="md-subhead" flex="">{$ (acta.fin).split('T')[0] $}</div>
+                        </div>
+                        <div layout="row">
+                            <div class="md-title" flex="">Encargado</div>
+                            <div class="md-subhead" flex="">{$ acta.participante_organizador.nombre $}</div>
+                            <div class="md-subhead" flex="">{$ acta.participante_organizador.apellido $}</div>
+                            <div class="md-subhead" flex="">{$ acta.participante_organizador.rut $}</div>
+                            <div class="md-subhead" flex="">{$ acta.participante_organizador.email $}</div>
+
+                        </div>
+                        <div layout="row">
+                            <div class="md-title" flex=""></div>
+                            <div class="md-subhead" flex="">{$ acta.participante_organizador.ocupacion $}</div>
+                            <div class="md-subhead" flex="">{$ acta.participante_organizador.origen $}</div>
+                            <div class="md-subhead" flex=""></div>
+                            <div class="md-subhead" flex=""></div>
+                        </div>
+                        <div layout="row"></div>
+                            <div class="md-title" flex="">Participantes </div>
+                            <div ng-repeat="participante in acta.participantes" >
+                               <div layout="row">
+                                   <div class="md-subhead" flex=""></div>
+                                   <div class="md-subhead" flex="">{$ participante.nombre $}</div>
+                                   <div class="md-subhead" flex="">{$ participante.apellido $}</div>
+                                   <div class="md-subhead" flex="">{$ participante.rut $}</div>
+                                   <div class="md-subhead" flex="">{$ participante_.email $}</div>
+                               </div>
+                             <div layout="row">
+                                   <div class="md-subhead" flex=""></div>
+                                   <div class="md-subhead" flex="">{$ participante.ocupacion $}</div>
+                                   <div class="md-subhead" flex="">{$ participante.origen $}</div>
+                                   <div class="md-subhead" flex=""></div>
+                                    <div class="md-subhead" flex=""></div>
+                           </div>
+                                <div flex=""></div>
+                        </div>
+                        <div></div>
+
+                  </div>
+                  <md-content>
                   <div class="md-accordion" ng-repeat="tema in acta.temas">
                     <div ng-show="tema.items[0].categoria">
                       <md-toolbar class="grupoitems_encabezado" ng-init="data.expanded = true" ng-click="data.expanded = !data.expanded">
@@ -340,12 +386,13 @@
                       <div ng-class="{dataContent:true, activeContent:data.expanded}">
 
                         <div ng-repeat="item in tema.items">
-                          <div class="grupoitems_item_encabezado" layout="row">
-                            <div flex>
-                              {$ categorias[item.categoria*1.0 + 2] $}
-                            </div>
-                            <div flex>
+                          <div class="grupoitems_encabezado"  layout="row">
+
+                            <div class="md-subhead" flex="85">
                               FUNDAMENTO
+                            </div>
+                              <div class="md-subhead" flex="15">
+                              {$ categorias[item.categoria*1.0 + 2] $}
                             </div>
                           </div>
                           <div class="item" layout="row" >
@@ -389,7 +436,7 @@
                       </div>
                     </div>
                   </div>
-                </md-content>
+                  </md-content>
                 <div layout="row" layout-fill>
                   <section layout="column" flex layout-padding layout-margin >
                     <div>
@@ -402,6 +449,7 @@
                     </div>
                   </section>
                 </div>
+                  </md-content>
               </md-content>
             </md-tab-body>
           </md-tab>

@@ -234,9 +234,9 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
 
     //11=k, 10=0
     if(digito_ver_calc==11)
-      digito_ver_calc='k';
-    else if(digito_ver_calc==10)
       digito_ver_calc='0';
+    else if(digito_ver_calc==10)
+      digito_ver_calc='k';
     else digito_ver_calc = digito_ver_calc + '';
 
     //comparacion del digito verificador entregado con digito verificador calculado
