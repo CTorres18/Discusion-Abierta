@@ -32,7 +32,7 @@
             <img src="{% static 'svg/segunda_pagina/etiqueta1_vacia.svg'%}" style="height: 10vh" ng-hide="isSelectedTab(0)">
           </div>
           <div layout="column" class="md-inline-form" style="padding: 50px;float:right">
-            <img src="{% static '/svg/Continuar.svg' %} " class="md-raised md-primary" ng-click="nextTab()"/>
+            <img src="{% static '/svg/Continuar.svg' %} " class="md-raised md-primary" ng-click="nextTab()" style="cursor: pointer;"/>
           </div>
           <md-tab-body>
             <div layout="row" class="text-1">
@@ -54,7 +54,7 @@
                 <p><b>Comité Institucional para la Reforma de la Educación Superior</b></p>
                 <div>
                    <a href="{% static '/Others/Metodologia.pdf' %}" target="_blank">
-                    <img src="{% static '/svg/descarga_instructivo.svg' %}" style="width:25vw;margin-left:10vw;"/>
+                    <img class="clickable" src="{% static '/svg/descarga_instructivo.svg' %}" style="width:25vw;margin-left:10vw;"/>
                   </a>
                 </div>
               </div>
@@ -62,7 +62,7 @@
             <div flex layout="row" layout-fill>
                   <section layout="column" flex layout-padding layout-margin >
                     <div>
-                      <img src="{% static '/svg/Continuar.svg' %} " class="md-raised md-primary" ng-click="nextTab()" style="float:right"/>
+                      <img src="{% static '/svg/Continuar.svg' %} " class="md-raised md-primary" ng-click="nextTab()" style="float:right;cursor: pointer;"/>
                     </div>
                   </section>
               </div>
@@ -178,12 +178,12 @@
                 <div layout="row" layout-fill>
                   <section layout="column" flex layout-padding layout-margin >
                     <div>
-                      <img src="{% static '/svg/Atras.svg' %} " class="md-raised md-primary" ng-click="prevTab()" style="float:left"/>
+                      <img src="{% static '/svg/Atras.svg' %} " class="md-raised md-primary" ng-click="prevTab()" style="float:left;cursor: pointer;"/>
                     </div>
                   </section>
                   <section layout="column" flex layout-padding layout-margin >
                     <div>
-                      <img src="{% static '/svg/Continuar.svg' %} " class="md-raised md-primary" ng-click="nextTab()" style="float:right"/>
+                      <img src="{% static '/svg/Continuar.svg' %} " class="md-raised md-primary" ng-click="nextTab()" style="float:right;cursor: pointer;"/>
                     </div>
                   </section>
               </div>
@@ -269,7 +269,7 @@
                             {$ item.pregunta_propuesta $}
                           </div>
                         </div>
-                        <md-tooltip md-direction="bottom">
+                        <md-tooltip md-direction="top">
                           Expongan sus propuestas respecto de este tema. Pueden considerar las preguntas a modo de referencia
                         </md-tooltip>
                         <div class="container_fundamento" flex>
@@ -301,12 +301,12 @@
               <div layout="row" layout-fill>
                 <section layout="column" flex layout-padding layout-margin >
                   <div>
-                    <img src="{% static '/svg/Atras.svg' %} " class="md-raised md-primary" ng-click="prevTab()" style="float:left"/>
+                    <img class="clickable" src="{% static '/svg/Atras.svg' %} " class="md-raised md-primary" ng-click="prevTab()" style="float:left;cursor: pointer;"/>
                   </div>
                 </section>
                 <section layout="column" flex layout-padding layout-margin >
                   <div>
-                    <img src="{% static '/svg/Continuar.svg' %} " class="md-raised md-primary" ng-click="nextTab()" style="float:right"/>
+                    <img src="{% static '/svg/Continuar.svg' %} " class="md-raised md-primary" ng-click="nextTab()" style="float:right;cursor: pointer;"/>
                   </div>
                 </section>
               </div>
@@ -390,12 +390,12 @@
               <div layout="row" layout-fill>
                 <section layout="column" flex layout-padding layout-margin >
                   <div>
-                    <img src="{% static '/svg/Atras.svg' %} " class="md-raised md-primary" ng-click="prevTab()" style="float:left"/>
+                    <img src="{% static '/svg/Atras.svg' %} " class="md-raised md-primary" ng-click="prevTab()" style="float:left; cursor: pointer;"/>
                   </div>
                 </section>
                 <section layout="column" flex layout-padding layout-margin >
                   <div>
-                    <img src="/static/svg/enviar_propuesta.svg" ng-click="validarActa($event)" ng-disabled="noValidar" role="button" tabindex="0" aria-disabled="false" style="float:right"/>
+                    <img src="/static/svg/enviar_propuesta.svg" ng-click="validarActa($event)" ng-disabled="noValidar" role="button" tabindex="0" aria-disabled="false" style="float:right;cursor: pointer;"/>
                   </div>
                 </section>
               </div>
