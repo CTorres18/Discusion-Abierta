@@ -38,8 +38,8 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
 
     $scope.gotoTop = function(){
       // set the location.hash to the id of
-      // the element you wish to scroll to.
-      $location.hash('top');
+      // the element 8you wish to scroll to.
+      $location.hash(('#tab' +$scope.selectedTab));
 
       // call $anchorScroll()
       $anchorScroll();
@@ -52,6 +52,7 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
         else {
             $scope.selectedTab++;
         }
+        //angular.element(('#tab' +$scope.selectedTab)).triggerHandler('click');
         $scope.gotoTop();
     }
 
@@ -59,7 +60,7 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
       if ($scope.selectedTab > 0) {
           $scope.selectedTab--;
         }
-
+      //angular.element(('#tab' +$scope.selectedTab)).triggerHandler('click');
       $scope.gotoTop();
     }
 

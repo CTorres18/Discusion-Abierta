@@ -25,7 +25,7 @@
     <div layout="column" class="md-inline-form">
       <md-content>
         <md-tabs id="ptoast" class="hasToast" md-dynamic-height md-border-bottom md-selected="selectedTab" style="test">
-          <md-tab>
+          <md-tab id="tab0">
             <div>
               <img src="{% static 'svg/segunda_pagina/etiqueta1_llena.svg'%}" style="height: 10vh" ng-show="isSelectedTab(0)">
               <img src="{% static 'svg/segunda_pagina/etiqueta1_vacia.svg'%}" style="height: 10vh" ng-hide="isSelectedTab(0)">
@@ -67,7 +67,7 @@
                 </div>
             </md-tab-body>
           </md-tab>
-          <md-tab>
+          <md-tab id="tab1">
             <div>
               <img src="{% static 'svg/segunda_pagina/etiqueta2_llena.svg'%}" style="height: 10vh" ng-show="isSelectedTab(1)">
               <img src="{% static 'svg/segunda_pagina/etiqueta2_vacia.svg'%}" style="height: 10vh" ng-hide="isSelectedTab(1)">
@@ -205,7 +205,7 @@
                 </md-content>
             </md-tab-body>
           </md-tab>
-          <md-tab>
+          <md-tab id="tab2">
             <div>
               <img src="{% static 'svg/segunda_pagina/etiqueta3_llena.svg'%}" style="height: 10vh" ng-show="isSelectedTab(2)">
               <img src="{% static 'svg/segunda_pagina/etiqueta3_vacia.svg'%}" style="height: 10vh" ng-hide="isSelectedTab(2)">
@@ -256,11 +256,11 @@
                           <div class="container_nombre" flex=25 ng-show="item.pregunta">
                             <textarea class="nombre" ng-model="item.pregunta" readonly></textarea>
                           </div>
-                          <div flex="25">
+                          <div flex="25" ng-show="item.pregunta">
                             <md-tooltip md-direction="up">
                               Debe contestar el nivel de acuerdo para que sea válida su propuesta.
                             </md-tooltip>
-                            <md-radio-group class="categoria" layout="column" ng-model="item.categoria" ng-show="item.pregunta">
+                            <md-radio-group class="categoria" layout="column" ng-model="item.categoria" >
                               <md-radio-button value="2">Todos estamos de acuerdo</md-radio-button>
                               <md-radio-button value="1"> La mayoría está de acuerdo</md-radio-button>
                               <md-radio-button value="0">No hay acuerdo de mayoría</md-radio-button>
@@ -328,7 +328,7 @@
               </md-content>
             </md-tab-body>
           </md-tab>
-          <md-tab>
+          <md-tab id="tab3">
             <div>
               <img src="{% static 'svg/segunda_pagina/etiqueta4_llena.svg'%}" style="height: 10vh" ng-show="isSelectedTab(3)">
               <img src="{% static 'svg/segunda_pagina/etiqueta4_vacia.svg'%}" style="height: 10vh" ng-hide="isSelectedTab(3)">
