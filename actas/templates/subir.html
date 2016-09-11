@@ -70,6 +70,22 @@
               <img src="{% static 'svg/segunda_pagina/etiqueta2_vacia.svg'%}" style="height: 10vh" ng-hide="isSelectedTab(1)">
             </div>
             <md-tab-body>
+              <div layout="row" class="text-1">
+                <div flex align="justify" style="padding:2vw;">
+                  <p>
+                  <b>Aviso</b>
+                  <br>
+                  Toda la información de los participantes, salvo del organizador, se mantendrá <i>"anonimizada"</i> en el sistema, es decir, se podrá saber quienes participaron del proceso, pero no quiénes trabajaron en una propuesta en particular. Por lo anterior, en la sección <b>Bajar Datos</b> solo se podrán obtener tablas que mantengan el anonimato de quienes escribieron las propuestas, compartiendo solo información como estamento y organismo al cuál pertenecen los participantes.
+                  <br>
+                  Su propuesta será ingresada al sistema una vez que presione <i>Subir Propuesta</i> en la pestaña del mismo nombre. Mientras eso no ocurra, puede guardar los datos localmente con el botón <i>Guardar</i>, gracias al cual podrá cerrar su navegador y retomar la escritura de la propuesta cuando desee.
+                  <br>
+                  Se recomienda mantener un respaldo de la información que subirá en esta plataforma para no depender de la suerte del computador en que está tipeando.
+                  <br>
+                  Tras <i>Subir Propuesta</i>, si es válida la información del organizador, se enviará un correo a los participantes con el código de su propuesta para que puedan revisar que efectivamente su propuesta aparece en el sistema.
+                  <br>
+                  </p>
+                </div>
+              </div>
                 <md-content class="md-padding">
                   <h3>Datos geográficos</h3>
                   <div layout-xs="column" layout-gt-xs="row">
@@ -476,5 +492,29 @@
       </md-content>
     </div>
   </div>
+  <div class="footer-da">
+    <div layout="row" class="text-1">
+      <div flex align="center" style="padding:1vw;">
+        <img src="{% static '/svg/logo_reforma.svg' %}" style="width:8vw;" class="footer-center" />
+        <p>
+          <a href="http://www.uchile.cl/discusion-reforma">
+          La Chile piensa la reforma
+          </a>
+          <br>
+          Contacto:     
+          <a href="">discusionreforma@uchile.cl</a>
+        </p>
+      </div>
+      <div flex align="center" style="padding:1vw;">
+        <img src="{% static '/svg/Primera_pagina/Logo_plataforma-01Blanca.svg' %}" style="width:8vw;" class="footer-center" />
+        <p>Plataforma creada por equipo de Discusión Abierta
+          <br>
+          para la Universidad de Chile y 
+          <br>
+          Contacto:
+          <a href="">contactodiscusionabierta@gmail.com</a>
+        </p>  
+      </div>
+    </div>
 </div>
 {% endblock %}
