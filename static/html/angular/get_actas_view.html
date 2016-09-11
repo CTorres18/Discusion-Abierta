@@ -7,10 +7,14 @@
         </md-button>
       </div>
     </md-toolbar>
-    <md-dialog-content>
-       <md-select ng-model="datito" required style="padding: 40px">
-                          <md-option ng-repeat="option in options_get" ng-value="option.name">{{ option.name }}</md-option>
-       </md-select>
+    <md-dialog-content style="padding:4vw">
+      <md-input-container flex class="flex md-input-has-value">
+        <label class="md-required">Escoja una tabla de la Base de Datos</label>
+        <md-select ng-model="datito" required>
+          <md-option ng-repeat="option in options_get" ng-value="option.name">{{ option.name }}
+          </md-option>
+        </md-select>
+      </md-input-container>
     </md-dialog-content>
 
     <md-dialog-actions layout="row">
