@@ -9,7 +9,7 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="318.28571"
+   width="292.57141"
    height="41.299999"
    id="svg3744"
    version="1.1"
@@ -25,10 +25,10 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1.4"
-     inkscape:cx="-31.556153"
-     inkscape:cy="-21.48873"
+     inkscape:cx="-44.056162"
+     inkscape:cy="-21.488729"
      inkscape:document-units="px"
-     inkscape:current-layer="layer1"
+     inkscape:current-layer="g328"
      showgrid="false"
      fit-margin-top="0"
      fit-margin-left="0"
@@ -55,11 +55,11 @@
      inkscape:label="Capa 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(-125.14284,-325.9979)">
+     transform="translate(-125.14285,-325.9979)">
     <polygon
-       transform="matrix(1.3044496,0,0,1,-832.32317,-240.4021)"
+       transform="matrix(1.1990632,0,0,1,-754.96954,-240.4021)"
        class="st10"
-       points="978,566.4 734,566.4 749.8,587.1 734,607.7 978,607.7 962.1,587.1 "
+       points="978,607.7 962.1,587.1 978,566.4 734,566.4 749.8,587.1 734,607.7 "
        id="polygon490"
        style="fill:#1558b9;fill-opacity:1" />
     <g
@@ -71,15 +71,15 @@
         <text
            xml:space="preserve"
            style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-           x="495.98669"
+           x="491.48532"
            y="621.71283"
            id="text5228"
            sodipodi:linespacing="125%"><tspan
              sodipodi:role="line"
              id="tspan5230"
-             x="495.98669"
+             x="491.48532"
              y="621.71283"
-             style="font-size:32px;font-style:italic;font-variant:normal;font-weight:500;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;font-family:Raleway;-inkscape-font-specification:Raleway Medium Italic">Enviar Propuesta</tspan></text>
+             style="font-size:32px;font-style:italic;font-variant:normal;font-weight:500;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;font-family:Raleway;-inkscape-font-specification:Raleway Medium Italic">Subir Propuesta</tspan></text>
       </g>
     </g>
   </g>
