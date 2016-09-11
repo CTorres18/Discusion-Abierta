@@ -13,7 +13,7 @@ class EmailThread(threading.Thread):
 
     def run(self):
         subject = "Participación en Discusión Abierta UChile"
-        message = "Estimad@: \n La ID de su propuesta es {0} \n Puede recuperar su acta en la pagina web https://discusionabierta.dcc.uchile.cl/actas/bajarpropuestadocx/{0} .\n Este correo ha sido enviado automáticamente por el sistema de Discusión Abierta.\n Favor no responder.\n Para contactarse con el equipo tras esta plataforma comuníquese con Pablo Duarte:\npabduarte@uchile.cl\nSecretario Ejecutivo\nConsejo de Evaluación\nUniversidad de Chile\nFono: +56 229781148\nwww.uchile.cl/ConsejoEvaluacion.".format(
+        message = "Estimad@: \n La ID de su propuesta es {0} \n Puede recuperar su acta en la pagina web https://discusionabierta.dcc.uchile.cl/actas/bajarpropuestadocx/{0} .\n Este correo ha sido enviado automáticamente por el sistema de Discusión Abierta.\n Favor no responder.\n La Chile piensa la reforma: http://www.uchile.cl/discusion-reforma\n Dudas a +562 29780494 \n discusionreforma@uchile.cl\n Contacto equipo creador de la plataforma Discusión Abierta: \n contactodiscusionabierta@gmail.com".format(
             self.ID)
         from_email = "propuestas@dcc.uchile.cl"
         recipient_list = []
