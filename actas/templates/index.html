@@ -2,7 +2,6 @@
 {% load staticfiles %}
 {% block js %}
 <script src="{% static 'js/angular/controller_scroll_page.js' %}"></script>
-<script src="{% static 'js/angular/controller_acta.js' %}"></script>
 {% endblock %}
 
 {% block body %}
@@ -10,12 +9,12 @@
 	<div id="header" class="header">
 		<div id="Section1" class="ribbons">
 			<a>
-	          <img class="ribbons right" src="{% static '/svg/buscar_propuesta1.svg' %}" style="width: 9vw;right:21vw;position:absolute;" ng-click="ActaCtrl.getPropuesta($event)" >
+	          <img class="ribbons right" src="{% static '/svg/buscar_propuesta1.svg' %}" style="width: 9vw;right:21vw;position:absolute;" ng-click="getPropuesta($event)" >
 	        </a>
   			<a href="./subir/">
 				<img class="ribbons left" src="{% static '/svg/registrar_encuentro1.svg' %}" style="width: 9vw;">
   			</a>
-  			<img class="ribbons right" src="{% static '/svg/bajar_datos.svg' %}" style="width: 9vw;" ng-click="ActaCtrl.showInfo($event)">
+  			<img class="ribbons right" src="{% static '/svg/bajar_datos.svg' %}" style="width: 9vw;" ng-click="showInfo($event)">
   		</div>
 		<div id='flecha1' class="button_down" ng-class="{flechain:in1}">
 			<img src="{% static 'svg/Primera_pagina/flecha_abajo.svg' %}" ng-click="toSection2(this);">
@@ -23,7 +22,7 @@
 	</div>
 	<div id="Section2" class="header2">
 		<div id='flecha2' class="button_down" ng-class="{flechain:in2}">
-			<img src="{% static 'svg/Primera_pagina/flecha_abajo.svg' %}" 
+			<img src="{% static 'svg/Primera_pagina/flecha_abajo.svg' %}"
 			ng-click="toSection3(this)">
 		</div>
 	</div>

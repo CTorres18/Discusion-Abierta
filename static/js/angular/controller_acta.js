@@ -2,8 +2,32 @@
 
 var LOCALSTORAGE_ACTA_KEY = 'acta';
 
-var app =angular.module('DiscusionAbiertaApp');
+var app =angular.module('DiscusionAbiertaApp', ['ngMaterial', 'LocalStorageModule', 'monospaced.elastic'])
+  .config(function ($httpProvider) {
+    $httpProvider.defaults.xsrfCookieName = 'csrftoken';
+    $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
+  })
+  .config(function ($interpolateProvider) {
+    $interpolateProvider.startSymbol('{$');
+    $interpolateProvider.endSymbol('$}');
+  })
+  .config(['msdElasticConfig', function(msdElasticConfig) { 
+    msdElasticConfig.append = '\n'; 
+  }]);
+
 app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageService,$mdToast, $location, $anchorScroll) {
+    var section2 = angular.element(document.getElementById('Section2'));
+    $scope.toSection2 = function(obj){
+      $anchorScroll('Section2');
+      //$document.scrollToElementAnimated(section2);
+
+    };
+
+    var section3 = angular.element(document.getElementById('Section3'));
+    $scope.toSection3 = function(obj){
+      $anchorScroll('Section3');
+      //$document.scrollToElementAnimated(section3);
+    };
 
     $scope.datito=''
 
@@ -94,7 +118,7 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
     $scope.showInfo = function(ev) {
     $mdDialog.show({
       controller: DialogController,
-      templateUrl: '/static/html/angular/get_actas_view.html',
+      templateUrl: '/static/html/angular/get_actas_view_subir.html',
       parent: angular.element(document.body),
       targetEvent: ev,
       clickOutsideToClose:true,
@@ -110,7 +134,7 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
   $scope.getPropuesta = function(ev) {
     $mdDialog.show({
       controller: DialogController,
-      templateUrl: '/static/html/angular/get_propuesta_view.html',
+      templateUrl: '/static/html/angular/get_propuesta_view_subir.html',
       parent: angular.element(document.body),
       targetEvent: ev,
       clickOutsideToClose:true,
@@ -214,9 +238,9 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
 
     //11=k, 10=0
     if(digito_ver_calc==11)
-      digito_ver_calc='k';
-    else if(digito_ver_calc==10)
       digito_ver_calc='0';
+    else if(digito_ver_calc==10)
+      digito_ver_calc='k';
     else digito_ver_calc = digito_ver_calc + '';
 
     //comparacion del digito verificador entregado con digito verificador calculado
@@ -225,8 +249,7 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
     else return false;
   }
 
-  $scope.validarActa = function (ev) {
-    $scope.noValidar = true;
+  $scope.buscarErrores = function(ev){
     var errores = [];
     if(!$scope.acta.lugar)
       errores.push('Falta el campus.');
@@ -296,6 +319,23 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
         }
       }
     }
+    return errores;
+  }
+
+  $scope.validarParticipantes = function(ev){
+    $scope.noValidar = true;
+    var errores = $scope.buscarErrores(ev);
+    if(errores.length > 0){
+      console.log(errores);
+      mostrarErrores(ev, errores);
+      $scope.noValidar = false;
+    }
+
+  };
+
+  $scope.validarActa = function (ev) {
+    $scope.noValidar = true;
+    var errores = $scope.buscarErrores(ev);
     if(errores.length > 0){
       console.log(errores);
       mostrarErrores(ev, errores);
@@ -427,6 +467,7 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
 
 
     if (localStorageService.get(LOCALSTORAGE_ACTA_KEY) !== null) {
+      console.log('changed it!')
       $scope.acta = localStorageService.get(LOCALSTORAGE_ACTA_KEY);
     }
 
