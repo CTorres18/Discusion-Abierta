@@ -2,7 +2,7 @@
 
 var LOCALSTORAGE_ACTA_KEY = 'acta';
 
-var app =angular.module('DiscusionAbiertaApp', ['ngMaterial', 'LocalStorageModule'])
+var app =angular.module('DiscusionAbiertaApp', ['ngMaterial', 'LocalStorageModule', 'monospaced.elastic'])
   .config(function ($httpProvider) {
     $httpProvider.defaults.xsrfCookieName = 'csrftoken';
     $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
@@ -10,7 +10,11 @@ var app =angular.module('DiscusionAbiertaApp', ['ngMaterial', 'LocalStorageModul
   .config(function ($interpolateProvider) {
     $interpolateProvider.startSymbol('{$');
     $interpolateProvider.endSymbol('$}');
-  });
+  })
+  .config(['msdElasticConfig', function(msdElasticConfig) { 
+    msdElasticConfig.append = '\n'; 
+  }]);
+
 app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageService,$mdToast, $location, $anchorScroll) {
     var section2 = angular.element(document.getElementById('Section2'));
     $scope.toSection2 = function(obj){
@@ -245,8 +249,7 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
     else return false;
   }
 
-  $scope.validarActa = function (ev) {
-    $scope.noValidar = true;
+  $scope.buscarErrores = function(ev){
     var errores = [];
     if(!$scope.acta.lugar)
       errores.push('Falta el campus.');
@@ -316,6 +319,23 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
         }
       }
     }
+    return errores;
+  }
+
+  $scope.validarParticipantes = function(ev){
+    $scope.noValidar = true;
+    var errores = $scope.buscarErrores(ev);
+    if(errores.length > 0){
+      console.log(errores);
+      mostrarErrores(ev, errores);
+      $scope.noValidar = false;
+    }
+
+  };
+
+  $scope.validarActa = function (ev) {
+    $scope.noValidar = true;
+    var errores = $scope.buscarErrores(ev);
     if(errores.length > 0){
       console.log(errores);
       mostrarErrores(ev, errores);
@@ -426,7 +446,7 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
   $scope.showActionToast = function() {
     var pinTo = $scope.getToastPosition();
     var toast = $mdToast.simple()
-      .textContent('Recuerda: La informacion esta siendo guardada en tu navegador!')
+      .textContent('“La información que ingreses está siendo guardada automáticamente en este computador”.')
       .action('Cerrar')
       .highlightAction(true)
       .highlightClass('md-accent')// Accent is used by default, this just demonstrates the usage.

@@ -46,6 +46,24 @@
   resize: none;
   background-color: #fff;
 }
+.previsualizacion {
+  margin: 0;
+  padding: 5px;
+  width: calc(100% - 10px);
+  height: 90%;
+  resize: none;
+  background-color: #fff;
+  border: 0px;
+  outline: none;
+}
+.md-accordion .dataContent .prev {
+    background: #000;
+    height: 0px;
+    overflow: auto;
+    -webkit-transition: .3s all ease-out;
+    transition: .3s all ease-out;
+    background-color: #000;
+}
 
 /*
 .item .categoria {
@@ -556,4 +574,14 @@ ul#horizontal-menu li {
 md-toast.ng-scope{
   position: fixed;
   width: 33vw;
+}
+
+.md-button.md-fab.md-mini {
+    line-height: 40px;
+    width: 40px;
+    height: 40px;
+    background-color: #1c75f7;
+}
+.md-button.md-fab:not([disabled]):hover {
+  background-color: #0e3b7c;
 }
