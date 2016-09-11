@@ -575,3 +575,13 @@ md-toast.ng-scope{
   position: fixed;
   width: 33vw;
 }
+
+.md-button.md-fab.md-mini {
+    line-height: 40px;
+    width: 40px;
+    height: 40px;
+    background-color: #1c75f7;
+}
+.md-button.md-fab:not([disabled]):hover {
+  background-color: #0e3b7c;
+}
