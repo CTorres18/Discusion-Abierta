@@ -39,7 +39,7 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
     $scope.gotoTop = function(){
       // set the location.hash to the id of
       // the element 8you wish to scroll to.
-      $location.hash(('#tab' +$scope.selectedTab));
+      $location.hash(('tab' +$scope.selectedTab));
 
       // call $anchorScroll()
       $anchorScroll();
