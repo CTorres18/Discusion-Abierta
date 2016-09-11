@@ -249,8 +249,7 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
     else return false;
   }
 
-  $scope.validarActa = function (ev) {
-    $scope.noValidar = true;
+  $scope.buscarErrores = function(ev){
     var errores = [];
     if(!$scope.acta.lugar)
       errores.push('Falta el campus.');
@@ -320,6 +319,23 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
         }
       }
     }
+    return errores;
+  }
+
+  $scope.validarParticipantes = function(ev){
+    $scope.noValidar = true;
+    var errores = $scope.buscarErrores(ev);
+    if(errores.length > 0){
+      console.log(errores);
+      mostrarErrores(ev, errores);
+      $scope.noValidar = false;
+    }
+
+  };
+
+  $scope.validarActa = function (ev) {
+    $scope.noValidar = true;
+    var errores = $scope.buscarErrores(ev);
     if(errores.length > 0){
       console.log(errores);
       mostrarErrores(ev, errores);

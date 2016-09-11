@@ -109,6 +109,9 @@
                           <input ng-model="acta.participante_organizador.apellido" required />
                         </md-input-container>
                         <md-input-container flex>
+                          <md-tooltip md-direction="top" class="image-tooltip">
+                            Formato: 12345678-9
+                          </md-tooltip>
                           <label>RUT</label>
                           <input ng-model="acta.participante_organizador.rut" required />
                         </md-input-container>
@@ -124,6 +127,9 @@
                             <img src="{% static '/svg/boton_duda.svg' %}" style="height:17px;">
                         </div>
                         <md-input-container flex>
+                          <md-tooltip md-direction="top" class="image-tooltip">
+                            Formato: 123456789
+                          </md-tooltip>
                           <label>Número de cédula</label>
                           <input ng-model="acta.participante_organizador.serie_cedula" required />
                         </md-input-container>
@@ -150,6 +156,9 @@
                           <input ng-model="participante.apellido" required />
                         </md-input-container>
                         <md-input-container flex>
+                          <md-tooltip md-direction="top" class="image-tooltip">
+                            Formato: 12345678-9
+                          </md-tooltip>
                           <label>RUT</label>
                           <input ng-model="participante.rut" required />
                         </md-input-container>
@@ -189,7 +198,7 @@
                     </section>
                     <section layout="column" flex layout-padding layout-margin >
                       <div>
-                        <img src="{% static '/svg/Continuar.svg' %} " class="md-raised md-primary" ng-click="nextTab(); validarActa($event)" style="float:right;cursor: pointer;"/>
+                        <img src="{% static '/svg/Continuar.svg' %} " class="md-raised md-primary" ng-click="nextTab(); validarParticipantes($event)" style="float:right;cursor: pointer;"/>
                       </div>
                     </section>
                 </div>
@@ -312,7 +321,7 @@
                   </section>
                   <section layout="column" flex layout-padding layout-margin >
                     <div>
-                      <img src="{% static '/svg/Continuar.svg' %} " class="md-raised md-primary" ng-click="nextTab();  validarActa($event)" style="float:right;cursor: pointer;"/>
+                      <img src="{% static '/svg/Continuar.svg' %} " class="md-raised md-primary" ng-click="nextTab();  validarParticipantes($event)" style="float:right;cursor: pointer;"/>
                     </div>
                   </section>
                 </div>
