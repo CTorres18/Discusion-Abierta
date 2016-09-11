@@ -256,11 +256,11 @@
                           <div class="container_nombre" flex=25 ng-show="item.pregunta">
                             <textarea class="nombre" ng-model="item.pregunta" readonly></textarea>
                           </div>
-                          <div flex="25">
+                          <div flex="25" ng-show="item.pregunta">
                             <md-tooltip md-direction="up">
                               Debe contestar el nivel de acuerdo para que sea válida su propuesta.
                             </md-tooltip>
-                            <md-radio-group class="categoria" layout="column" ng-model="item.categoria" ng-show="item.pregunta">
+                            <md-radio-group class="categoria" layout="column" ng-model="item.categoria" >
                               <md-radio-button value="2">Todos estamos de acuerdo</md-radio-button>
                               <md-radio-button value="1"> La mayoría está de acuerdo</md-radio-button>
                               <md-radio-button value="0">No hay acuerdo de mayoría</md-radio-button>
