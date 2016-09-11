@@ -585,3 +585,7 @@ md-toast.ng-scope{
 .md-button.md-fab:not([disabled]):hover {
   background-color: #0e3b7c;
 }
+
+.md-content.md-default-theme, md-content{
+  background-color: #e4eefe; 
+}

@@ -30,9 +30,6 @@
               <img src="{% static 'svg/segunda_pagina/etiqueta1_llena.svg'%}" style="height: 10vh" ng-show="isSelectedTab(0)">
               <img src="{% static 'svg/segunda_pagina/etiqueta1_vacia.svg'%}" style="height: 10vh" ng-hide="isSelectedTab(0)">
             </div>
-            <div layout="column" class="md-inline-form" style="padding: 50px;float:right">
-              <img src="{% static '/svg/Continuar.svg' %} " class="md-raised md-primary" ng-click="nextTab()" style="cursor: pointer;"/>
-            </div>
             <md-tab-body>
               <div layout="row" class="text-1">
                 <div flex align="justify" style="padding:2vw;">
@@ -198,6 +195,11 @@
                     </section>
                     <section layout="column" flex layout-padding layout-margin >
                       <div>
+                        <img src="{% static '/svg/Guardar.svg' %} " class="md-raised md-primary" ng-click="showActionToast()" style="display:block;margin: 0 auto;cursor: pointer;"/>
+                      </div>
+                    </section>
+                    <section layout="column" flex layout-padding layout-margin >
+                      <div>
                         <img src="{% static '/svg/Continuar.svg' %} " class="md-raised md-primary" ng-click="nextTab(); validarParticipantes($event)" style="float:right;cursor: pointer;"/>
                       </div>
                     </section>
@@ -319,6 +321,11 @@
                       <img class="clickable" src="{% static '/svg/Atras.svg' %} " class="md-raised md-primary" ng-click="prevTab()" style="float:left;cursor: pointer;"/>
                     </div>
                   </section>
+                  <section layout="column" flex layout-padding layout-margin >
+                      <div>
+                        <img src="{% static '/svg/Guardar.svg' %} " class="md-raised md-primary" ng-click="showActionToast()" style="display:block;margin: 0 auto;cursor: pointer;"/>
+                      </div>
+                    </section>
                   <section layout="column" flex layout-padding layout-margin >
                     <div>
                       <img src="{% static '/svg/Continuar.svg' %} " class="md-raised md-primary" ng-click="nextTab();  validarParticipantes($event)" style="float:right;cursor: pointer;"/>

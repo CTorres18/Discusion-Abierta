@@ -406,7 +406,7 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
       filtrarComunas();
     });
   };
-*/
+
   var cargarWatchersActa = function () {
     $scope.$watch('acta', function () {
        $scope.counter +=1;
@@ -417,6 +417,7 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
       localStorageService.set(LOCALSTORAGE_ACTA_KEY, $scope.acta);
     }, true);
   };
+*/
   var last = {
       bottom: false,
       top: true,
@@ -447,8 +448,8 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
   $scope.showActionToast = function() {
     var pinTo = $scope.getToastPosition();
     var toast = $mdToast.simple()
-      .textContent('“La información que ingreses está siendo guardada automáticamente en este computador”.')
-      .action('Cerrar')
+      .textContent('¡Guardado! \n La información ha sido guardada, pero solo en su computador.\n Cuando termine de escribir su propuesta, publíquela en el sistema presionando "Subir Propuesta" en la pestaña de igual nombre.')
+      .action('Entendido')
       .highlightAction(true)
       .highlightClass('md-accent')// Accent is used by default, this just demonstrates the usage.
       .position(pinTo)
@@ -464,8 +465,6 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
 
 
   var cargarDatos = function () {
-
-
 
     if (localStorageService.get(LOCALSTORAGE_ACTA_KEY) !== null) {
       console.log('changed it!')
@@ -491,8 +490,6 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
             $scope.acta = response.data;
           }
         }
-
-
 
       });
       //console.log($scope.acta)
@@ -528,37 +525,11 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
 
 
   //cargarWatchersGeo();
-    $scope.options_get = [{"name": "Origenes"},{"name": "Lugares"},{"name": "Encuentros"},{"name": "Estamentos"},{"name": "Respuestas"},{"name": "Temas"},{"name": "Participantes"},{"name": "Tipos_de_Encuentros"}]
-    $scope.datito=''
-    $scope.to_trusted = function(html_code) {
+  $scope.options_get = [{"name": "Origenes"},{"name": "Lugares"},{"name": "Encuentros"},{"name": "Estamentos"},{"name": "Respuestas"},{"name": "Temas"},{"name": "Participantes"},{"name": "Tipos_de_Encuentros"}]
+  $scope.datito=''
+  $scope.to_trusted = function(html_code) {
     return $sce.trustAsHtml(html_code);
-}
-
-/*
-  $http({
-    method: 'GET',
-    url: '/static/json/regiones.json'
-  }).then(function (response) {
-    $scope.regiones = response.data;
-  });
-
-  $http({
-    method: 'GET',
-    url: '/static/json/provincias.json'
-  }).then(function (response) {
-    $scope.provincias = response.data;
-    filtrarProvincias();
-  });
-
-  $http({
-    method: 'GET',
-    url: '/static/json/comunas.json'
-  }).then(function (response) {
-    $scope.comunas = response.data;
-    filtrarComunas();
-  });
-*/
-  cargarWatchersActa();
+  }
   cargarDatos();
 })
 .controller('ToastCtrl', function($scope, $mdToast) {
