@@ -2,7 +2,7 @@
 
 var LOCALSTORAGE_ACTA_KEY = 'acta';
 
-var app =angular.module('DiscusionAbiertaApp', ['ngMaterial', 'LocalStorageModule'])
+var app =angular.module('DiscusionAbiertaApp', ['ngMaterial', 'LocalStorageModule', 'monospaced.elastic'])
   .config(function ($httpProvider) {
     $httpProvider.defaults.xsrfCookieName = 'csrftoken';
     $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
@@ -10,7 +10,11 @@ var app =angular.module('DiscusionAbiertaApp', ['ngMaterial', 'LocalStorageModul
   .config(function ($interpolateProvider) {
     $interpolateProvider.startSymbol('{$');
     $interpolateProvider.endSymbol('$}');
-  });
+  })
+  .config(['msdElasticConfig', function(msdElasticConfig) { 
+    msdElasticConfig.append = '\n'; 
+  }]);
+
 app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageService,$mdToast, $location, $anchorScroll) {
     var section2 = angular.element(document.getElementById('Section2'));
     $scope.toSection2 = function(obj){

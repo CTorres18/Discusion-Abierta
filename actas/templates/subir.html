@@ -2,8 +2,8 @@
 {% load staticfiles %}
 
 {% block js %}
-<script src="{% static 'js/angular/controller_acta.js' %}"></script>
 <script src="{% static 'bower_components/angular-elastic/elastic.js' %}"></script>
+<script src="{% static 'js/angular/controller_acta.js' %}"></script>
 {% endblock %}
 
 {% block body %}
@@ -116,26 +116,29 @@
                           <label>Email</label>
                           <input ng-model="acta.participante_organizador.email" required />
                         </md-input-container>
+                        <div>
+                            <md-tooltip md-direction="up" class="image-tooltip">
+                              .
+                              <img src="https://www.srcei.cl/PortalOI/images/serie.png"/>
+                            </md-tooltip>
+                            <img src="{% static '/svg/boton_duda.svg' %}" style="height:17px;">
+                        </div>
                         <md-input-container flex>
                           <label>Número de cédula</label>
-                          <md-tooltip md-direction="up" class="image-tooltip">
-                            .
-                            <img src="https://www.srcei.cl/PortalOI/images/serie.png"/>
-                          </md-tooltip>
                           <input ng-model="acta.participante_organizador.serie_cedula" required />
                         </md-input-container>
-                          <md-input-container flex>
-                              <label>Estamento</label>
-                              <md-select ng-model="acta.participante_organizador.ocupacion" required>
-                                  <md-option ng-repeat="ocupacion in acta.ocupaciones" ng-value="ocupacion.nombre">{$ ocupacion.nombre $}</md-option>
+                        <md-input-container flex>
+                          <label>Estamento</label>
+                          <md-select ng-model="acta.participante_organizador.ocupacion" required>
+                            <md-option ng-repeat="ocupacion in acta.ocupaciones" ng-value="ocupacion.nombre">{$ ocupacion.nombre $}</md-option>
+                          </md-select>
+                        </md-input-container>
+                        <md-input-container flex>
+                          <label>Organismo</label>
+                            <md-select ng-model="acta.participante_organizador.origen" required>
+                              <md-option ng-repeat="origen in acta.origenes" ng-value="origen.nombre">{$ origen.nombre $}</md-option>
                               </md-select>
-                          </md-input-container>
-                          <md-input-container flex>
-                              <label>Organismo</label>
-                              <md-select ng-model="acta.participante_organizador.origen" required>
-                                  <md-option ng-repeat="origen in acta.origenes" ng-value="origen.nombre">{$ origen.nombre $}</md-option>
-                              </md-select>
-                          </md-input-container>
+                        </md-input-container>
                     </div>
                     <div layout-xs="column" layout-gt-xs="row" ng-repeat="participante in acta.participantes">
                         <md-input-container flex>
@@ -372,7 +375,7 @@
 
                   </div>
                   <md-content>
-                  <div class="md-accordion" ng-repeat="tema in acta.temas">
+                  <div class="md-accordion" ng-repeat="tema in acta.temas" style="background-color:#000">
                     <div ng-show="tema.items[0].categoria">
                       <md-toolbar class="grupoitems_encabezado" ng-init="data.expanded = true" ng-click="data.expanded = !data.expanded">
                         <div class="md-toolbar-tools">
@@ -400,7 +403,7 @@
                               <md-tooltip md-direction="bottom">
                                 Revise su fundamento
                               </md-tooltip>
-                              <textarea class="fundamento" ng-model="item.respuesta" readonly></textarea>
+                              <textarea class="previsualizacion" ng-model="item.respuesta" readonly></textarea>
                             </div>
                           </div>
                           <div class="grupoitems_item_encabezado">
@@ -416,14 +419,14 @@
                               Revise su Propuesta
                             </md-tooltip>
                             <div class="container_fundamento" flex>
-                              <textarea msd-elastic class="fundamento" ng-model="item.propuesta" readonly></textarea>
+                              <textarea msd-elastic class="previsualizacion" ng-model="item.propuesta" readonly></textarea>
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                  <div>
+                  <div ng-show="acta.memoria">
                     <div class="grupoitems_item_encabezado">
                       <div flex>Aporte Adicional</div>
                     </div>
@@ -432,7 +435,7 @@
                         Revise sus comentarios
                       </md-tooltip>
                       <div class="container_fundamento" flex>
-                        <textarea msd-elastic class="fundamento" ng-model="acta.memoria" readonly></textarea>
+                        <textarea msd-elastic class="previsualizacion" ng-model="acta.memoria" readonly></textarea>
                       </div>
                     </div>
                   </div>
