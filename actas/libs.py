@@ -650,7 +650,8 @@ def generar_pre_propuesta_docx(acta):
             else:
                 return v
 
-    new_dict = encode_dict_utf8(acta)
+    encode_dict_utf8(acta)
+    print acta
 
     categorias = {2: u'Todos estamos de acuerdo',
                   1: u'La mayoría está de acuerdo',
@@ -659,7 +660,7 @@ def generar_pre_propuesta_docx(acta):
                   -2: u'Todos estamos en desacuerdo'}
     tpl = DocxTemplate('static/templates_docs/pre_propuesta.docx')
     context = {}
-    context['acta'] = new_dict
+    context['acta'] = acta
     context['categorias'] = categorias
 
     tpl.render(context)
