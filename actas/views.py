@@ -102,7 +102,6 @@ def bajar_propuesta_docx(request, uuid):
     response['Content-Length'] = length
     return response
 
-
 def bajar_propuestas(request):
     return get_respuestas(request)
 
