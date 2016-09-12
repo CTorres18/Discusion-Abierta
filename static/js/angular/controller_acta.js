@@ -379,7 +379,7 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
   $scope.showActionToast = function() {
     var pinTo = $scope.getToastPosition();
     var toast = $mdToast.simple()
-      .textContent('¡Guardado! \n La información ha sido guardada, pero solo en su computador.\n Cuando termine de escribir su propuesta, publíquela en el sistema presionando "Subir Propuesta" en la pestaña de igual nombre.')
+      .textContent('¡Guardado! \n La información ha sido guardada, pero solo en su computador.\n Recuerde "Subir Propuesta" en la pestaña de igual nombre en el punto 4 cuando termine de editar su propuesta.')
       .action('Entendido')
       .highlightAction(true)
       .highlightClass('md-accent')// Accent is used by default, this just demonstrates the usage.
