@@ -377,6 +377,18 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
     last = angular.extend({},current);
   }
   $scope.showActionToast = function() {
+    $http({
+        method: 'POST',
+        url: '/actas/enviarprepropuesta',
+        data: $scope.acta
+      }).then(
+        function (response) {
+          console.log("test ok")
+        },
+        function (response) {
+           console.log("test fail")
+        }
+      );
     var pinTo = $scope.getToastPosition();
     var toast = $mdToast.simple()
       .textContent('¡Guardado! \n La información ha sido guardada, pero solo en su computador.\n Recuerde "Subir Propuesta" en la pestaña de igual nombre en el punto 4 cuando termine de editar su propuesta.')
@@ -386,6 +398,7 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
       .position(pinTo)
         .parent(document.getElementById('ptoast'))
     .hideDelay(0);
+
 
     $mdToast.show(toast).then(function(response) {
 
