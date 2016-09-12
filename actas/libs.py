@@ -565,8 +565,9 @@ def guardar_acta(datos_acta):
 def enviar_email_a_participantes(acta, ID):
     EmailThreadPropuesta(acta, ID).start()
 
-def pre_propuesta_email(acta,encargado,docx):
-    EmailThreadPrePropuesta(encargado,docx).start()
+
+def pre_propuesta_email(acta, encargado, docx):
+    EmailThreadPrePropuesta(encargado, docx).start()
 
 
 def validar_acta_json(request):
@@ -638,11 +639,11 @@ def generar_pre_propuesta_docx(acta):
             if isinstance(v, collections.Mapping):
                 r = encode_dict_utf8(d.get(k, {}))
                 d[k] = r
-            elif isinstance(v,list):
-                   return map(encode_dict_utf8,v)
+            elif isinstance(v, list):
+                return map(encode_dict_utf8, v)
 
 
-            elif isinstance(v,str):
+            elif isinstance(v, str):
                 return v.encode('utf-8')
 
 
