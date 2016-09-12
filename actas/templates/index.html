@@ -17,13 +17,13 @@
   			<img class="ribbons right" src="{% static '/svg/bajar_datos.svg' %}" style="width: 9vw;" ng-click="showInfo($event)">
   		</div>
 		<div id='flecha1' class="button_down" ng-class="{flechain:in1}">
-			<img src="{% static 'svg/Primera_pagina/flecha_abajo.svg' %}" ng-click="toSection2(this);">
+			<img src="{% static 'svg/Primera_pagina/flecha_abajo.svg' %}" ng-click="toSection2(this);" style="cursor: pointer;">
 		</div>
 	</div>
 	<div id="Section2" class="header2">
 		<div id='flecha2' class="button_down" ng-class="{flechain:in2}">
 			<img src="{% static 'svg/Primera_pagina/flecha_abajo.svg' %}"
-			ng-click="toSection3(this)">
+			ng-click="toSection3(this)" style="cursor: pointer;">
 		</div>
 	</div>
 	<div id="Section3" class="header3">

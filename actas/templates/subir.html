@@ -115,7 +115,7 @@
                     </div>
                   </div>
                   <h3>
-                    <span>Información del encargado y los participantes (Mínimo {$ acta.min_participantes $} en total)</span>
+                    <span>Información del encargado y los participantes (Mínimo {$ acta.min_participantes + 1 $} en total)</span>
                   </h3>
                   <div class="padding5">
                     <div layout-xs="column" layout-gt-xs="row">
@@ -199,7 +199,7 @@
                             </md-input-container>
                         <md-input-container class="centrar_texto" flex flex-sm-xs=10>
                           <md-tooltip md-direction="up" class="image-tooltip">
-                            El mínimo de participantes es de {$ acta.min_participantes $}
+                            El mínimo de participantes es de {$ acta.min_participantes + 1 $}
                           </md-tooltip>
                           <md-button class="md-fab md-mini" aria-label="Quitar participante" ng-click="quitarParticipante($index,$event)">
                             <img src="{% static 'svg/Primera_pagina/garbage.svg' %}" style="width:30px;padding-top: 5px;">
