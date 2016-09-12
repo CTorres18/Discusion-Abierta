@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 import threading
-from django.core.mail import send_mail
+from django.core.mail import send_mail, EmailMessage
 
 __author__ = 'Nicolas'
 
 
-class EmailThread(threading.Thread):
+class EmailThreadPropuesta(threading.Thread):
     def __init__(self, acta, ID):
         self.acta = acta
         self.ID = ID
@@ -25,5 +25,24 @@ class EmailThread(threading.Thread):
         send_mail(subject, message, from_email, recipient_list, fail_silently=False, html_message=mensaje_html)
 
 
-def send_threaded_mail(acta, ID):
-    EmailThread(acta, ID).start()
+class EmailThreadPrePropuesta(threading.Thread):
+    def __init__(self, encargado_email, file):
+        self.encargado_email = encargado_email
+        self.file = file
+        threading.Thread.__init__(self)
+
+    def run(self):
+        subject = "Participación en Discusión Abierta UChile"
+        message = "Pre guardado"
+        email = "propuestas@dcc.uchile.cl"
+        email = EmailMessage(subject=subject, body=message, to=[self.encargado_email], from_email=email)
+        email.attach('pre_propuesta.docx', self.file,"application/octet-stream")
+        email.send()
+
+
+def send_threaded_propuesta_mail(acta, ID):
+    EmailThreadPropuesta(acta, ID).start()
+
+
+def send_threaded_pre_propuesta_mail(acta, ID):
+    EmailThreadPrePropuesta(acta, ID).start()

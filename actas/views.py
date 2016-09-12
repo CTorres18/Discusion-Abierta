@@ -9,7 +9,7 @@ import ast
 from actas.stream_datas import *
 
 from .libs import validar_acta_json, validar_cedulas_participantes, guardar_acta, obtener_config, \
-    generar_propuesta_docx
+    generar_propuesta_docx, generar_pre_propuesta_docx, pre_propuesta_email
 
 from .models import ConfiguracionEncuentro
 
@@ -31,11 +31,11 @@ def acta_base(request, id):
     config = obtener_config()
 
     base = {
-        #'min_participantes': config['participantes_min'],
-        #'max_participantes': config['participantes_max'],
-        #'participante_organizador': {},
-        #'participantes': [{} for _ in range(config['participantes_min'])],
-        #'memoria': '',
+        # 'min_participantes': config['participantes_min'],
+        # 'max_participantes': config['participantes_max'],
+        # 'participante_organizador': {},
+        # 'participantes': [{} for _ in range(config['participantes_min'])],
+        # 'memoria': '',
 
     }
 
@@ -62,11 +62,11 @@ def subir_validar(request):
 @transaction.atomic
 def subir_confirmar(request):
     acta, errores = validar_acta_json(request)
-    #str_json = json.dumps(pre_acta)
-    #print str_json
-    #str_json = str_json.strip('\n')
-    #real_acta = json.loads(str_json)
-    #print real_acta
+    # str_json = json.dumps(pre_acta)
+    # print str_json
+    # str_json = str_json.strip('\n')
+    # real_acta = json.loads(str_json)
+    # print real_acta
     if len(errores) > 0:
         return JsonResponse({'status': 'error', 'mensajes': errores}, status=400)
 
@@ -101,6 +101,16 @@ def bajar_propuesta_docx(request, uuid):
     response['Content-Disposition'] = 'attachment; filename=propuesta.docx'
     response['Content-Length'] = length
     return response
+
+
+def enviar_pre_propuesta_docx(request):
+    acta, errores = validar_acta_json(request)
+    docx = generar_pre_propuesta_docx(acta)
+    pre_propuesta_email(acta,acta['participante_organizador']['email'],docx)
+    return JsonResponse(
+            {'status': 'success', 'mensajes': [
+                'El acta ha sido guardada exitosamente. Se le ha enviado un email con el borrador de la propuesta']})
+
 
 def bajar_propuestas(request):
     return get_respuestas(request)
