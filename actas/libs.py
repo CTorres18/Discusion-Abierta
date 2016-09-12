@@ -644,11 +644,11 @@ def generar_pre_propuesta_docx(acta):
 
 
             elif isinstance(v, str):
-                return v.encode('utf-8')
+                return u'{0}'.format(v.encode('utf-8')).encode('utf-8')
 
 
             else:
-                return v
+                return u'{0}'.format(v.encode('utf-8')).encode('utf-8')
 
     encode_dict_utf8(acta)
     print acta
