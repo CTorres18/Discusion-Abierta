@@ -36,7 +36,7 @@ class EmailThreadPrePropuesta(threading.Thread):
         message = "Pre guardado"
         email = "propuestas@dcc.uchile.cl"
         email = EmailMessage(subject=subject, body=message, to=[self.encargado_email], from_email=email)
-        email.attach('pre_propuesta.docx', self.file,"application/octet-stream")
+        email.attach('pre_propuesta.docx', self.file,"application/vnd.openxmlformats-officedocument.wordprocessingml.document")
         email.send()
 
 
