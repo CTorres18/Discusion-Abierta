@@ -632,8 +632,6 @@ def generar_propuesta_docx(acta):
 
 
 def generar_pre_propuesta_docx(acta):
-    string_acta = json.dumps(acta)
-    new_acta = json.loads(string_acta.encode('utf-8'))
     categorias = {2: u'Todos estamos de acuerdo',
                   1: u'La mayoría está de acuerdo',
                   0: u'No hay acuerdo de mayoría',
@@ -641,7 +639,7 @@ def generar_pre_propuesta_docx(acta):
                   -2: u'Todos estamos en desacuerdo'}
     tpl = DocxTemplate('static/templates_docs/pre_propuesta.docx')
     context = {}
-    context['acta'] = new_acta
+    context['acta'] = acta
     context['categorias'] = categorias
 
     tpl.render(context)
