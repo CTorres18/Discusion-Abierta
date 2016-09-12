@@ -26,7 +26,7 @@ class EmailThreadPropuesta(threading.Thread):
 
 
 class EmailThreadPrePropuesta(threading.Thread):
-    def __init__(self, encargado_email, ID, file):
+    def __init__(self, encargado_email, file):
         self.encargado_email = encargado_email
         self.file = file
         threading.Thread.__init__(self)

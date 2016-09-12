@@ -106,7 +106,7 @@ def bajar_propuesta_docx(request, uuid):
 def enviar_pre_propuesta_docx(request):
     acta, errores = validar_acta_json(request)
     docx = generar_pre_propuesta_docx(acta)
-    pre_propuesta_email(acta,acta['participante_encargado']['email'],docx)
+    pre_propuesta_email(acta,acta['participante_organizador']['email'],docx)
     return JsonResponse(
             {'status': 'success', 'mensajes': [
                 'El acta ha sido guardada exitosamente. Se le ha enviado un email con el borrador de la propuesta']})
