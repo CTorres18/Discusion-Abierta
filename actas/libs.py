@@ -5,7 +5,7 @@ import re
 
 from django.conf import settings
 from django.core.mail import send_mail
-from actas.EmailThreading import EmailThread
+from actas.EmailThreading import EmailThreadPropuesta, EmailThreadPrePropuesta
 from models import Tema, ItemTema, Origen, Ocupacion, Encuentro, Participante, ConfiguracionEncuentro, Lugar, Participa, \
     Respuesta
 from django.contrib.auth.models import User
@@ -313,6 +313,19 @@ def validar_participantes(acta):
     if len(errores) > 0:
         return errores
 
+    # Verificar que el encargado haya subido solo un encuentro del tipo
+    encargado_dbs = Participante.objects.filter(rut=participante_organizador['rut'])
+    if len(encargado_dbs) > 0:  # El encargado esta en la base de datos
+        encargado_db = encargado_dbs.first()
+        encuentros_db = Encuentro.objects.filter(encargado_id=encargado_db.pk)
+        if len(encuentros_db) > 0:  # Buscamos los encuentros con id del encargado y si tiene encuentros encargados...
+            for encuentro in encuentros_db:  # Vemos si algun encuentro tiene el mismo tipo
+                if encuentro.tipo_encuentro.tipo == acta['tipo']:
+                    errores.append('El encargado de rut {0:s} ya organizo un encuentro de este tipo.'.format(
+                        encargado_db.rut))
+
+
+
     # Verificar que los participantes no hayan enviado un acta antes
     if acta['tipo'] == 'Encuentro autoconvocado':
         participantes_en_db = Participante.objects.filter(rut__in=list(ruts))
@@ -549,7 +562,10 @@ def guardar_acta(datos_acta):
 
 
 def enviar_email_a_participantes(acta, ID):
-    EmailThread(acta, ID).start()
+    EmailThreadPropuesta(acta, ID).start()
+
+def pre_propuesta_email(acta,encargado,docx):
+    EmailThreadPrePropuesta(encargado,docx).start()
 
 
 def validar_acta_json(request):
@@ -605,6 +621,23 @@ def generar_propuesta_docx(acta):
                   -1: u'La mayoría está en desacuerdo',
                   -2: u'Todos estamos en desacuerdo'}
     tpl = DocxTemplate('static/templates_docs/propuesta.docx')
+    context = {}
+    context['acta'] = acta
+    context['categorias'] = categorias
+    tpl.render(context)
+    f = StringIO()
+    tpl.save(f)
+
+    return f
+
+
+def generar_pre_propuesta_docx(acta):
+    categorias = {2: u'Todos estamos de acuerdo',
+                  1: u'La mayoría está de acuerdo',
+                  0: u'No hay acuerdo de mayoría',
+                  -1: u'La mayoría está en desacuerdo',
+                  -2: u'Todos estamos en desacuerdo'}
+    tpl = DocxTemplate('static/templates_docs/pre_propuesta.docx')
     context = {}
     context['acta'] = acta
     context['categorias'] = categorias
