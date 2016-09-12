@@ -104,12 +104,18 @@
                     <div layout="row">
                       <md-input-container class="datepicker-align">
                       </md-input-container>
-                      <md-datepicker  ng-model="acta.fechaInicio" md-placeholder="Inicio"></md-datepicker>
-                      <md-datepicker ng-model="acta.fin" md-placeholder="Fin"></md-datepicker>
+                      <md-input-container flex>
+                        <label>Primera reunión</label>
+                        <md-datepicker  ng-model="acta.fechaInicio"></md-datepicker>
+                      </md-input-container>
+                      <md-input-container flex>
+                        <label>Última reunión</label>  
+                        <md-datepicker ng-model="acta.fin"></md-datepicker>
+                      </md-input-container>
                     </div>
                   </div>
                   <h3>
-                    <span>Información del encargado y los participantes (Mínimo 7 en total)</span>
+                    <span>Información del encargado y los participantes (Mínimo {$ acta.min_participantes $} en total)</span>
                   </h3>
                   <div class="padding5">
                     <div layout-xs="column" layout-gt-xs="row">
@@ -191,9 +197,11 @@
                                     <md-option ng-repeat="origen in acta.origenes" ng-value="origen.nombre">{$ origen.nombre $}</md-option>
                                 </md-select>
                             </md-input-container>
-
                         <md-input-container class="centrar_texto" flex flex-sm-xs=10>
-                          <md-button class="md-fab md-mini" aria-label="Quitar participante" ng-click="quitarParticipante($index)">
+                          <md-tooltip md-direction="up" class="image-tooltip">
+                            El mínimo de participantes es de {$ acta.min_participantes $}
+                          </md-tooltip>
+                          <md-button class="md-fab md-mini" aria-label="Quitar participante" ng-click="quitarParticipante($index,$event)">
                             <img src="{% static 'svg/Primera_pagina/garbage.svg' %}" style="width:30px;padding-top: 5px;">
                           </md-button>
                         </md-input-container>

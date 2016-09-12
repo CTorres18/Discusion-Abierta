@@ -76,11 +76,24 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
     }
   };
 
-  $scope.quitarParticipante = function (index) {
+  $scope.quitarParticipante = function (index, ev) {
     if ($scope.acta.participantes.length <= $scope.acta.min_participantes) {
       return;
+    }else{
+      var confirm = $mdDialog.confirm()
+            .title('¿Estás seguro de eliminar al participante ' + (index + 1) + ' ( ' + $scope.acta.participantes[index].nombre + ' ' + $scope.acta.participantes[index].apellido + ' ) ?')
+            .textContent()
+            .ariaLabel('Lucky day')
+            .targetEvent(ev)
+            .ok('Eliminar')
+            .cancel('Mantener');
+
+      $mdDialog.show(confirm).then(function() {
+        $scope.acta.participantes.splice(index, 1);
+      }, function() {
+        //Do nothing
+      });
     }
-    $scope.acta.participantes.splice(index, 1);
   };
 
   var DialogErroresCtrl = function ($scope, $mdDialog, errores) {
@@ -116,7 +129,7 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
       }
     });
   };
-    $scope.showInfo = function(ev) {
+  $scope.showInfo = function(ev) {
     $mdDialog.show({
       controller: DialogController,
       templateUrl: '/static/html/angular/get_actas_view_subir.html',
@@ -193,23 +206,6 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
       $scope.noValidar = false;
     });
   };
-  /*$scope.validarActa = function (ev) {
-    $scope.noValidar = true;
-
-    $http({
-      method: 'POST',
-      url: '/actas/subir/validar',
-      data: $scope.acta
-    }).then(
-      function (response) {
-        confirmarActa(ev);
-      },
-      function (response) {
-        mostrarErrores(ev, response.data.mensajes);
-        $scope.noValidar = false;
-      }
-    );
-  };*/
 
   //valida un RUT
   function Validar_Rut(rut){
@@ -346,78 +342,13 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
       confirmarActa(ev);
     }
   };
-
-
-  //$scope.bajarActa = function (ev) {
-  //  console.log($scope.acta)
-  //
-  //  var docDefinition = {
-  //    content: 'propuesta funciona :D'
-  //  };
-  //  pdfMake.createPdf(docDefinition).download('propuesta.pdf')
-    /*$http({
-      method: 'POST',
-      url: '/actas/bajarpropuestadocx',
-      data: $scope.acta
-    }).then(
-      function (response) {
-        document.location = 'data:application/vnd.openxmlformats-officedocument.wordprocessingml.document,' +encodeURIComponent(response);
-        console.log(response);
-      },
-      function (response) {
-        console.log('FALLEEE');
-        console.log(response);
-      }
-    );*/
-  //};
- /* var filtrarProvincias = function () {
-    $scope.provinciasFiltradas = $scope.provincias.filter(function (provincia) {
-      if ($scope.acta.geo.region === undefined) {
-        return false;
-      }
-      return provincia.fields.region === $scope.acta.geo.region;
-    });
-  };
-
-  var filtrarComunas = function () {
-    $scope.comunasFiltradas = $scope.comunas.filter(function (comuna) {
-      if ($scope.acta.geo.provincia === undefined) {
-        return false;
-      }
-      return comuna.fields.provincia === $scope.acta.geo.provincia;
-    });
-  };
-
-  var cargarWatchersGeo = function () {
-    $scope.$watch('acta.geo.region', function () {
-      if ( ! String($scope.acta.geo.provincia).startsWith(String($scope.acta.geo.region))) {
-        delete $scope.acta.geo.provincia;
-      }
-      if ( ! String($scope.acta.geo.comuna).startsWith(String($scope.acta.geo.provincia))) {
-        delete $scope.acta.geo.comuna;
-      }
-      filtrarProvincias();
-    });
-
-    $scope.$watch('acta.geo.provincia', function () {
-      if ( ! String($scope.acta.geo.comuna).startsWith(String($scope.acta.geo.provincia))) {
-        delete $scope.acta.geo.comuna;
-      }
-      filtrarComunas();
-    });
-  };
-
+  
   var cargarWatchersActa = function () {
     $scope.$watch('acta', function () {
-       $scope.counter +=1;
-      if(($scope.counter% 40)==1){
-        $scope.showActionToast()
-
-      }
       localStorageService.set(LOCALSTORAGE_ACTA_KEY, $scope.acta);
     }, true);
   };
-*/
+
   var last = {
       bottom: false,
       top: true,
@@ -492,7 +423,7 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
         }
 
       });
-      //console.log($scope.acta)
+      console.log($scope.acta)
     };
     /////////////////
     ////
@@ -530,6 +461,7 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
   $scope.to_trusted = function(html_code) {
     return $sce.trustAsHtml(html_code);
   }
+  cargarWatchersActa();
   cargarDatos();
 })
 .controller('ToastCtrl', function($scope, $mdToast) {
