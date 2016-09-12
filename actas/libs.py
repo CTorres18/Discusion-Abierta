@@ -638,9 +638,16 @@ def generar_pre_propuesta_docx(acta):
             if isinstance(v, collections.Mapping):
                 r = encode_dict_utf8(d.get(k, {}))
                 d[k] = r
+            elif isinstance(v,list):
+                   return map(encode_dict_utf8,v)
+
+
+            elif isinstance(v,str):
+                return v.encode('utf-8')
+
+
             else:
-                d[k] = d[k].encode('utf-8')
-        return d
+                return v
 
     new_dict = encode_dict_utf8(acta)
 
