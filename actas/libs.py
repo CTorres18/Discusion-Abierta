@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import collections
 import json
 from itertools import cycle
 import re
@@ -632,6 +633,17 @@ def generar_propuesta_docx(acta):
 
 
 def generar_pre_propuesta_docx(acta):
+    def encode_dict_utf8(d):
+        for k, v in d.iteritems():
+            if isinstance(v, collections.Mapping):
+                r = encode_dict_utf8(d.get(k, {}))
+                d[k] = r
+            else:
+                d[k] = d[k].encode('utf-8')
+        return d
+
+    new_dict = encode_dict_utf8(acta)
+
     categorias = {2: u'Todos estamos de acuerdo',
                   1: u'La mayoría está de acuerdo',
                   0: u'No hay acuerdo de mayoría',
@@ -639,7 +651,7 @@ def generar_pre_propuesta_docx(acta):
                   -2: u'Todos estamos en desacuerdo'}
     tpl = DocxTemplate('static/templates_docs/pre_propuesta.docx')
     context = {}
-    context['acta'] = acta
+    context['acta'] = new_dict
     context['categorias'] = categorias
 
     tpl.render(context)
