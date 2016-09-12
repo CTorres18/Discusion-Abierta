@@ -35,9 +35,8 @@ class EmailThreadPrePropuesta(threading.Thread):
         subject = "Participación en Discusión Abierta UChile"
         message = "Pre guardado"
         email = "propuestas@dcc.uchile.cl"
-
-        email = EmailMessage(subject=subject, body=message, to=self.encargado_email, from_email=email)
-        email.attach('pre_propuesta.docx', self.file)
+        email = EmailMessage(subject=subject, body=message, to=[self.encargado_email], from_email=email)
+        #email.attach('pre_propuesta.docx', self.file)
         email.send()
 
 
