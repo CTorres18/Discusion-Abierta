@@ -644,6 +644,7 @@ def generar_pre_propuesta_docx(acta):
 
 
             elif isinstance(v, str):
+                print "yey"
                 return u'{0}'.format(v.encode('utf-8')).encode('utf-8')
 
 
