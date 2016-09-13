@@ -650,8 +650,8 @@ def generar_pre_propuesta_docx(acta):
                 return u'{0}'.format(v.encode('utf-8')).encode('utf-8')
 
 
-    encode_dict_utf8(acta)
-    #print acta
+    s=encode_dict_utf8(acta)
+    print s
 
     categorias = {2: u'Todos estamos de acuerdo',
                   1: u'La mayoría está de acuerdo',
