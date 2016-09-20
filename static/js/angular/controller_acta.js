@@ -434,7 +434,7 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
             $scope.acta = response.data;
           }
         }
-
+        $scope.acta.tipo = "Encuentro autoconvocado";
       });
       console.log($scope.acta)
     };
