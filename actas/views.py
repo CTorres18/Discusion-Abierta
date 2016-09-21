@@ -9,9 +9,9 @@ import ast
 from actas.stream_datas import *
 
 from .libs import validar_acta_json, validar_cedulas_participantes, guardar_acta, obtener_config, \
-    generar_propuesta_docx, generar_pre_propuesta_docx, pre_propuesta_email
+    generar_propuesta_docx, pre_propuesta_email
 
-from .models import ConfiguracionEncuentro
+from .models import ConfiguracionEncuentro, ActaGuardada
 
 
 def index(request):
@@ -105,8 +105,11 @@ def bajar_propuesta_docx(request, uuid):
 
 def enviar_pre_propuesta_docx(request):
     acta, errores = validar_acta_json(request)
-    docx = generar_pre_propuesta_docx(acta)
-    pre_propuesta_email(acta,acta['participante_organizador']['email'],docx)
+    acta_guardada =ActaGuardada(email=acta['participante_organizador']['email'],propuesta = acta)
+    acta_guardada.save()
+
+
+    pre_propuesta_email(acta,acta['participante_organizador']['email'],"")
     return JsonResponse(
             {'status': 'success', 'mensajes': [
                 'El acta ha sido guardada exitosamente. Se le ha enviado un email con el borrador de la propuesta']})

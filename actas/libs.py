@@ -633,38 +633,42 @@ def generar_propuesta_docx(acta):
     return f
 
 
-def generar_pre_propuesta_docx(acta):
-    def encode_dict_utf8(d):
-        for k, v in d.iteritems():
-            if isinstance(v, collections.Mapping):
-                print "yey1"
-                r = encode_dict_utf8(d.get(k, {}))
-                d[k] = r
-            elif isinstance(v, list):
-                print "yey2"
-                return map(encode_dict_utf8, v)
-
-
-            elif isinstance(v, str):
-                print "yey3"
-                return u'{0}'.format(v.encode('utf-8')).encode('utf-8')
-
-
-    s=encode_dict_utf8(acta)
-    print s
-
-    categorias = {2: u'Todos estamos de acuerdo',
-                  1: u'La mayoría está de acuerdo',
-                  0: u'No hay acuerdo de mayoría',
-                  -1: u'La mayoría está en desacuerdo',
-                  -2: u'Todos estamos en desacuerdo'}
-    tpl = DocxTemplate('static/templates_docs/pre_propuesta.docx')
-    context = {}
-    context['acta'] = acta
-    context['categorias'] = categorias
-
-    tpl.render(context)
-    f = StringIO()
-    tpl.save(f)
-
-    return f
+# def generar_pre_propuesta_docx(acta):
+#     def encode_dict_utf8(d):
+#         for k, v in d.iteritems():
+#             if isinstance(v, collections.Mapping):
+#                 print "yey1"
+#                 r = encode_dict_utf8(d.get(k, {}))
+#                 d[k] = r
+#             elif isinstance(v, list):
+#                 print "yey2"
+#                 return map(encode_dict_utf8, v)
+#
+#
+#             elif isinstance(v, str):
+#                 print "yey3"
+#                 return u'{0}'.format(v.encode('utf-8')).encode('utf-8')
+#     def encode_items(acta):
+#         for tema in acta['temas']:
+#             for item in tema['items']:
+#                 acta['temas']
+#
+#
+#     s=encode_dict_utf8(acta)
+#     print s
+#
+#     categorias = {2: u'Todos estamos de acuerdo',
+#                   1: u'La mayoría está de acuerdo',
+#                   0: u'No hay acuerdo de mayoría',
+#                   -1: u'La mayoría está en desacuerdo',
+#                   -2: u'Todos estamos en desacuerdo'}
+#     tpl = DocxTemplate('static/templates_docs/pre_propuesta.docx')
+#     context = {}
+#     context['acta'] = acta
+#     context['categorias'] = categorias
+#
+#     tpl.render(context)
+#     f = StringIO()
+#     tpl.save(f)
+#
+#     return f

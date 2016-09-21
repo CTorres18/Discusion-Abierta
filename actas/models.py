@@ -303,3 +303,17 @@ class Participa(models.Model):
             'ocupacion': self.ocupacion.ocupacion,
             'origen': self.origen.origen,
         }
+
+class ActaGuardada(models.Model):
+    email = models.EmailField('Email')
+    propuesta = models.TextField('Propuesta')
+    created_at = models.DateField(default=default_datetime())
+
+    def __str__(self):
+        return str(self.propuesta.encode('utf-8'))
+
+    def to_dict(self):
+        return {
+            'pk': self.pk,
+            'propuesta': self.__str__()
+        }
