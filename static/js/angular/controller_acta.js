@@ -1,6 +1,9 @@
 'use strict';
-
-var LOCALSTORAGE_ACTA_KEY = 'acta';
+var urlBase = "https://dabierta-dev.dcc.uchile.cl";
+var LOCALSTORAGE_ACTA_KEY = { 'Encuentro autoconvocado': 'autoconvocado',
+                              'Encuentro gremial': 'gremial',
+                              'Encuentro facultad': 'facultad',
+                              'Encuentro transversal': 'transversal'};
 
 var app =angular.module('DiscusionAbiertaApp', ['ngMaterial', 'LocalStorageModule', 'monospaced.elastic'])
   .config(function ($httpProvider) {
@@ -35,6 +38,16 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
     $scope.counter=0;
 
     $scope.categorias = ['Todos estamos en desacuerdo', 'La mayoría está en desacuerdo', 'No hay acuerdo de mayoría','La mayoría está de acuerdo',  'Todos estamos de acuerdo'];
+
+    $scope.cambiaTipo = function(tipoPrevio, tipoNuevo){
+      console.log("Previo="+tipoPrevio);
+      console.log("Nuevo="+tipoNuevo);
+      $scope.acta.tipo = tipoPrevio;
+      localStorageService.set(LOCALSTORAGE_ACTA_KEY[tipoPrevio], $scope.acta);
+      $scope.acta.tipo = tipoNuevo;
+      cargarDatos();
+      cargarWatchersActa();
+    }
 
     $scope.gotoTop = function(){
       // set the location.hash to the id of
@@ -140,7 +153,7 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
     })
     .then(function(answer) {
            if(answer.length >0) {
-             window.location.href = 'https://discusionabierta.dcc.uchile.cl/actas/bajar/' + answer
+             window.location.href = urlBase + '/actas/bajar/' + answer
            }
     }, function() {
     });
@@ -156,7 +169,7 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
     })
     .then(function(answer) {
             if(answer.length >0) {
-            window.location.href = 'https://discusionabierta.dcc.uchile.cl/actas/bajarpropuestadocx/'+ answer
+            window.location.href = urlBase + '/actas/bajarpropuestadocx/' + answer
           }
     }, function() {
     });
@@ -344,8 +357,9 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
   };
   
   var cargarWatchersActa = function () {
-    $scope.$watch('acta', function () {
-      localStorageService.set(LOCALSTORAGE_ACTA_KEY, $scope.acta);
+    console.log("antiguo cache="+LOCALSTORAGE_ACTA_KEY[$scope.acta.tipo]);
+    $scope.$watch(LOCALSTORAGE_ACTA_KEY[$scope.acta.tipo], function () {
+      localStorageService.set(LOCALSTORAGE_ACTA_KEY[$scope.acta.tipo], $scope.acta);
     }, true);
   };
 
@@ -410,34 +424,36 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
 
   var cargarDatos = function () {
 
-    if (localStorageService.get(LOCALSTORAGE_ACTA_KEY) !== null) {
-      console.log('changed it!')
-      $scope.acta = localStorageService.get(LOCALSTORAGE_ACTA_KEY);
+    if (localStorageService.get(LOCALSTORAGE_ACTA_KEY[$scope.acta.tipo]) !== null) {
+      console.log('changed it!, recargamos el viejo caché')
+      $scope.acta = localStorageService.get(LOCALSTORAGE_ACTA_KEY[$scope.acta.tipo]);
     }
 
-      $http({
-        method: 'GET',
-        url: '/actas/base/21'
-      }).then(function (response) {
-        if (!(typeof $scope.acta === "undefined"))
-        {
-          if (!(typeof $scope.acta.updated_at === "undefined")) {
-            var striped_data = response.data.updated_at.substring(0,19);
-            var striped_acta = $scope.acta.updated_at.substring(0,19);
-            if (!(striped_data === striped_acta)) {
-              console.log("changed it!");
-                $scope.acta = response.data;
-            }
-          }
-          else{
-            console.log("changed it!")
-            $scope.acta = response.data;
+    $http({
+      method: 'GET',
+      url: '/actas/base/21'
+    }).then(function (response) {
+      if (!(typeof $scope.acta === "undefined"))
+      {
+        if (!(typeof $scope.acta.updated_at === "undefined")) {
+          var striped_data = response.data.updated_at.substring(0,19);
+          var striped_acta = $scope.acta.updated_at.substring(0,19);
+          if (!(striped_data === striped_acta)) {
+            console.log("changed it!, hubieron cambios");
+              $scope.acta = response.data;
+          }else{
+            console.log("not changed acta");
           }
         }
-
-      });
-      console.log($scope.acta)
-    };
+        else{
+          console.log("changed it!, acta nueva")
+          $scope.acta = response.data;
+          $scope.acta.tipo = "Encuentro autoconvocado";
+        }
+      }
+    });
+    console.log($scope.acta)
+  };
     /////////////////
     ////
 
@@ -452,7 +468,7 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
       .cancel('Cancelar');
 
     $mdDialog.show(confirm).then(function (result) {
-      localStorageService.remove(LOCALSTORAGE_ACTA_KEY);
+      localStorageService.remove(LOCALSTORAGE_ACTA_KEY[$scope.acta.tipo]);
       cargarDatos();
     });
   };
