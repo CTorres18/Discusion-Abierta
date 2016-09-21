@@ -1,5 +1,5 @@
 'use strict';
-
+var urlBase = "https://dabierta-dev.dcc.uchile.cl";
 var LOCALSTORAGE_ACTA_KEY = { 'Encuentro autoconvocado': 'autoconvocado',
                               'Encuentro gremial': 'gremial',
                               'Encuentro facultad': 'facultad',
@@ -153,7 +153,7 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
     })
     .then(function(answer) {
            if(answer.length >0) {
-             window.location.href = 'https://discusionabierta.dcc.uchile.cl/actas/bajar/' + answer
+             window.location.href = urlBase + '/actas/bajar/' + answer
            }
     }, function() {
     });
@@ -169,7 +169,7 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
     })
     .then(function(answer) {
             if(answer.length >0) {
-            window.location.href = 'https://discusionabierta.dcc.uchile.cl/actas/bajarpropuestadocx/'+ answer
+            window.location.href = urlBase + '/actas/bajarpropuestadocx/' + answer
           }
     }, function() {
     });
