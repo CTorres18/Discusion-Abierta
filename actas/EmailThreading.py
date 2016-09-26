@@ -33,7 +33,7 @@ class EmailThreadPrePropuesta(threading.Thread):
 
     def run(self):
         subject = "Participación en Discusión Abierta UChile"
-        message = "Pre guardado"
+        message = "Estimad@:\n Su propuesta ha sido guardad solo en su computador, ahora puede apagar su computadora traquilamente y retomar su trabajo más tarde. Para ello, diríjase a la página de Discusión Abierta (https://discusionabierta.dcc.uchile.cl) y seguir editando su propuesta. Una vez completada la edición, ésta podrá ser enviada para ser procesada a través del paso 4. Esto se hace presionando el botón 'Subir Propuesta' en la pestaña del mismo nombre.\n Una vez Subida la Propuesta, se le enviará un correo a los participantes de dicho encuentro, indicando el código identificador de su propuesta, para que puedan revisarla y verificar que efectivamente está almacenada en el sistema. Una vez enviada la propuesta, ésta ya no podrá ser modificada.\n Este correo ha sido enviado automáticamente por el sistema de Discusión Abierta. Favor no responder.\n Ante cualquier consulta escribir a: discusionreforma@uchile.cl"
         email = "propuestas@dcc.uchile.cl"
         email = EmailMessage(subject=subject, body=message, to=[self.encargado_email], from_email=email)
         #email.attach('pre_propuesta.docx', self.file.getvalue(),"application/vnd.openxmlformats-officedocument.wordprocessingml.document")
