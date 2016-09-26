@@ -93,7 +93,7 @@
                     </md-input-container>
                     <md-input-container flex>
                       <label>Tipo de encuentro</label>
-                      <md-select ng-model="acta.tipo" ng-change="cambiaTipo('{$ acta.tipo $}', acta.tipo);" required>
+                      <md-select ng-model="acta.tipo" required>
                         <md-option ng-repeat="tipo in acta.tipos" ng-value="tipo.nombre">{$ tipo.nombre $}</md-option>
                       </md-select>
                     </md-input-container>

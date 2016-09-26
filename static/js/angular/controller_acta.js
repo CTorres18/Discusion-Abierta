@@ -1,9 +1,6 @@
 'use strict';
 var urlBase = "https://dabierta-dev.dcc.uchile.cl";
-var LOCALSTORAGE_ACTA_KEY = { 'Encuentro autoconvocado': 'autoconvocado',
-                              'Encuentro gremial': 'gremial',
-                              'Encuentro facultad': 'facultad',
-                              'Encuentro transversal': 'transversal'};
+var LOCALSTORAGE_ACTA_KEY = 'acta';
 
 var app =angular.module('DiscusionAbiertaApp', ['ngMaterial', 'LocalStorageModule', 'monospaced.elastic'])
   .config(function ($httpProvider) {
@@ -43,7 +40,7 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
       console.log("Previo="+tipoPrevio);
       console.log("Nuevo="+tipoNuevo);
       $scope.acta.tipo = tipoPrevio;
-      localStorageService.set(LOCALSTORAGE_ACTA_KEY[tipoPrevio], $scope.acta);
+      localStorageService.set(LOCALSTORAGE_ACTA_KEY);
       $scope.acta.tipo = tipoNuevo;
       cargarDatos();
       cargarWatchersActa();
@@ -357,9 +354,9 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
   };
   
   var cargarWatchersActa = function () {
-    console.log("antiguo cache="+LOCALSTORAGE_ACTA_KEY[$scope.acta.tipo]);
-    $scope.$watch(LOCALSTORAGE_ACTA_KEY[$scope.acta.tipo], function () {
-      localStorageService.set(LOCALSTORAGE_ACTA_KEY[$scope.acta.tipo], $scope.acta);
+    console.log("antiguo cache="+LOCALSTORAGE_ACTA_KEY);
+    $scope.$watch(LOCALSTORAGE_ACTA_KEY, function () {
+      localStorageService.set(LOCALSTORAGE_ACTA_KEY, $scope.acta);
     }, true);
   };
 
@@ -424,9 +421,9 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
 
   var cargarDatos = function () {
 
-    if (localStorageService.get(LOCALSTORAGE_ACTA_KEY[$scope.acta.tipo]) !== null) {
+    if (localStorageService.get(LOCALSTORAGE_ACTA_KEY) !== null) {
       console.log('changed it!, recargamos el viejo caché')
-      $scope.acta = localStorageService.get(LOCALSTORAGE_ACTA_KEY[$scope.acta.tipo]);
+      $scope.acta = localStorageService.get(LOCALSTORAGE_ACTA_KEY);
     }
 
     $http({
@@ -448,7 +445,6 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
         else{
           console.log("changed it!, acta nueva")
           $scope.acta = response.data;
-          $scope.acta.tipo = "Encuentro autoconvocado";
         }
       }
     });
@@ -468,7 +464,7 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
       .cancel('Cancelar');
 
     $mdDialog.show(confirm).then(function (result) {
-      localStorageService.remove(LOCALSTORAGE_ACTA_KEY[$scope.acta.tipo]);
+      localStorageService.remove(LOCALSTORAGE_ACTA_KEY);
       cargarDatos();
     });
   };
