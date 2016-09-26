@@ -1,5 +1,5 @@
 'use strict';
-
+var urlBase = "https://discusionabierta.dcc.uchile.cl";
 var LOCALSTORAGE_ACTA_KEY = 'acta';
 
 var app =angular.module('DiscusionAbiertaApp', ['ngMaterial', 'LocalStorageModule', 'monospaced.elastic'])
@@ -35,6 +35,16 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
     $scope.counter=0;
 
     $scope.categorias = ['Todos estamos en desacuerdo', 'La mayoría está en desacuerdo', 'No hay acuerdo de mayoría','La mayoría está de acuerdo',  'Todos estamos de acuerdo'];
+
+    $scope.cambiaTipo = function(tipoPrevio, tipoNuevo){
+      console.log("Previo="+tipoPrevio);
+      console.log("Nuevo="+tipoNuevo);
+      $scope.acta.tipo = tipoPrevio;
+      localStorageService.set(LOCALSTORAGE_ACTA_KEY);
+      $scope.acta.tipo = tipoNuevo;
+      cargarDatos();
+      cargarWatchersActa();
+    }
 
     $scope.gotoTop = function(){
       // set the location.hash to the id of
@@ -140,7 +150,7 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
     })
     .then(function(answer) {
            if(answer.length >0) {
-             window.location.href = 'https://discusionabierta.dcc.uchile.cl/actas/bajar/' + answer
+             window.location.href = urlBase + '/actas/bajar/' + answer
            }
     }, function() {
     });
@@ -156,7 +166,7 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
     })
     .then(function(answer) {
             if(answer.length >0) {
-            window.location.href = 'https://discusionabierta.dcc.uchile.cl/actas/bajarpropuestadocx/'+ answer
+            window.location.href = urlBase + '/actas/bajarpropuestadocx/' + answer
           }
     }, function() {
     });
@@ -344,7 +354,8 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
   };
   
   var cargarWatchersActa = function () {
-    $scope.$watch('acta', function () {
+    console.log("antiguo cache="+LOCALSTORAGE_ACTA_KEY);
+    $scope.$watch(LOCALSTORAGE_ACTA_KEY, function () {
       localStorageService.set(LOCALSTORAGE_ACTA_KEY, $scope.acta);
     }, true);
   };
@@ -377,6 +388,18 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
     last = angular.extend({},current);
   }
   $scope.showActionToast = function() {
+    $http({
+        method: 'POST',
+        url: '/actas/enviarprepropuesta',
+        data: $scope.acta
+      }).then(
+        function (response) {
+          console.log("test ok")
+        },
+        function (response) {
+           console.log("test fail")
+        }
+      );
     var pinTo = $scope.getToastPosition();
     var toast = $mdToast.simple()
       .textContent('¡Guardado! \n La información ha sido guardada, pero solo en su computador.\n Recuerde "Subir Propuesta" en la pestaña de igual nombre en el punto 4 cuando termine de editar su propuesta.')
@@ -386,6 +409,7 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
       .position(pinTo)
         .parent(document.getElementById('ptoast'))
     .hideDelay(0);
+
 
     $mdToast.show(toast).then(function(response) {
 
@@ -398,33 +422,34 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
   var cargarDatos = function () {
 
     if (localStorageService.get(LOCALSTORAGE_ACTA_KEY) !== null) {
-      console.log('changed it!')
+      console.log('changed it!, recargamos el viejo caché')
       $scope.acta = localStorageService.get(LOCALSTORAGE_ACTA_KEY);
     }
 
-      $http({
-        method: 'GET',
-        url: '/actas/base/21'
-      }).then(function (response) {
-        if (!(typeof $scope.acta === "undefined"))
-        {
-          if (!(typeof $scope.acta.updated_at === "undefined")) {
-            var striped_data = response.data.updated_at.substring(0,19);
-            var striped_acta = $scope.acta.updated_at.substring(0,19);
-            if (!(striped_data === striped_acta)) {
-              console.log("changed it!");
-                $scope.acta = response.data;
-            }
-          }
-          else{
-            console.log("changed it!")
-            $scope.acta = response.data;
+    $http({
+      method: 'GET',
+      url: '/actas/base/21'
+    }).then(function (response) {
+      if (!(typeof $scope.acta === "undefined"))
+      {
+        if (!(typeof $scope.acta.updated_at === "undefined")) {
+          var striped_data = response.data.updated_at.substring(0,19);
+          var striped_acta = $scope.acta.updated_at.substring(0,19);
+          if (!(striped_data === striped_acta)) {
+            console.log("changed it!, hubieron cambios");
+              $scope.acta = response.data;
+          }else{
+            console.log("not changed acta");
           }
         }
-
-      });
-      console.log($scope.acta)
-    };
+        else{
+          console.log("changed it!, acta nueva")
+          $scope.acta = response.data;
+        }
+      }
+    });
+    console.log($scope.acta)
+  };
     /////////////////
     ////
 

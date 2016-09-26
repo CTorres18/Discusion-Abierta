@@ -3,7 +3,7 @@ from django.contrib import admin
 from actas.read_only_admin import ReadOnlyModelAdmin
 
 from .models import Tema, ItemTema, Ocupacion, Origen, ConfiguracionEncuentro, Lugar, TipoEncuentro, Encuentro, \
-    Respuesta, Participante
+    Respuesta, Participante, ActaGuardada
 
 
 class TemaAdmin(ReadOnlyModelAdmin):
@@ -45,7 +45,11 @@ class RespuestasAdmin(ReadOnlyModelAdmin):
 class ParticipanteAdmin(ReadOnlyModelAdmin):
     pass
 
+class ActaGuardadaAdmin(ReadOnlyModelAdmin):
+    pass
 
+
+admin.site.register(ActaGuardada,ActaGuardadaAdmin)
 admin.site.register(ConfiguracionEncuentro, ItemTemaAdmin)
 admin.site.register(Tema, TemaAdmin)
 admin.site.register(Ocupacion, OcupacionAdmin)
