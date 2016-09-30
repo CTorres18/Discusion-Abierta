@@ -142,7 +142,7 @@ app.controller('ActaCtrl', function ($scope, $http, $mdDialog, localStorageServi
   $scope.showInfo = function(ev) {
     $mdDialog.show({
       controller: DialogController,
-      templateUrl: '/static/html/angular/not_get_actas_view.html',
+      templateUrl: '/static/html/angular/get_actas_view_subir.html',
       parent: angular.element(document.body),
       targetEvent: ev,
       clickOutsideToClose:true,
