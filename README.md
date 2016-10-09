@@ -21,13 +21,14 @@
 
 ##### 2. INSTALAR DEPENDENCIAS PYTHON
     pip install -r requirements.txt
+    pip install -r requirements-test.txt
 
 ##### 3. INSTALAR DEPENDENCIAS BOWER
     bower install
 
 ##### 4. CARGAR FIXTURES
     python manage.py loaddata regiones provincias comunas 
-    python manage.py loaddata testcuv2.json
+    python manage.py loaddata regiones provincias comunas
 
 ##### 5. EJECUTAR SERVICIO WEB
     python manage.py runserver
