@@ -2,9 +2,47 @@
 {% load staticfiles %}
 
 {% block js %}
+<script src="{% static 'bower_components/angular-elastic/elastic.js' %}"></script>
+<script src="{% static 'js/angular/controller_acta.js' %}"></script>
 {% endblock %}
 
 {% block body %}
-<div layout="column" layout-align="center">
+<div ng-controller="ActaCtrl">
+  <div id="top" class="headerSubir">
+      <a >
+        <img class="ribbons right" src="{% static '/svg/buscar_propuesta1.svg' %}" style="width: 9vw;right:21vw;position:absolute;" ng-click="getPropuesta($event)">
+      </a>
+      <img class="ribbons left" src="{% static '/svg/logo_reforma.svg' %}" style="width: 25vw; left:30vw;position:absolute;">
+      <a href="../subir/">
+      	<img class="ribbons left" src="{% static '/svg/registrar_encuentro1.svg' %}" style="width: 9vw; right:11vw;position:absolute;">
+      </a>
+      <a>
+        <img class="ribbons right" src="{% static '/svg/propuestas2.svg' %}" style="width: 9vw;right:1vw;position:absolute; " ng-click="showInfo($event)">
+      </a>
+      <a href="../">
+        <img class="ribbons right" src="{% static '/svg/Inicio.svg' %}" style="width: 9vw;left:1vw;position:absolute;">
+      </a>
+  </div>
+  <div class="footer-da">
+    <div layout="row" class="text-1">
+      <div flex align="center" style="padding:1vw;">
+        <img src="{% static '/svg/logo_reforma.svg' %}" style="width:8vw;" class="footer-center" />
+        <p>
+          <a href="http://www.uchile.cl/discusion-reforma">
+          La Chile piensa la reforma
+          </a>
+          <br>
+          Contacto:     
+          <a href="">discusionreforma@uchile.cl</a>
+        </p>
+      </div>
+      <div flex align="center" style="padding:1vw;">
+        <img src="{% static '/svg/Primera_pagina/Logo_plataforma-01Blanca.svg' %}" style="width:8vw;" class="footer-center" />
+        <p>Plataforma creada por equipo de Discusión Abierta
+          <br>
+          para la Universidad de Chile.
+        </p>  
+      </div>
+    </div>
 </div>
 {% endblock %}

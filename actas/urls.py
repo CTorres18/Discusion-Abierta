@@ -5,7 +5,7 @@ from .views import index, lista, acta_base, subir, subir_validar, subir_confirma
 
 urlpatterns = [
     url(r'^$', index, name='index'),
-    url(r'^lista$', lista, name='lista'),
+    url(r'^lista/$', lista, name='lista'),
     url(r'^base/(?P<id>\d+)$', acta_base, name='base'),
     url(r'^subir/$', subir, name='subir'),
     url(r'^subir/validar$', subir_validar, name='validar'),
