@@ -3,11 +3,11 @@
 
 {% block js %}
 <script src="{% static 'bower_components/angular-elastic/elastic.js' %}"></script>
-<script src="{% static 'js/angular/controller_acta.js' %}"></script>
+<script src="{% static 'js/angular/controller_lista.js' %}"></script>
 {% endblock %}
 
 {% block body %}
-<div ng-controller="ActaCtrl">
+<div ng-controller="ListaCtrl">
   <div id="top" class="headerSubir">
       <a >
         <img class="ribbons right" src="{% static '/svg/buscar_propuesta1.svg' %}" style="width: 9vw;right:21vw;position:absolute;" ng-click="getPropuesta($event)">
@@ -22,6 +22,28 @@
       <a href="../">
         <img class="ribbons right" src="{% static '/svg/Inicio.svg' %}" style="width: 9vw;left:1vw;position:absolute;">
       </a>
+  </div>
+  <div ng-model=propuestas layout="column" style="text-align:left">
+  	<!-- <div ng-repeat="propuesta in propuestas" layout="row" layout-align="space-around center" style="padding:1%">
+  	-->
+  		<md-content>
+			<md-list>
+				<md-list-item class="md-3-line" ng-repeat="propuesta in propuestas">
+					<div class="md-list-item-text">
+						<h1>Propuesta N°{$ propuesta.pk $}</h1>
+						<h2>Tipo: {$ propuesta.tipo $}</h2>
+						<h3>Lugar: {$ propuesta.lugar $}</h3>
+					</div>
+					<div>
+					  	<a href="localhost:8000/actas/bajarpropuestadocx/{$ propuesta.hash $}" >
+					  		<img src="{% static '/svg/tercera_pagina/icono_propuesta2.svg' %}" style="width:8vw;"/> 
+					  	</a>
+					</div>		
+					<md-divider ng-if="!$last"></md-divider>
+				</md-list-item>
+			</md-list>
+		</md-content>
+	</div>
   </div>
   <div class="footer-da">
     <div layout="row" class="text-1">
