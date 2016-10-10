@@ -1,0 +1,30 @@
+<md-dialog aria-label="Mango (Fruit)" ng-cloack ng-controller="ListaCtrl">
+  <form ng-cloak>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>Buscar mi propuesta</h2>
+        <md-button class="md-icon-button" ng-click="cancel()">
+        </md-button>
+      </div>
+    </md-toolbar>
+    <md-dialog-content style="padding:4vw">
+      <div layout="row" class="text-1"> 
+        Si ya subiste la propuesta de tu encuentro, puedes revisar cómo se guardó en nuestro sistema ingresando su identificador (ID).
+      </div>
+      <md-input-container flex class="flex md-input-has-value">
+        <label class="md-required" for="input_16">ID de su propuesta</label>
+        <input ng-model="datito" required class="ng-pristine ng-valid md-input ng-not-empty ng-valid-required ng-touched">
+      </md-input-container>
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row">
+      <md-button ng-click="answer(datito)">
+       Obtener
+      </md-button>
+        <span flex></span>
+      <md-button ng-click="answer('')">
+        Cancelar
+      </md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>

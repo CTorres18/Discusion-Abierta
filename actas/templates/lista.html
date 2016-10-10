@@ -16,34 +16,42 @@
       <a href="../subir/">
       	<img class="ribbons left" src="{% static '/svg/registrar_encuentro1.svg' %}" style="width: 9vw; right:11vw;position:absolute;">
       </a>
-      <a>
-        <img class="ribbons right" src="{% static '/svg/propuestas2.svg' %}" style="width: 9vw;right:1vw;position:absolute; " ng-click="showInfo($event)">
-      </a>
+      <img class="ribbons right" src="{% static '/svg/propuestas2.svg' %}" style="width: 9vw;right:1vw;position:absolute;">
       <a href="../">
         <img class="ribbons right" src="{% static '/svg/Inicio.svg' %}" style="width: 9vw;left:1vw;position:absolute;">
       </a>
   </div>
   <div ng-model=propuestas layout="column" style="text-align:left">
-  	<!-- <div ng-repeat="propuesta in propuestas" layout="row" layout-align="space-around center" style="padding:1%">
-  	-->
-  		<md-content>
-			<md-list>
-				<md-list-item class="md-3-line" ng-repeat="propuesta in propuestas">
-					<div class="md-list-item-text">
-						<h1>Propuesta N°{$ propuesta.pk $}</h1>
-						<h2>Tipo: {$ propuesta.tipo $}</h2>
-						<h3>Lugar: {$ propuesta.lugar $}</h3>
-					</div>
-					<div>
-					  	<a href="localhost:8000/actas/bajarpropuestadocx/{$ propuesta.hash $}" >
-					  		<img src="{% static '/svg/tercera_pagina/icono_propuesta2.svg' %}" style="width:8vw;"/> 
-					  	</a>
-					</div>		
-					<md-divider ng-if="!$last"></md-divider>
-				</md-list-item>
-			</md-list>
-		</md-content>
+	<md-content>
+		<md-list>
+			<md-list-item class="md-3-line" ng-repeat="propuesta in propuestas">
+				<div class="md-list-item-text">
+					<h1>Propuesta N°{$ propuesta.pk $}</h1>
+					<h2>Tipo: {$ propuesta.tipo $}</h2>
+					<h3>Lugar: {$ propuesta.lugar $}</h3>
+				</div>
+				<div>
+				  	<a href="localhost:8000/actas/bajarpropuestadocx/{$ propuesta.hash $}" >
+				  		<img src="{% static '/svg/tercera_pagina/icono_propuesta2.svg' %}" style="width:8vw;"/> 
+				  	</a>
+				</div>		
+				<md-divider ng-if="!$last"></md-divider>
+			</md-list-item>
+		</md-list>
+	</md-content>
 	</div>
+  </div>
+  <div layout="column" style="margin:1%;" ng-controller="ListaCtrl">
+  	<div flex class="text-1">
+  	Para descargar los datos para su análisis, dejamos de forma pública las tablas de la base de datos en formato <i>.csv</i>. 
+  	</div>
+  	<div layout="row" layout-fill>
+        <section layout="column" flex layout-padding layout-margin >
+          <div>
+            <img src="{% static '/svg/BajarDatos.svg' %}" style="cursor: pointer;" ng-click="showInfo($event)"/>
+          </div>
+        </section>
+    </div>
   </div>
   <div class="footer-da">
     <div layout="row" class="text-1">
