@@ -23,17 +23,15 @@
   </div>
   <div ng-model=propuestas layout="column" style="text-align:left">
 	<md-content>
-		<md-list>
-			<md-list-item class="md-3-line" ng-repeat="propuesta in propuestas">
+		<md-list flex>
+			<md-list-item class="md-3-line" ng-repeat="propuesta in propuestas" ng-click="descargarPropuesta(propuesta)">
 				<div class="md-list-item-text">
 					<h1>Propuesta N°{$ propuesta.pk $}</h1>
 					<h2>Tipo: {$ propuesta.tipo $}</h2>
 					<h3>Lugar: {$ propuesta.lugar $}</h3>
 				</div>
 				<div>
-				  	<a href="https://dabierta-dev.dcc.uchile.cl/actas/bajarpropuestadocx/{$ propuesta.hash $}" >
-				  		<img src="{% static '/svg/tercera_pagina/icono_propuesta2.svg' %}" style="width:8vw;"/> 
-				  	</a>
+					<img src="{% static '/svg/tercera_pagina/icono_propuesta2.svg' %}" style="width:8vw;"/> 
 				</div>		
 				<md-divider ng-if="!$last"></md-divider>
 			</md-list-item>

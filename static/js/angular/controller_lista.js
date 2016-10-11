@@ -22,6 +22,10 @@ app.controller('ListaCtrl', function ($scope, $http, $mdDialog, localStorageServ
     });
   };
 
+  $scope.descargarPropuesta = function(propuesta){
+    window.open("/actas/bajarpropuestadocx/"+propuesta.hash, 'nameTab');
+  }
+
   function DialogController($scope, $mdDialog) {
     $scope.hide = function() {
       $mdDialog.hide();
