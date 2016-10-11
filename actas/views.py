@@ -138,5 +138,8 @@ def bajar_datos(request, string):
     return get_temas_encuentros(request)
 
 
+def bajar_propuestas_cires(request):
+    return get_propuestas_cires(request)
+
 def mostrar_acta(request):
     return render(request, 'mostrarActa.html')
