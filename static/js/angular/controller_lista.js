@@ -1,5 +1,5 @@
 'use strict';
-var urlBase = "localhost:8000";
+var urlBase = "https://dabierta-dev.dcc.uchile.cl";
 
 var app = angular.module('DiscusionAbiertaApp', ['ngMaterial', 'LocalStorageModule'])
 .config(function ($interpolateProvider) {
