@@ -104,13 +104,13 @@ def get_encuentros(request):
 
     def encuentros_generator(encuentros):
         return (
-            [encuentro.pk, encuentro.tipo_encuentro_id, encuentro.lugar_id, encuentro.fecha_inicio,
+            [encuentro.pk, encuentro.tipo_encuentro.tipo, encuentro.lugar.lugar, encuentro.fecha_inicio,
              encuentro.fecha_termino, encuentro.complemento.encode('utf-8')]
             for encuentro in encuentros)
 
     def column_name_generator():
         yield ("Encuentros", "")
-        yield ("idEncuentro", "idTipoEncuentro", "idLugar", "fecha_inicio", "fecha_termino", "complemento")
+        yield ("idEncuentro", "TipoEncuentro", "idLugar", "fecha_inicio", "fecha_termino", "complemento")
 
     rows = chain(column_name_generator(), encuentros_generator(encuentros_all))
     pseudo_buffer = Echo()
@@ -204,16 +204,15 @@ def get_propuestas_cires(request):
 
     def respuestas_generator(respuestas, items):
         return (
-            list(chain.from_iterable([[resp.encuentro_id], [resp.encuentro.tipo_encuentro_id],
+            list(chain.from_iterable([[resp.encuentro_id], [resp.encuentro.tipo_encuentro.tipo],
                                       [items.filter(pk=resp.item_tema_id).first().tema_id],[resp.categoria],generate_users_info(resp),
                                       [resp.fundamento.encode('utf-8')], [resp.propuesta.encode('utf-8')]])) for resp in
             respuestas)
 
     def column_name_generator():
-        yield ("Respuestas", "")
         yield (
         "Encuentro", "Tipo", "Tema", "Categoria", "Total Participantes", "Egresada(o)", "Estudiante", "Funcionaria(o)",
-        "Académica(o)"
+        "Académica(o)",
         "Departamento de Evaluación, Medición y Registro Educaciona", "Liceo Manuel de Salas",
         "Centro de Extensión Artística y Cultural ", "Vicerrectoría de Asuntos Estudiantiles y Comunitarios",
         "Vicerrectoría de Extensión", "Vicerrectoría de Investigación y Desarrollo", "Secretaría General",
