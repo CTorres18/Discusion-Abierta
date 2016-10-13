@@ -120,6 +120,27 @@ def get_encuentros(request):
     response['Content-Disposition'] = 'attachment; filename="encuentros.csv"'
     return response
 
+def get_encuentros_cires(request):
+    encuentros_all = Encuentro.objects.all()
+
+    def encuentros_generator(encuentros):
+        return (
+            [encuentro.pk, encuentro.tipo_encuentro.tipo.encode('utf-8'), encuentro.lugar.lugar.encode('utf-8'), encuentro.fecha_inicio,
+             encuentro.fecha_termino, encuentro.complemento.encode('utf-8')]
+            for encuentro in encuentros)
+
+    def column_name_generator():
+        yield ("Encuentros", "")
+        yield ("idEncuentro", "TipoEncuentro", "idLugar", "fecha_inicio", "fecha_termino", "complemento")
+
+    rows = chain(column_name_generator(), encuentros_generator(encuentros_all))
+    pseudo_buffer = Echo()
+    writer = csv.writer(pseudo_buffer)
+    response = StreamingHttpResponse((writer.writerow(row) for row in rows),
+                                     content_type="text/csv")
+    response['Content-Disposition'] = 'attachment; filename="encuentros.csv"'
+    return response
+
 
 def get_tipos_encuentros(request):
     tipos_all = TipoEncuentro.objects.all()
@@ -251,6 +272,26 @@ def get_participa(request):
     def column_name_generator():
         yield ("Participantes", "")
         yield ("idEncuentro", "idParticipante", "idOcupacion", "idOrigen")
+
+    rows = chain(column_name_generator(), participantes_generator(participantes_all))
+    pseudo_buffer = Echo()
+    writer = csv.writer(pseudo_buffer)
+    response = StreamingHttpResponse((writer.writerow(row) for row in rows),
+                                     content_type="text/csv")
+    response['Content-Disposition'] = 'attachment; filename="participantes.csv"'
+    return response
+
+
+def get_participantes_cires(request):
+    participantes_all = Participa.objects.all()
+
+    def participantes_generator(participantes):
+        return (
+            [participa.encuentro_id,participa.encuentro.tipo_encuentro.tipo, participa.participante_id, participa.ocupacion.ocupacion.encode('utf-8'), participa.origen.origen.encode('utf-8'),participa.encuentro.lugar.lugar.encode('utf-8'),participa.encuentro.fecha_inicio,participa.encuentro.fecha_termino]
+            for participa in participantes)
+
+    def column_name_generator():
+        yield ("Encuentro","Tipo","Participante","Estamento", "Organismo","Campus","Fecha inicio","Fecha termino")
 
     rows = chain(column_name_generator(), participantes_generator(participantes_all))
     pseudo_buffer = Echo()

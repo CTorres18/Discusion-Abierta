@@ -155,6 +155,9 @@ def bajar_datos(request, string):
 
 def bajar_propuestas_cires(request):
     return get_propuestas_cires(request)
-
+def bajar_encuentros_cires(request):
+    return get_encuentros_cires(request)
+def bajar_participantes_cires(request):
+    return get_participantes_cires(request)
 def mostrar_acta(request):
     return render(request, 'mostrarActa.html')
