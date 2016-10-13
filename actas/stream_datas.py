@@ -287,7 +287,7 @@ def get_participantes_cires(request):
 
     def participantes_generator(participantes):
         return (
-            [participa.encuentro_id,participa.encuentro.tipo_encuentro.tipo, participa.participante_id, participa.ocupacion.ocupacion.encode('utf-8'), participa.origen.origen.encode('utf-8'),participa.encuentro.lugar.lugar.encode('utf-8'),participa.encuentro.fecha_inicio,participa.encuentro.fecha_termino]
+            [participa.encuentro_id,participa.encuentro.tipo_encuentro.tipo.encode('utf-8'), participa.participante_id, participa.ocupacion.ocupacion.encode('utf-8'), participa.origen.origen.encode('utf-8'),participa.encuentro.lugar.lugar.encode('utf-8'),participa.encuentro.fecha_inicio,participa.encuentro.fecha_termino]
             for participa in participantes)
 
     def column_name_generator():
