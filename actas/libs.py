@@ -6,7 +6,7 @@ import re
 
 from django.conf import settings
 from django.core.mail import send_mail
-from actas.EmailThreading import EmailThreadPropuesta, EmailThreadPrePropuesta, EmailThreadPropuestaCIRES
+from actas.EmailThreading import EmailThreadPropuesta, EmailThreadPrePropuesta
 from models import Tema, ItemTema, Origen, Ocupacion, Encuentro, Participante, ConfiguracionEncuentro, Lugar, Participa, \
     Respuesta
 from django.contrib.auth.models import User
@@ -564,7 +564,6 @@ def guardar_acta(datos_acta):
 
 def enviar_email_a_participantes(acta, ID):
     EmailThreadPropuesta(acta, ID).start()
-    EmailThreadPropuestaCIRES(acta, ID).start()
 
 
 def pre_propuesta_email(acta, encargado, docx):
