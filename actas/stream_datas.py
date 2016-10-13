@@ -193,12 +193,11 @@ def get_propuestas_cires(request):
         origen_pre = list(chain.from_iterable([[user.origen_id for user in users],
                                                [16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33,
                                                 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46]]))
-        estamento_pre = list(chain.from_iterable([[user.ocupacion_id for user in users], [16, 17, 18, 19, 20]]))
+        estamento_pre = list(chain.from_iterable([[user.ocupacion_id for user in users], [16, 17, 18, 19]]))
         origen_pre.sort()
         estamento_pre.sort()
         cantidad = len(users)
         origenes = [(len(list(group)) - 1) for key, group in groupby(origen_pre)]
-        origenes.pop(0)
         estamentos = [(len(list(group)) - 1) for key, group in groupby(estamento_pre)]
         return chain.from_iterable([[cantidad], estamentos, origenes])
 
