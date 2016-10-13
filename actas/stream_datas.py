@@ -184,7 +184,6 @@ def get_ocupaciones(request):
     return response
 
 
-
 def get_propuestas_cires(request):
     resp_all = Respuesta.objects.all().order_by('encuentro_id')
     items_all = ItemTema.objects.all()
@@ -195,8 +194,8 @@ def get_propuestas_cires(request):
                                                [16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33,
                                                 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46]]))
         estamento_pre = list(chain.from_iterable([[user.ocupacion_id for user in users], [16, 17, 18, 19, 20]]))
-        origen_pre.sort(reverse=True)
-        estamento_pre.sort(reverse=True)
+        origen_pre.sort()
+        estamento_pre.sort()
         cantidad = len(users)
         origenes = [(len(list(group)) - 1) for key, group in groupby(origen_pre)]
         estamentos = [(len(list(group)) - 1) for key, group in groupby(estamento_pre)]
@@ -205,28 +204,31 @@ def get_propuestas_cires(request):
     def respuestas_generator(respuestas, items):
         return (
             list(chain.from_iterable([[resp.encuentro_id], [resp.encuentro.tipo_encuentro.tipo],
-                                      [items.filter(pk=resp.item_tema_id).first().tema_id],[resp.categoria],generate_users_info(resp),
+                                      [items.filter(pk=resp.item_tema_id).first().tema_id], [resp.categoria],
+                                      generate_users_info(resp),
                                       [resp.fundamento.encode('utf-8')], [resp.propuesta.encode('utf-8')]])) for resp in
             respuestas)
 
     def column_name_generator():
         yield (
-        "Encuentro", "Tipo", "Tema", "Categoria", "Total Participantes", "Egresada(o)", "Estudiante", "Funcionaria(o)",
-        "Académica(o)",
-        "Departamento de Evaluación, Medición y Registro Educaciona", "Liceo Manuel de Salas",
-        "Centro de Extensión Artística y Cultural ", "Vicerrectoría de Asuntos Estudiantiles y Comunitarios",
-        "Vicerrectoría de Extensión", "Vicerrectoría de Investigación y Desarrollo", "Secretaría General",
-        "Vicerrectoría de Asuntos Económicos y Gestión Institucional", "Vicerrectoría de Asuntos Académicos",
-        "Prorrectoría", "Rectoría", "Hospital Clínico", "Programa Académico de Bachillerato",
-        "Instituto de la Comunicación e Imagen", "Instituto de Asuntos Públicos",
-        "Instituto de Estudios Internacionales", "Instituto de Nutrición y Tecnología de los Alimentos",
-        "Facultad de Odontología", "Facultad de Medicina", "Facultad de Filosofía y Humanidades",
-        "Facultad de Derecho", "Facultad de Ciencias Veterinarias y Pecuarias", "Facultad de Ciencias Sociales",
-        "Facultad de Ciencias Químicas y Farmacéuticas",
-        "Facultad de Ciencias Forestales y de la Conservación de la Naturaleza",
-        "Facultad de Ciencias Físicas y Matemáticas", "Facultad de Economía y Negocios",
-        "Facultad de Ciencias Agronómicas", "Facultad de Ciencias", "Facultad de Artes",
-        "Facultad de Arquitectura y Urbanismo", "Fundamento", "Propuesta")
+            "Encuentro", "Tipo", "Tema", "Categoria", "Total Participantes", "Egresada(o)", "Estudiante",
+            "Funcionaria(o)",
+            "Académica(o)",
+            "Facultad de Arquitectura y Urbanismo", "Facultad de Artes", "Facultad de Ciencias",
+            "Facultad de Ciencias Agronómicas", "Facultad de Economía y Negocios",
+            "Facultad de Ciencias Físicas y Matemáticas",
+            "Facultad de Ciencias Forestales y de la Conservación de la Naturaleza",
+            "Facultad de Ciencias Químicas y Farmacéuticas", "Facultad de Ciencias Sociales",
+            "Facultad de Ciencias Veterinarias y Pecuarias", "Facultad de Derecho",
+            "Facultad de Filosofía y Humanidades", "Facultad de Medicina", "Facultad de Odontología",
+            "Instituto de Nutrición y Tecnología de los Alimentos", "Instituto de Estudios Internacionales",
+            "Instituto de Asuntos Públicos", "Instituto de la Comunicación e Imagen",
+            "Programa Académico de Bachillerato", "Hospital Clínico", "Rectoría", "Prorrectoría",
+            "Vicerrectoría de Asuntos Académicos", "Vicerrectoría de Asuntos Económicos y Gestión Institucional",
+            "Secretaría General", "Vicerrectoría de Investigación y Desarrollo", "Vicerrectoría de Extensión",
+            "Vicerrectoría de Asuntos Estudiantiles y Comunitarios", "Centro de Extensión Artística y Cultural ",
+            "Liceo Manuel de Salas", "Departamento de Evaluación Medición y Registro Educacional", "Fundamento",
+            "Propuesta")
 
     rows = chain(column_name_generator(), respuestas_generator(resp_all, items_all))
     pseudo_buffer = Echo()
@@ -235,6 +237,7 @@ def get_propuestas_cires(request):
                                      content_type="text/csv")
     response['Content-Disposition'] = 'attachment; filename="propuestas.csv"'
     return response
+
 
 def get_participa(request):
     participantes_all = Participa.objects.all()
