@@ -104,7 +104,7 @@ def get_encuentros(request):
 
     def encuentros_generator(encuentros):
         return (
-            [encuentro.pk, encuentro.tipo_encuentro.tipo, encuentro.lugar.lugar, encuentro.fecha_inicio,
+            [encuentro.pk, encuentro.tipo_encuentro.tipo.encode('utf-8'), encuentro.lugar.lugar.encode('utf-8'), encuentro.fecha_inicio,
              encuentro.fecha_termino, encuentro.complemento.encode('utf-8')]
             for encuentro in encuentros)
 
