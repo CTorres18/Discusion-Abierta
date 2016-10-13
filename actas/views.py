@@ -17,6 +17,8 @@ from .models import ConfiguracionEncuentro, ActaGuardada
 def index(request):
     return render(request, 'index.html')
 
+def not_found(request):
+    return render(request, '404.html')
 
 def lista(request):
     return render(request, 'lista.html')

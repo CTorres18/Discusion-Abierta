@@ -25,3 +25,5 @@ urlpatterns = [
     url(r'^$', RedirectView.as_view(url=reverse_lazy('actas:index'))),
     url(r'^actas/', include('actas.urls', namespace='actas')),
 ]
+
+handler404 = 'actas.views.not_found'

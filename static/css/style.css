@@ -338,6 +338,14 @@ background:url('../svg/fondo3.svg') no-repeat;
 background-size: contain;
 min-height:56vw;
 }
+.notFound
+{
+position:relative;
+overflow:hidden;
+background:url('../svg/todo_404.svg') no-repeat;
+background-size: contain;
+min-height:56vw;
+}
 .header>.container
 {
 height:100%;
