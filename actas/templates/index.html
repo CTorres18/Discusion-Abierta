@@ -14,7 +14,9 @@
   			<a href="./subir/">
 				<img class="ribbons left" src="{% static '/svg/registrar_encuentro1.svg' %}" style="width: 9vw;">
   			</a>
-  			<img class="ribbons right" src="{% static '/svg/bajar_datos.svg' %}" style="width: 9vw;" ng-click="showInfo($event)">
+  			<a href="./lista/">
+  				<img class="ribbons right" src="{% static '/svg/propuestas1.svg' %}" style="width: 9vw;">
+  			</a>
   		</div>
 		<div id='flecha1' class="button_down" ng-class="{flechain:in1}">
 			<img src="{% static 'svg/Primera_pagina/flecha_abajo.svg' %}" ng-click="toSection2(this);" style="cursor: pointer;">

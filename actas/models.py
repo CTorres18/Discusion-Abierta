@@ -220,7 +220,14 @@ class Encuentro(models.Model):
             'participantes': [i.to_dict() for i in self.participa_set.all()],
             'respuestas': [i.to_dict() for i in self.respuesta_set.all()]
         }
-
+    def get_encuentro(self):
+        hash2 = (str(self.hash_search)).replace("-", "")
+        return {
+            'pk': self.pk,
+            'hash': hash2,
+            'tipo': self.tipo_encuentro.tipo,
+            'lugar': self.lugar.lugar
+        }
 
 class Respuesta(models.Model):
     CATEGORIA_OPCIONES = (

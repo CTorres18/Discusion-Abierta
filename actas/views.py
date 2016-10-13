@@ -21,6 +21,21 @@ def index(request):
 def lista(request):
     return render(request, 'lista.html')
 
+def lista_propuestas(request):
+
+    base = []
+    
+    config_actas = Encuentro.objects.all()
+
+    if len(config_actas) == 0:
+        return JsonResponse({}, status=404)
+    else:
+        for i in xrange(0,len(config_actas)):
+            encuentro = config_actas[i].get_encuentro()
+            base.append(encuentro)
+        
+    return JsonResponse({'propuestas' : base})
+
 
 @ensure_csrf_cookie
 def subir(request):

@@ -1,0 +1,33 @@
+<md-dialog aria-label="Mango (Fruit)" ng-cloack ng-controller="ListaCtrl">
+  <form ng-cloak>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>Bajar datos</h2>
+        <md-button class="md-icon-button" ng-click="cancel()">
+        </md-button>
+      </div>
+    </md-toolbar>
+    <md-dialog-content style="padding:4vw">
+      <div layout="row" class="text-1"> 
+        Puedes descargar copias de cualquier tabla de nuestra Base de Datos. Son públicas para que cualquiera pueda analizar el contenido de ellas y así transparentar nuestro proceso de discusión.
+      </div>
+      <md-input-container flex class="flex md-input-has-value">
+        <label class="md-required">Escoja una tabla de la Base de Datos</label>
+        <md-select ng-model="datito" required>
+          <md-option ng-repeat="option in options_get" ng-value="option.name">{$ option.name $}
+          </md-option>
+        </md-select>
+      </md-input-container>
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row">
+      <md-button ng-click="answer(datito)">
+       Obtener
+      </md-button>
+        <span flex></span>
+      <md-button ng-click="answer('')">
+        Cancelar
+      </md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>

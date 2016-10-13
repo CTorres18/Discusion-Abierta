@@ -1,11 +1,14 @@
 from django.conf.urls import url
 
 from .views import index, lista, acta_base, subir, subir_validar, subir_confirmar,bajar_propuestas, \
-    bajar_datos,bajar_propuesta_docx, mostrar_acta, enviar_pre_propuesta_docx,bajar_propuestas_cires
+    bajar_datos,bajar_propuesta_docx, mostrar_acta, enviar_pre_propuesta_docx,bajar_propuestas_cires,\
+    lista_propuestas
+
 
 urlpatterns = [
     url(r'^$', index, name='index'),
-    url(r'^lista$', lista, name='lista'),
+    url(r'^lista/$', lista, name='lista'),
+    url(r'^lista/propuestas$', lista_propuestas, name='propuestas'),
     url(r'^base/(?P<id>\d+)$', acta_base, name='base'),
     url(r'^subir/$', subir, name='subir'),
     url(r'^subir/validar$', subir_validar, name='validar'),
