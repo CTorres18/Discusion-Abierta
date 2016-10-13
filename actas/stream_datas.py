@@ -198,6 +198,7 @@ def get_propuestas_cires(request):
         estamento_pre.sort()
         cantidad = len(users)
         origenes = [(len(list(group)) - 1) for key, group in groupby(origen_pre)]
+        origenes.pop(0)
         estamentos = [(len(list(group)) - 1) for key, group in groupby(estamento_pre)]
         return chain.from_iterable([[cantidad], estamentos, origenes])
 
@@ -211,9 +212,10 @@ def get_propuestas_cires(request):
 
     def column_name_generator():
         yield (
-            "Encuentro", "Tipo", "Tema", "Categoria", "Total Participantes", "Egresada(o)", "Estudiante",
+            "Encuentro", "Tipo", "Tema", "Categoria", "Total Participantes", "Académica(o)",
             "Funcionaria(o)",
-            "Académica(o)",
+            "Estudiante",
+            "Egresada(o)",
             "Facultad de Arquitectura y Urbanismo", "Facultad de Artes", "Facultad de Ciencias",
             "Facultad de Ciencias Agronómicas", "Facultad de Economía y Negocios",
             "Facultad de Ciencias Físicas y Matemáticas",
