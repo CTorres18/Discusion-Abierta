@@ -130,7 +130,6 @@ def get_encuentros_cires(request):
             for encuentro in encuentros)
 
     def column_name_generator():
-        yield ("Encuentros", "")
         yield ("idEncuentro", "TipoEncuentro", "idLugar", "fecha_inicio", "fecha_termino", "complemento")
 
     rows = chain(column_name_generator(), encuentros_generator(encuentros_all))
@@ -225,7 +224,7 @@ def get_propuestas_cires(request):
     def respuestas_generator(respuestas, items):
         return (
             list(chain.from_iterable([[resp.encuentro_id], [resp.encuentro.tipo_encuentro.tipo],
-                                      [items.filter(pk=resp.item_tema_id).first().tema_id], [resp.categoria],
+                                      [items.filter(pk=resp.item_tema_id).first().tema.tema], [resp.categoria],
                                       generate_users_info(resp),
                                       [resp.fundamento.encode('utf-8')], [resp.propuesta.encode('utf-8')]])) for resp in
             respuestas)
