@@ -224,7 +224,7 @@ def get_propuestas_cires(request):
     def respuestas_generator(respuestas, items):
         return (
             list(chain.from_iterable([[resp.encuentro_id], [resp.encuentro.tipo_encuentro.tipo],
-                                      [items.filter(pk=resp.item_tema_id).first().tema.tema], [resp.categoria],
+                                      [items.filter(pk=resp.item_tema_id).first().tema.tema.encode('utf-8')], [resp.categoria],
                                       generate_users_info(resp),
                                       [resp.fundamento.encode('utf-8')], [resp.propuesta.encode('utf-8')]])) for resp in
             respuestas)
