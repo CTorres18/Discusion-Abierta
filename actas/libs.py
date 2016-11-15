@@ -487,10 +487,15 @@ def insertar_participantes(participantes, datos_acta, encuentro):
 
 def insertar_respuestas(tema, encuentro):
     for item in tema['items']:
-        if 'categoria' in item or item['pk'] == 12: ## Si tiene categoria o es item 12
+        if 'categoria' in item or (item['pk'] == 37 and 'respuesta' in item) : ## Si tiene categoria o es item 37
+
+            if 'categoria' not in item:
+                c = 0
+            else:
+                c = item['categoria']
             r = clean_string(item['respuesta'])
             p = clean_string(item['propuesta'])
-            respuesta = Respuesta(item_tema_id=item['pk'], encuentro_id=encuentro.pk, categoria=item['categoria'],
+            respuesta = Respuesta(item_tema_id=item['pk'], encuentro_id=encuentro.pk, categoria=c,
                                   fundamento=r, propuesta=p)
             respuesta.save()
 
