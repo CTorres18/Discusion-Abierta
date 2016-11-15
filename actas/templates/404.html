@@ -1,0 +1,12 @@
+{% extends 'base/base.html' %}
+{% load staticfiles %}
+{% block js %}
+<script src="{% static 'js/angular/controller_scroll_page.js' %}"></script>
+{% endblock %}
+
+{% block body %}
+<div id="index_wrap" class="wrap" ng-controller='ScrollPageCtrl'>
+	<div id="Section404" class="notFound">
+	</div>
+</div>
+{% endblock %}
