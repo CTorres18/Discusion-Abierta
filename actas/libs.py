@@ -487,9 +487,7 @@ def insertar_participantes(participantes, datos_acta, encuentro):
 
 def insertar_respuestas(tema, encuentro):
     for item in tema['items']:
-
         if 'categoria' in item or (item['pk'] == 43 and 'respuesta' in item) : ## Si tiene categoria o es item 37
-
             if 'categoria' not in item:
                 c = 0
             else:
