@@ -216,18 +216,24 @@ def get_resumen(request):
                                                [16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32,
                                                 33,
                                                 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46]]))
+
         estamento_pre = list(chain.from_iterable([[user.ocupacion_id for user in users], [16, 17, 18, 19]]))
         origen_pre.sort()
         estamento_pre.sort()
         cantidad = len(users)
         origenes = [(len(list(group)) - 1) for key, group in groupby(origen_pre)]
+
         estamentos = [(len(list(group)) - 1) for key, group in groupby(estamento_pre)]
         encuentro_pre = list(
             chain.from_iterable([[user.encuentro.tipo_encuentro.pk for user in users], [15, 16, 17, 18]]))
+        encuentro_pre.sort()
         encuentros = [(len(list(group)) - 1) for key, group in groupby(encuentro_pre)]
 
         return chain.from_iterable([[participante.rut], [cantidad], estamentos, origenes, encuentros])
 
+    def respuestas_generator(participantes):
+        return (
+            list(chain.from_iterable([generate_users_info(participa)])) for participa in participantes)
     def column_name_generator():
         yield (
             "RUT", "Participaciones", "Académica(o)",
@@ -250,7 +256,7 @@ def get_resumen(request):
             "Liceo Manuel de Salas", "Departamento de Evaluación Medición y Registro Educacional", "EA", "EG", "ET",
             "EF")
 
-    rows = chain(column_name_generator(), [generate_users_info(participante) for participante in participantes])
+    rows = chain(column_name_generator(), respuestas_generator(participantes))
     pseudo_buffer = Echo()
     writer = csv.writer(pseudo_buffer)
     response = StreamingHttpResponse((writer.writerow(row) for row in rows),
