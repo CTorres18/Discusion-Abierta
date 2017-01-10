@@ -2,7 +2,7 @@ from django.conf.urls import url
 
 from .views import index, lista, acta_base, subir, subir_validar, subir_confirmar,bajar_propuestas, \
     bajar_datos,bajar_propuesta_docx, mostrar_acta, enviar_pre_propuesta_docx,bajar_propuestas_cires,\
-    lista_propuestas, bajar_encuentros_cires, bajar_participantes_cires
+    lista_propuestas, bajar_encuentros_cires, bajar_participantes_cires, bajar_resumen
 
 urlpatterns = [
     url(r'^$', index, name='index'),
@@ -18,6 +18,7 @@ urlpatterns = [
     url(r'^enviarprepropuesta$', enviar_pre_propuesta_docx, name='enviar_pre_propuesta_docx'),
     url(r'^bajarpropuestascires$', bajar_propuestas_cires, name='bajar_propuestas_cires'),
     url(r'^bajarencuentroscires$', bajar_encuentros_cires, name='bajar_encuentros_cires'),
-    url(r'^bajarparticipantescires$', bajar_participantes_cires, name='bajar_participantes_cires')
+    url(r'^bajarparticipantescires$', bajar_participantes_cires, name='bajar_participantes_cires'),
+    url(r'^bajarresumen$', bajar_resumen, name='bajar_resumen')
 
 ]
